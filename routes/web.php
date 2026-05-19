@@ -1,6 +1,7 @@
 <?php
 
 use App\Http\Controllers\Admin\AdminController;
+use App\Http\Controllers\Admin\NoticeController;
 use App\Http\Controllers\Admin\StudentManage;
 use App\Http\Controllers\Admin\TeacherController;
 use App\Http\Controllers\AuthController;
@@ -30,6 +31,15 @@ Route::prefix('/admin')->middleware(['auth', 'role:admin'])->group(function () {
     Route::resource('students', StudentManage::class);
     // Teachers
     Route::resource('teachers', TeacherController::class);
+
+    // Notice
+    Route::resource('notices', NoticeController::class);
+    // toggle publish
+    Route::patch('/notices/{notice}/toggle-publish', [NoticeController::class, 'togglePublish'])
+        ->name('notices.togglePublish');
+    // toggle scrolling
+    Route::patch('/notices/{notice}/toggle-scrolling', [NoticeController::class, 'toggleScrolling'])
+        ->name('notices.toggleScrolling');
 });
 
 
