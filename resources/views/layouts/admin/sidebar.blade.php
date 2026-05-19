@@ -25,10 +25,10 @@
                 <span class="nav-label">Students</span>
                 <span class="badge-pill">0</span>
             </a>
-            <div class="nav-item">
+            <a href="{{ route('teachers.index') }}" class="nav-item">
                 <i class="nav-icon fas fa-chalkboard-teacher"></i>
                 <span class="nav-label">Teachers</span>
-            </div>
+            </a>
 
             <div class="sidebar-section-label">Content</div>
             <div class="nav-item">

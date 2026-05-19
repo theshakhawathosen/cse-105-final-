@@ -2,6 +2,7 @@
 
 use App\Http\Controllers\Admin\AdminController;
 use App\Http\Controllers\Admin\StudentManage;
+use App\Http\Controllers\Admin\TeacherController;
 use App\Http\Controllers\AuthController;
 use App\Http\Controllers\HomeController;
 use App\Http\Controllers\Student\StudentController;
@@ -27,6 +28,8 @@ Route::prefix('/admin')->middleware(['auth', 'role:admin'])->group(function () {
     Route::post('/change-password', [AdminController::class, 'updatePassword'])->name('admin.updatePassword');
     // Students
     Route::resource('students', StudentManage::class);
+    // Teachers
+    Route::resource('teachers', TeacherController::class);
 });
 
 
