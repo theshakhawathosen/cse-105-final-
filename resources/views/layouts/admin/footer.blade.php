@@ -24,23 +24,6 @@
         document.getElementById('sidebar-overlay').classList.remove('show');
     }
 
-    // ── Tab switching ──
-    function switchTab(tabId, el) {
-        document.querySelectorAll('[id^="tab-"]').forEach(t => t.classList.add('hidden'));
-        document.querySelectorAll('.nav-item').forEach(n => n.classList.remove('active'));
-        const tab = document.getElementById('tab-' + tabId);
-        if (tab) {
-            tab.classList.remove('hidden');
-            tab.querySelectorAll('[class*="fade-up"]').forEach((e, i) => {
-                e.style.animationDelay = i * 0.04 + 's';
-                e.style.animation = 'none';
-                void e.offsetWidth;
-                e.style.animation = '';
-            });
-        }
-        el.classList.add('active');
-        closeMobileSidebar();
-    }
 
     // ── Dropdown toggle ──
     function toggleDropdown(id) {
@@ -55,22 +38,6 @@
         }
     });
 
-    // ── Modal ──
-    function openModal(id) {
-        document.getElementById(id).classList.add('open');
-    }
-
-    function closeModal(id) {
-        document.getElementById(id).classList.remove('open');
-    }
-
-    function handleOverlayClick(e, id) {
-        if (e.target === document.getElementById(id)) closeModal(id);
-    }
-    document.addEventListener('keydown', e => {
-        if (e.key === 'Escape') document.querySelectorAll('.modal-overlay.open').forEach(m => m.classList
-            .remove('open'));
-    });
 
     // ── Poll option add ──
     let optCount = 2;

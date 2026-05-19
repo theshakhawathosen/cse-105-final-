@@ -890,47 +890,7 @@
         <div class="flex items-center gap-2 ml-auto">
             <!-- Notif -->
             <div class="relative">
-                <button class="btn-icon relative" onclick="toggleDropdown('notif-dd')">
-                    <i class="fas fa-bell text-sm"></i>
-                    <span
-                        class="absolute -top-0.5 -right-0.5 w-3.5 h-3.5 bg-red text-white text-[8px] font-bold rounded-full flex items-center justify-center">5</span>
-                </button>
-                <div class="dropdown-menu" id="notif-dd" style="right:0;min-width:280px;top:42px">
-                    <div class="p-3 border-b border-border">
-                        <span class="text-tp text-xs font-semibold">Notifications</span>
-                        <span class="chip chip-red ml-2">5 new</span>
-                    </div>
-                    <div class="p-2">
-                        <div class="dropdown-item"><i class="fas fa-user-plus text-accent text-xs"></i>
-                            <div>
-                                <div class="text-tp text-xs">New student registered</div>
-                                <div class="text-ts text-[10px]">2 min ago</div>
-                            </div>
-                        </div>
-                        <div class="dropdown-item"><i class="fas fa-tasks text-amber text-xs"></i>
-                            <div>
-                                <div class="text-tp text-xs">Assignment deadline in 24h</div>
-                                <div class="text-ts text-[10px]">1 hour ago</div>
-                            </div>
-                        </div>
-                        <div class="dropdown-item"><i class="fas fa-comment text-purple text-xs"></i>
-                            <div>
-                                <div class="text-tp text-xs">3 new feedback messages</div>
-                                <div class="text-ts text-[10px]">3 hours ago</div>
-                            </div>
-                        </div>
-                        <div class="dropdown-item"><i class="fas fa-poll text-teal text-xs"></i>
-                            <div>
-                                <div class="text-tp text-xs">Poll ended — 87 votes</div>
-                                <div class="text-ts text-[10px]">Yesterday</div>
-                            </div>
-                        </div>
-                    </div>
-                    <div class="p-3 border-t border-border text-center">
-                        <span class="text-accent text-xs cursor-pointer hover:underline">View all notifications
-                            →</span>
-                    </div>
-                </div>
+                @include('layouts.admin.notification')
             </div>
 
             <!-- Admin profile -->
@@ -938,22 +898,33 @@
                 <button
                     class="flex items-center gap-2 bg-input border border-border rounded-xl px-3 py-1.5 cursor-pointer hover:border-accent transition-colors"
                     onclick="toggleDropdown('profile-dd')">
-                    <div
-                        class="w-6 h-6 rounded-lg bg-accent flex items-center justify-center text-white text-[10px] font-bold">
-                        A</div>
-                    <span class="text-tp text-xs font-medium hidden sm:block">Admin</span>
+                    @if (Auth::user()->photo)
+                        <div
+                            class="w-6 h-6 rounded-lg bg-accent flex items-center justify-center text-white text-[10px] font-bold">
+                            <img src="{{ asset('storage/man.png') }}" alt="logo">
+                        </div>
+                    @else
+                        <div
+                            class="w-6 h-6 rounded-lg bg-accent flex items-center justify-center text-white text-[10px] font-bold">
+                            A</div>
+                    @endif
+
+                    <span class="text-tp text-xs font-medium hidden sm:block">{{ Auth::user()->name }}</span>
                     <i class="fas fa-chevron-down text-ts text-[10px]"></i>
                 </button>
                 <div class="dropdown-menu" id="profile-dd" style="right:0;top:42px">
                     <div class="p-3 border-b border-border">
-                        <div class="text-tp text-xs font-semibold">Super Admin</div>
-                        <div class="text-ts text-[10px]">admin@cse105.edu</div>
+                        <div class="text-tp text-xs font-semibold">Admin</div>
+                        <div class="text-ts text-[10px]">{{ auth::user()->email ?? 'N/A' }}</div>
                     </div>
                     <div class="p-2">
-                        <div class="dropdown-item"><i class="fas fa-user text-xs"></i>My Profile</div>
+                        <a href="{{ route('admin.profile') }}" class="dropdown-item"><i
+                                class="fas fa-user text-xs"></i>My Profile</a>
                         <div class="dropdown-item"><i class="fas fa-cog text-xs"></i>Settings</div>
-                        <div class="dropdown-item" style="color:var(--red)"><i
-                                class="fas fa-sign-out-alt text-xs"></i>Logout</div>
+                        <a href="{{ route('admin.change-password') }}" class="dropdown-item"><i
+                                class="fas fa-key text-xs"></i>Password</a>
+                        <a href="{{ route('admin.logout') }}" class="dropdown-item" style="color:var(--red)"><i
+                                class="fas fa-sign-out-alt text-xs"></i>Logout</a>
                     </div>
                 </div>
             </div>

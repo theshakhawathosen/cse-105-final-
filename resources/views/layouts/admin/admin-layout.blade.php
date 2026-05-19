@@ -2,4 +2,5 @@
 <!-- ═══════════════ MAIN CONTENT ═══════════════ -->
 @yield('content')
 
+@include('errors.alert')
 @include('layouts.admin.footer')
