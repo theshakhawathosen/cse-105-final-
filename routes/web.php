@@ -2,7 +2,11 @@
 
 use App\Http\Controllers\Admin\AdminController;
 use App\Http\Controllers\Admin\NoticeController;
+use App\Http\Controllers\Admin\ResourceController;
+use App\Http\Controllers\Admin\ResourceFileController;
+use App\Http\Controllers\Admin\RoutineController;
 use App\Http\Controllers\Admin\StudentManage;
+use App\Http\Controllers\Admin\SubjectController;
 use App\Http\Controllers\Admin\TeacherController;
 use App\Http\Controllers\AuthController;
 use App\Http\Controllers\HomeController;
@@ -40,6 +44,21 @@ Route::prefix('/admin')->middleware(['auth', 'role:admin'])->group(function () {
     // toggle scrolling
     Route::patch('/notices/{notice}/toggle-scrolling', [NoticeController::class, 'toggleScrolling'])
         ->name('notices.toggleScrolling');
+
+    // Subject
+    Route::resource('subjects', SubjectController::class);
+
+    // Routine
+    Route::resource('routines', RoutineController::class);
+
+    // Resource
+    Route::resource('resources', ResourceController::class);
+
+    // Resource Files Delete
+    Route::get(
+        'resource-files/{id}',
+        [ResourceFileController::class, 'destroy']
+    )->name('resource-files.destroy');
 });
 
 

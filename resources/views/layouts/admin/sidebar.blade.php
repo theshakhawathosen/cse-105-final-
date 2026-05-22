@@ -44,22 +44,22 @@
                 <i class="nav-icon fas fa-flask"></i>
                 <span class="nav-label">Lab Reports</span>
             </div>
-            <div class="nav-item">
+            <a href="{{ route('routines.index') }}" class="nav-item">
                 <i class="nav-icon fas fa-calendar-alt"></i>
                 <span class="nav-label">Routines</span>
-            </div>
+            </a>
             <div class="nav-item">
                 <i class="nav-icon fas fa-poll"></i>
                 <span class="nav-label">Polls</span>
             </div>
-            <div class="nav-item">
+            <a href="{{ route('subjects.index') }}" class="nav-item">
                 <i class="nav-icon fas fa-book"></i>
                 <span class="nav-label">Subjects</span>
-            </div>
-            <div class="nav-item">
+            </a>
+            <a href="{{ route('resources.index') }}" class="nav-item">
                 <i class="nav-icon fas fa-cloud-upload-alt"></i>
                 <span class="nav-label">Resources</span>
-            </div>
+            </a>
 
             <div class="sidebar-section-label">Reports</div>
             <div class="nav-item">
