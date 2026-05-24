@@ -36,22 +36,22 @@
                 <span class="nav-label">Notices</span>
                 <span class="badge-pill">3</span>
             </a>
-            <div class="nav-item">
+            <a href="{{ route('assignments.index') }}" class="nav-item">
                 <i class="nav-icon fas fa-tasks"></i>
                 <span class="nav-label">Assignments</span>
-            </div>
-            <div class="nav-item">
+            </a>
+            <a href="{{ route('lab-reports.index') }}" class="nav-item">
                 <i class="nav-icon fas fa-flask"></i>
                 <span class="nav-label">Lab Reports</span>
-            </div>
+            </a>
             <a href="{{ route('routines.index') }}" class="nav-item">
                 <i class="nav-icon fas fa-calendar-alt"></i>
                 <span class="nav-label">Routines</span>
             </a>
-            <div class="nav-item">
+            <a href="{{ route('polls.index') }}" class="nav-item">
                 <i class="nav-icon fas fa-poll"></i>
                 <span class="nav-label">Polls</span>
-            </div>
+            </a>
             <a href="{{ route('subjects.index') }}" class="nav-item">
                 <i class="nav-icon fas fa-book"></i>
                 <span class="nav-label">Subjects</span>

@@ -1,7 +1,10 @@
 <?php
 
 use App\Http\Controllers\Admin\AdminController;
+use App\Http\Controllers\Admin\AssignmentController;
+use App\Http\Controllers\Admin\LabReportController;
 use App\Http\Controllers\Admin\NoticeController;
+use App\Http\Controllers\Admin\PollController;
 use App\Http\Controllers\Admin\ResourceController;
 use App\Http\Controllers\Admin\ResourceFileController;
 use App\Http\Controllers\Admin\RoutineController;
@@ -25,7 +28,7 @@ Route::middleware('guest')->group(function () {
 Route::prefix('/admin')->middleware(['auth', 'role:admin'])->group(function () {
     Route::get('/', [AdminController::class, 'dashboard'])->name('admin.dashboard');
     Route::get('/logout', [AuthController::class, 'logout'])->name('admin.logout');
-    // Profile 
+    // Profile
     Route::get('/profile', [AdminController::class, 'profile'])->name('admin.profile');
     Route::post('/store-profile', [AdminController::class, 'storeProfile'])->name('admin.storeProfile');
     // Change Password
@@ -59,7 +62,23 @@ Route::prefix('/admin')->middleware(['auth', 'role:admin'])->group(function () {
         'resource-files/{id}',
         [ResourceFileController::class, 'destroy']
     )->name('resource-files.destroy');
+
+    // Assignment
+    Route::resource('assignments', AssignmentController::class);
+
+
+    // Lab Reports
+Route::resource('lab-reports', LabReportController::class);
+
+
+// Polls
+Route::resource('polls', PollController::class);
+
+// Student Vote
+Route::post('polls/{poll}/vote', [PollController::class, 'vote'])
+    ->name('polls.vote');
 });
+
 
 
 // Student Rotues
