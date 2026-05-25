@@ -1,0 +1,266 @@
+@extends('layouts.admin.admin-layout')
+@section('title', 'Edit Attendance')
+
+@section('content')
+
+    <main id="main-content">
+
+        <!-- Header -->
+        <div class="flex flex-col sm:flex-row sm:items-center sm:justify-between gap-3 mb-6 fade-up">
+
+            <div>
+
+                <span class="section-label">
+                    <i class="fas fa-circle text-[6px] pulse-anim"></i>
+                    Attendance
+                </span>
+
+                <h1 class="text-xl font-bold text-tp mt-4">
+                    Edit Attendance
+                </h1>
+
+                <p class="text-ts text-sm">
+                    Update student attendance
+                </p>
+
+            </div>
+
+        </div>
+
+        <!-- Form -->
+        <div class="dash-card p-5 fade-up fade-up-d2">
+
+            <form method="POST" action="{{ route('attendances.update', $attendance->id) }}">
+
+                @csrf
+                @method('PUT')
+
+                <!-- Top -->
+                <div class="grid grid-cols-1 md:grid-cols-2 gap-4 mb-6">
+
+                    <!-- Subject -->
+                    <div>
+
+                        <label class="text-ts text-xs">
+                            Select Subject
+                        </label>
+
+                        <select name="subject_id" disabled
+                            class="w-full mt-1 bg-input border border-border rounded-xl px-3 py-2 text-tp">
+
+                            @foreach ($subjects as $subject)
+                                <option value="{{ $subject->id }}"
+                                    {{ $attendance->subject_id == $subject->id ? 'selected' : '' }}>
+
+                                    {{ $subject->name }}
+
+                                </option>
+                            @endforeach
+
+                        </select>
+                        <input type="hidden" name="subject_id" value="{{ $attendance->subject_id }}">
+                        @error('subject_id')
+                            <small class="text-red">{{ $message }}</small>
+                        @enderror
+
+                    </div>
+
+                    <!-- Date -->
+                    <div>
+
+                        <label class="text-ts text-xs">
+                            Attendance Date
+                        </label>
+
+                        <input type="date" readonly name="date" value="{{ $attendance->date }}"
+                            class="w-full mt-1 bg-input border border-border rounded-xl px-3 py-2 text-tp">
+
+                    </div>
+
+                </div>
+
+                <!-- Students -->
+                <div class="grid grid-cols-2 md:grid-cols-4 lg:grid-cols-5 gap-4">
+
+                    @foreach ($students as $student)
+                        <label class="student-card cursor-pointer">
+
+                            <input type="checkbox" name="students[]" value="{{ $student->id }}"
+                                class="hidden attendance-checkbox"
+                                {{ in_array($student->id, $presentStudents) ? 'checked' : '' }}>
+
+                            <div
+                                class="attendance-ui rounded-2xl p-4 text-center transition-all duration-300
+
+                            {{ in_array($student->id, $presentStudents)
+                                ? 'bg-green/10 border border-green/20'
+                                : 'bg-red/10 border border-red/20' }}">
+
+                                <!-- Checkbox -->
+                                <div
+                                    class="checkbox-ui w-8 h-8 rounded-xl border-2 mx-auto flex items-center justify-center transition-all duration-300
+
+                                {{ in_array($student->id, $presentStudents) ? 'bg-green border-green' : 'border-red/30' }}">
+
+                                    <i
+                                        class="fas fa-check text-white text-sm check-icon
+
+                                    {{ in_array($student->id, $presentStudents) ? '' : 'hidden' }}"></i>
+
+                                </div>
+
+                                <!-- Photo -->
+                                <div class="w-16 h-16 rounded-2xl overflow-hidden mx-auto mt-4 border border-border">
+
+                                    <img src="{{ asset($student->photo ?? 'default.png') }}"
+                                        class="w-full h-full object-cover">
+
+                                </div>
+
+                                <!-- Roll -->
+                                <h2 class="text-lg font-bold text-tp mt-3">
+                                    {{ $student->roll }}
+                                </h2>
+
+                                <!-- Name -->
+                                <p class="text-xs text-ts mt-1 line-clamp-1">
+                                    {{ $student->name }}
+                                </p>
+
+                                <!-- Status -->
+                                <div class="mt-3">
+
+                                    <span
+                                        class="status-badge text-[10px] px-3 py-1 rounded-full border
+
+                                    {{ in_array($student->id, $presentStudents)
+                                        ? 'bg-green/20 text-green border-green/20'
+                                        : 'bg-red/20 text-red border-red/20' }}">
+
+                                        {{ in_array($student->id, $presentStudents) ? 'Present' : 'Absent' }}
+
+                                    </span>
+
+                                </div>
+
+                            </div>
+
+                        </label>
+                    @endforeach
+
+                </div>
+
+                <!-- Submit -->
+                <div class="flex justify-end mt-6">
+
+                    <button type="submit" class="btn-primary text-xs px-5 py-2">
+
+                        Update Attendance
+
+                    </button>
+
+                </div>
+
+            </form>
+
+        </div>
+
+    </main>
+
+    <script>
+        const checkboxes =
+            document.querySelectorAll('.attendance-checkbox');
+
+        checkboxes.forEach((checkbox) => {
+            checkbox.addEventListener('change', function() {
+                const card =
+                    this.closest('.student-card');
+
+                const ui =
+                    card.querySelector('.attendance-ui');
+
+                const badge =
+                    card.querySelector('.status-badge');
+
+                const checkboxUI =
+                    card.querySelector('.checkbox-ui');
+
+                const checkIcon =
+                    card.querySelector('.check-icon');
+
+                if (this.checked) {
+                    ui.classList.remove(
+                        'bg-red/10',
+                        'border-red/20'
+                    );
+
+                    ui.classList.add(
+                        'bg-green/10',
+                        'border-green/20'
+                    );
+
+                    checkboxUI.classList.remove(
+                        'border-red/30'
+                    );
+
+                    checkboxUI.classList.add(
+                        'bg-green',
+                        'border-green'
+                    );
+
+                    checkIcon.classList.remove('hidden');
+
+                    badge.innerText = 'Present';
+
+                    badge.classList.remove(
+                        'bg-red/20',
+                        'text-red',
+                        'border-red/20'
+                    );
+
+                    badge.classList.add(
+                        'bg-green/20',
+                        'text-green',
+                        'border-green/20'
+                    );
+                } else {
+                    ui.classList.remove(
+                        'bg-green/10',
+                        'border-green/20'
+                    );
+
+                    ui.classList.add(
+                        'bg-red/10',
+                        'border-red/20'
+                    );
+
+                    checkboxUI.classList.remove(
+                        'bg-green',
+                        'border-green'
+                    );
+
+                    checkboxUI.classList.add(
+                        'border-red/30'
+                    );
+
+                    checkIcon.classList.add('hidden');
+
+                    badge.innerText = 'Absent';
+
+                    badge.classList.remove(
+                        'bg-green/20',
+                        'text-green',
+                        'border-green/20'
+                    );
+
+                    badge.classList.add(
+                        'bg-red/20',
+                        'text-red',
+                        'border-red/20'
+                    );
+                }
+            });
+        });
+    </script>
+
+@endsection

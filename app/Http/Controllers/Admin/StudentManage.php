@@ -33,6 +33,8 @@ class StudentManage extends Controller
             'name' => 'required|string|max:255',
             'email' => 'required|email|unique:users,email',
             'phone' => 'nullable|string|max:20',
+            'reg' => 'nullable|string|max:100',
+            'roll' => 'nullable|numeric',
             'password' => 'required|min:6',
             'photo' => 'nullable|image|mimes:jpg,jpeg,png,webp|max:2048',
         ]);
@@ -48,6 +50,8 @@ class StudentManage extends Controller
             'name' => $request->name,
             'email' => $request->email,
             'phone' => $request->phone,
+            'reg' => $request->reg,
+            'roll' => $request->roll,
             'role' => 'student',
             'password' => Hash::make($request->password),
             'photo' => $photoPath,
@@ -87,6 +91,8 @@ class StudentManage extends Controller
             'name' => 'required|string|max:255',
             'email' => 'required|email|unique:users,email,' . $id,
             'phone' => 'nullable|string|max:20',
+            'reg' => 'nullable|string|max:100',
+            'roll' => 'nullable|numeric',
             'password' => 'nullable|min:6',
             'photo' => 'nullable|image|mimes:jpg,jpeg,png,webp|max:2048',
         ]);
@@ -106,6 +112,8 @@ class StudentManage extends Controller
         $student->name = $request->name;
         $student->email = $request->email;
         $student->phone = $request->phone;
+        $student->reg = $request->reg;
+        $student->roll = $request->roll;
 
         // password only if filled
         if ($request->password) {

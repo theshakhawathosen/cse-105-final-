@@ -19,6 +19,8 @@ return new class extends Migration
             $table->string('photo')->nullable();
             $table->enum('role', ['student', 'admin'])->default('student');
             $table->string('password');
+            $table->string('reg')->nullable();
+            $table->integer('roll')->nullable();
             $table->rememberToken();
             $table->timestamps();
         });

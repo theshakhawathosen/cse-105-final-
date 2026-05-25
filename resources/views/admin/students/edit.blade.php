@@ -42,6 +42,32 @@
                         @enderror
                     </div>
 
+                    <!-- roll -->
+                    <div>
+                        <label class="text-ts text-xs">Roll</label>
+                        <input type="number" name="roll" value="{{ old('roll', $student->roll) }}"
+                            placeholder="Enter roll"
+                            class="w-full mt-1 bg-input border border-border rounded-xl px-3 py-2 text-tp">
+
+                        @error('roll')
+                            <p class="text-red text-xs mt-1">{{ $message }}</p>
+                        @enderror
+                    </div>
+
+
+                    <!-- reg -->
+                    <div>
+                        <label class="text-ts text-xs">Registration</label>
+                        <input type="text" name="reg" value="{{ old('reg', $student->reg) }}"
+                            placeholder="Enter reg no"
+                            class="w-full mt-1 bg-input border border-border rounded-xl px-3 py-2 text-tp">
+
+                        @error('reg')
+                            <p class="text-red text-xs mt-1">{{ $message }}</p>
+                        @enderror
+                    </div>
+
+
                     <!-- Email -->
                     <div>
                         <label class="text-ts text-xs">Email</label>

@@ -39,6 +39,14 @@ class DatabaseSeeder extends Seeder
             'role' => "admin",
             'phone' => "01979649181",
         ]);
+        User::factory()->create([
+            'name' => 'Ripon',
+            'email' => "diu.cse105@gmail.com",
+            'password' => Hash::make('diu.cse105@gmail.com'),
+            'remember_token' => Str::random(10),
+            'role' => "admin",
+            'phone' => "01979649181",
+        ]);
 
         $this->call([
             StudentSeeder::class,
@@ -47,6 +55,7 @@ class DatabaseSeeder extends Seeder
             SubjectSeeder::class,
             AssignmentSeeder::class,
             LabReportSeeder::class,
+            FeedbackSeeder::class,
         ]);
     }
 }

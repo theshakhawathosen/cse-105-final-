@@ -22,8 +22,13 @@
             <div class="dash-card p-5 text-center fade-up fade-up-d2">
 
                 <div class="flex justify-center mb-4">
-                    <img src="{{ asset('storage/' . $admin->photo ?? 'storage/man.png') }}"
+                    @if ($admin->photo)
+                    <img src="{{ asset('storage/' . $admin->photo) }}"
                         class="w-28 h-28 rounded-2xl object-cover border border-border">
+                        @else
+                    <img src="{{ asset('storage/man.png') }}"
+                        class="w-28 h-28 rounded-2xl object-cover border border-border">
+                    @endif
                 </div>
 
                 <h2 class="text-lg font-bold text-tp">{{ $admin->name }}</h2>

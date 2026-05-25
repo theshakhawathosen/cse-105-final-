@@ -2,6 +2,8 @@
 
 use App\Http\Controllers\Admin\AdminController;
 use App\Http\Controllers\Admin\AssignmentController;
+use App\Http\Controllers\Admin\AttendanceController;
+use App\Http\Controllers\Admin\FeedbackController;
 use App\Http\Controllers\Admin\LabReportController;
 use App\Http\Controllers\Admin\NoticeController;
 use App\Http\Controllers\Admin\PollController;
@@ -68,16 +70,35 @@ Route::prefix('/admin')->middleware(['auth', 'role:admin'])->group(function () {
 
 
     // Lab Reports
-Route::resource('lab-reports', LabReportController::class);
+    Route::resource('lab-reports', LabReportController::class);
 
 
-// Polls
-Route::resource('polls', PollController::class);
+    // Polls
+    Route::resource('polls', PollController::class);
 
-// Student Vote
-Route::post('polls/{poll}/vote', [PollController::class, 'vote'])
-    ->name('polls.vote');
+    // Student Vote
+    Route::post('polls/{poll}/vote', [PollController::class, 'vote'])
+        ->name('polls.vote');
+
+
+
+
+
+    // Feedback
+    Route::resource('feedbacks', FeedbackController::class);
+
+    // Attendance
+    Route::resource('attendances', AttendanceController::class);
+
+    // Delete Full Attendance Session
+    Route::delete('attendances/delete-session/{subject}/{date}', [AttendanceController::class, 'deleteSession'])->name('attendances.delete-session');
 });
+
+
+
+
+
+// %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 
 
 
@@ -85,6 +106,9 @@ Route::post('polls/{poll}/vote', [PollController::class, 'vote'])
 Route::prefix('/student')->middleware(['auth', 'role:student'])->group(function () {
     Route::get('/', [StudentController::class, 'dashboard'])->name('student.dashboard');
     Route::get('/logout', [AuthController::class, 'logout'])->name('student.logout');
+
+    // Classmate
+    Route::get('/classmatea', [StudentController::class, 'classmate'])->name('student.classmate');
 });
 
 

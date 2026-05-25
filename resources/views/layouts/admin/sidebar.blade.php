@@ -62,15 +62,15 @@
             </a>
 
             <div class="sidebar-section-label">Reports</div>
-            <div class="nav-item">
+            <a href="{{ route('feedbacks.index') }}" class="nav-item">
                 <i class="nav-icon fas fa-comments"></i>
                 <span class="nav-label">Feedback</span>
                 <span class="badge-pill" style="background:var(--purple)">7</span>
-            </div>
-            <div class="nav-item">
+            </a>
+            <a href="{{ route('attendances.index') }}" class="nav-item">
                 <i class="nav-icon fas fa-chart-bar"></i>
-                <span class="nav-label">Analytics</span>
-            </div>
+                <span class="nav-label">Attendence</span>
+            </a>
 
             <div class="sidebar-section-label">System</div>
             <div class="nav-item">

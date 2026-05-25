@@ -35,6 +35,7 @@
                             <th class="py-3 text-left">ID</th>
                             <th class="py-3 text-left">Photo</th>
                             <th class="py-3 text-left">Name</th>
+                            <th class="py-3 text-left">Roll</th>
                             <th class="py-3 text-left">Email</th>
                             <th class="py-3 text-left">Phone</th>
                             <th class="py-3 text-left">Role</th>
@@ -61,7 +62,8 @@
                                     @endif
                                 </td>
 
-                                <td class="py-3 font-medium">{{ $student->name }}</td>
+                                <td class="py-3 font-medium">{{ $student->name }} <div><small>{{ $student->reg }}</small></div></td>
+                                <td class="py-3 font-medium">{{ $student->roll }}</td>
 
                                 <td class="py-3 text-ts">{{ $student->email }}</td>
 

@@ -1,0 +1,1512 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <!-- ═══ SEO META ═══ -->
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <meta
+      name="description"
+      content="CSE-105 Batch Solution Hub — Student Dashboard for notices, assignments, lab reports, routines and more."
+    />
+    <meta name="robots" content="noindex, nofollow" />
+    <title>Dashboard — CSE-105 Batch Solution Hub</title>
+
+    <!-- ═══ FONTS & ICONS ═══ -->
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link
+      href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&display=swap"
+      rel="stylesheet"
+    />
+    <link
+      rel="stylesheet"
+      href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css"
+    />
+
+    <!-- ═══ TAILWIND CDN ═══ -->
+    <script src="https://cdn.tailwindcss.com"></script>
+    <script>
+      /* ── Tailwind custom config ── */
+      tailwind.config = {
+        theme: {
+          extend: {
+            fontFamily: { poppins: ["Poppins", "sans-serif"] },
+            colors: {
+              base: "#0d0f14",
+              nav: "#111318",
+              card: "#13161e",
+              input: "#1a1e28",
+              hover: "#1e2232",
+              bdr: "#1f2333",
+              accent: "#3d7fff",
+              ahover: "#5a94ff",
+              prim: "#e8eaf0",
+              sec: "#7c8090",
+              hint: "#454860",
+              grn: "#29d68e",
+              amb: "#f5a623",
+              red: "#ff4d6a",
+              pur: "#a78bfa",
+              tel: "#22d3ee",
+              pnk: "#f472b6",
+              crl: "#fb923c",
+            },
+            keyframes: {
+              fadeUp: {
+                from: { opacity: 0, transform: "translateY(14px)" },
+                to: { opacity: 1, transform: "translateY(0)" },
+              },
+              tickerScroll: {
+                "0%": { transform: "translateX(100vw)" },
+                "100%": { transform: "translateX(-100%)" },
+              },
+            },
+            animation: {
+              fadeUp: "fadeUp 0.4s ease both",
+              ticker: "tickerScroll 28s linear infinite",
+            },
+          },
+        },
+      };
+    </script>
+
+    <!-- ═══ CUSTOM CSS (only what Tailwind can't do inline) ═══ -->
+    <style>
+      /* Base font */
+      * {
+        font-family: "Poppins", sans-serif;
+        box-sizing: border-box;
+      }
+
+      /* Logo gradient text */
+      .logo-text {
+        background: linear-gradient(135deg, #e8eaf0 40%, #3d7fff);
+        -webkit-background-clip: text;
+        -webkit-text-fill-color: transparent;
+        background-clip: text;
+      }
+
+      /* Ticker animation */
+      .ticker-track {
+        animation: tickerScroll 32s linear infinite;
+        white-space: nowrap;
+        display: flex;
+        align-items: center;
+        gap: 3rem;
+      }
+      .ticker-track:hover {
+        animation-play-state: paused;
+      }
+      @keyframes tickerScroll {
+        0% {
+          transform: translateX(100vw);
+        }
+        100% {
+          transform: translateX(-100%);
+        }
+      }
+
+      /* Stat cards stagger */
+      .stat-card:nth-child(1) {
+        animation-delay: 0.05s;
+      }
+      .stat-card:nth-child(2) {
+        animation-delay: 0.1s;
+      }
+      .stat-card:nth-child(3) {
+        animation-delay: 0.15s;
+      }
+      .stat-card:nth-child(4) {
+        animation-delay: 0.2s;
+      }
+      .stat-card:nth-child(5) {
+        animation-delay: 0.25s;
+      }
+      .stat-card:nth-child(6) {
+        animation-delay: 0.3s;
+      }
+      .stat-card:nth-child(7) {
+        animation-delay: 0.35s;
+      }
+      .stat-card:nth-child(8) {
+        animation-delay: 0.4s;
+      }
+
+      /* Thin top accent on topnav */
+      .topnav-accent::before {
+        content: "";
+        position: absolute;
+        bottom: -1px;
+        left: 0;
+        right: 0;
+        height: 1px;
+        background: #1f2333;
+      }
+
+      /* Profile dropdown open animation */
+      .profile-dropdown {
+        opacity: 0;
+        transform: translateY(-8px);
+        pointer-events: none;
+        transition:
+          opacity 0.22s ease,
+          transform 0.22s ease;
+      }
+      .profile-dropdown.open {
+        opacity: 1;
+        transform: translateY(0);
+        pointer-events: all;
+      }
+
+      /* Active tab underline */
+      .tab-link {
+        border-bottom: 2px solid transparent;
+        transition:
+          color 0.22s,
+          border-color 0.22s;
+      }
+      .tab-link.active {
+        color: #3d7fff !important;
+        border-bottom-color: #3d7fff;
+      }
+      .tab-link:hover {
+        color: #e8eaf0 !important;
+      }
+
+      /* Mobile sidebar transition */
+      .mob-sidebar {
+        transform: translateX(-100%);
+        transition: transform 0.3s ease;
+      }
+      .mob-sidebar.open {
+        transform: translateX(0);
+      }
+      .mob-overlay {
+        opacity: 0;
+        transition: opacity 0.22s ease;
+      }
+      .mob-overlay.open {
+        opacity: 1;
+      }
+
+      /* Scrollbars hidden */
+      .no-scroll::-webkit-scrollbar {
+        display: none;
+      }
+      .no-scroll {
+        scrollbar-width: none;
+      }
+
+      /* Card top glow on hover */
+      .stat-card:hover {
+        box-shadow: 0 8px 24px rgba(0, 0, 0, 0.35);
+      }
+
+      /* Notice row click flash */
+      .notice-row:active {
+        background: rgba(61, 127, 255, 0.1) !important;
+      }
+
+      /* Poll bar animation */
+      .poll-bar {
+        transition: width 0.8s ease;
+      }
+
+      /* Notif item hover */
+      .notif-item:hover {
+        background: rgba(30, 34, 50, 0.9) !important;
+      }
+
+      /* Mob nav link active */
+      .mob-nav-link.active {
+        color: #3d7fff;
+        border-left-color: #3d7fff;
+        background: rgba(61, 127, 255, 0.1);
+      }
+      .mob-nav-link:hover {
+        color: #e8eaf0;
+        background: rgba(30, 34, 50, 0.9);
+      }
+
+      /* fadeUp animation */
+      @keyframes fadeUp {
+        from {
+          opacity: 0;
+          transform: translateY(14px);
+        }
+        to {
+          opacity: 1;
+          transform: translateY(0);
+        }
+      }
+      .animate-fadeUp {
+        animation: fadeUp 0.4s ease both;
+      }
+    </style>
+  </head>
+
+  <body class="bg-base text-prim min-h-screen overflow-x-hidden">
+    <!-- ═══════════════════════════════════════════════════
+     MOBILE OVERLAY
+═══════════════════════════════════════════════════ -->
+    <div
+      id="mobOverlay"
+      class="mob-overlay fixed inset-0 bg-black/55 z-[1050] hidden"
+      onclick="closeMobMenu()"
+    ></div>
+
+    <!-- ═══════════════════════════════════════════════════
+     MOBILE SIDEBAR DRAWER
+═══════════════════════════════════════════════════ -->
+    <nav
+      id="mobSidebar"
+      class="mob-sidebar fixed top-0 left-0 w-64 h-full bg-card border-r border-bdr z-[1060] overflow-y-auto py-5"
+    >
+      <!-- Sidebar header -->
+      <div
+        class="flex items-center justify-between px-4 pb-4 border-b border-bdr mb-2"
+      >
+        <div class="flex items-center gap-2">
+          <div
+            class="w-7 h-7 rounded-lg bg-accent/20 border border-accent/30 flex items-center justify-center"
+          >
+            <i class="fa-solid fa-graduation-cap text-accent text-xs"></i>
+          </div>
+          <span class="font-bold text-prim text-sm">CSE-105</span>
+        </div>
+        <button
+          onclick="closeMobMenu()"
+          class="text-sec text-base cursor-pointer bg-transparent border-none"
+        >
+          <i class="fa-solid fa-xmark"></i>
+        </button>
+      </div>
+
+      <!-- Mobile nav links -->
+      <a
+        href="#"
+        class="mob-nav-link active flex items-center gap-3 px-5 py-3 text-sm font-medium border-l-2 border-transparent"
+      >
+        <i class="fa-solid fa-gauge-high w-4 text-center"></i> Dashboard
+      </a>
+      <a
+        href="#"
+        class="mob-nav-link flex items-center gap-3 px-5 py-3 text-sm font-medium text-sec border-l-2 border-transparent"
+      >
+        <i class="fa-solid fa-bell w-4 text-center"></i> Notice
+        <span
+          class="ml-auto bg-red text-white text-[0.58rem] font-bold rounded-full px-1.5 py-px"
+          >3</span
+        >
+      </a>
+      <a
+        href="#"
+        class="mob-nav-link flex items-center gap-3 px-5 py-3 text-sm font-medium text-sec border-l-2 border-transparent"
+      >
+        <i class="fa-solid fa-flask w-4 text-center"></i> Lab Report
+      </a>
+      <a
+        href="#"
+        class="mob-nav-link flex items-center gap-3 px-5 py-3 text-sm font-medium text-sec border-l-2 border-transparent"
+      >
+        <i class="fa-solid fa-file-pen w-4 text-center"></i> Assignment
+        <span
+          class="ml-auto bg-red text-white text-[0.58rem] font-bold rounded-full px-1.5 py-px"
+          >2</span
+        >
+      </a>
+      <a
+        href="#"
+        class="mob-nav-link flex items-center gap-3 px-5 py-3 text-sm font-medium text-sec border-l-2 border-transparent"
+      >
+        <i class="fa-regular fa-calendar w-4 text-center"></i> Routine
+      </a>
+      <a
+        href="#"
+        class="mob-nav-link flex items-center gap-3 px-5 py-3 text-sm font-medium text-sec border-l-2 border-transparent"
+      >
+        <i class="fa-solid fa-square-poll-vertical w-4 text-center"></i> Poll
+      </a>
+      <a
+        href="#"
+        class="mob-nav-link flex items-center gap-3 px-5 py-3 text-sm font-medium text-sec border-l-2 border-transparent"
+      >
+        <i class="fa-solid fa-book-open w-4 text-center"></i> Subjects
+      </a>
+      <a
+        href="#"
+        class="mob-nav-link flex items-center gap-3 px-5 py-3 text-sm font-medium text-sec border-l-2 border-transparent"
+      >
+        <i class="fa-solid fa-chalkboard-user w-4 text-center"></i> Teachers
+      </a>
+      <a
+        href="#"
+        class="mob-nav-link flex items-center gap-3 px-5 py-3 text-sm font-medium text-sec border-l-2 border-transparent"
+      >
+        <i class="fa-solid fa-users w-4 text-center"></i> Classmates
+      </a>
+      <a
+        href="#"
+        class="mob-nav-link flex items-center gap-3 px-5 py-3 text-sm font-medium text-sec border-l-2 border-transparent"
+      >
+        <i class="fa-solid fa-comments w-4 text-center"></i> Feedback
+      </a>
+      <a
+        href="#"
+        class="mob-nav-link flex items-center gap-3 px-5 py-3 text-sm font-medium text-sec border-l-2 border-transparent"
+      >
+        <i class="fa-solid fa-photo-film w-4 text-center"></i> Resources
+      </a>
+      <a
+        href="#"
+        class="mob-nav-link flex items-center gap-3 px-5 py-3 text-sm font-medium text-sec border-l-2 border-transparent"
+      >
+        <i class="fa-solid fa-link w-4 text-center"></i> Links
+      </a>
+
+      <div class="h-px bg-bdr mx-4 my-2"></div>
+
+      <a
+        href="#"
+        class="mob-nav-link flex items-center gap-3 px-5 py-3 text-sm font-medium text-sec border-l-2 border-transparent"
+      >
+        <i class="fa-solid fa-circle-user w-4 text-center"></i> My Profile
+      </a>
+      <a
+        href="cse105-login.html"
+        class="mob-nav-link flex items-center gap-3 px-5 py-3 text-sm font-medium text-red border-l-2 border-transparent"
+      >
+        <i class="fa-solid fa-right-from-bracket w-4 text-center"></i> Logout
+      </a>
+    </nav>
+
+    <!-- ═══════════════════════════════════════════════════
+     TOP NAVIGATION BAR  (fixed, h-14 = 56px)
+═══════════════════════════════════════════════════ -->
+    <header
+      class="topnav-accent fixed top-0 left-0 right-0 h-14 bg-nav border-b border-bdr flex items-center px-4 gap-4 z-[1000]"
+    >
+      <!-- Hamburger — mobile only -->
+      <button
+        id="mobMenuBtn"
+        onclick="openMobMenu()"
+        class="md:hidden w-[34px] h-[34px] bg-input border border-bdr rounded-md flex items-center justify-center text-sec text-sm cursor-pointer shrink-0"
+      >
+        <i class="fa-solid fa-bars"></i>
+      </button>
+
+      <!-- Left: Logo -->
+      <div class="flex items-center gap-2 shrink-0 min-w-[140px]">
+        <div
+          class="w-8 h-8 bg-accent/20 border border-accent/30 rounded-lg flex items-center justify-center shrink-0"
+        >
+          <i class="fa-solid fa-graduation-cap text-accent text-sm"></i>
+        </div>
+        <span
+          class="logo-text font-bold text-base tracking-tight hidden sm:block"
+          >CSE-105</span
+        >
+      </div>
+
+      <!-- Center: Title -->
+      <div
+        class="flex-1 text-center text-sm font-semibold text-sec tracking-wide truncate hidden md:block"
+      >
+        CSE-105 Batch Solution Hub
+      </div>
+
+      <!-- Right: Notification + Profile -->
+      <div class="flex items-center gap-3 shrink-0 min-w-[150px] justify-end">
+        <!-- ── Notification Bell ── -->
+        <div class="relative">
+          <button
+            id="notifBtn"
+            class="relative w-[34px] h-[34px] bg-input border border-bdr rounded-full flex items-center justify-center text-sec text-sm hover:text-accent hover:border-accent transition-all cursor-pointer"
+          >
+            <i class="fa-regular fa-bell"></i>
+            <!-- Red dot badge -->
+            <span
+              id="notifDot"
+              class="absolute top-[5px] right-[5px] w-2 h-2 bg-red rounded-full border-[1.5px] border-nav"
+            ></span>
+          </button>
+
+          <!-- Notification Dropdown -->
+          <div
+            id="notifDropdown"
+            class="hidden absolute top-[calc(100%+10px)] right-0 w-[300px] bg-card border border-bdr rounded-xl shadow-[0_12px_40px_rgba(0,0,0,.45)] z-[9999] overflow-hidden"
+          >
+            <!-- Header -->
+            <div
+              class="flex items-center justify-between px-4 py-3 border-b border-bdr"
+            >
+              <span class="text-[0.8rem] font-semibold text-prim"
+                >Notifications</span
+              >
+              <span
+                id="markAllRead"
+                class="text-[0.7rem] text-accent font-medium cursor-pointer hover:text-ahover"
+              >
+                Mark all read
+              </span>
+            </div>
+
+            <!-- Items list -->
+            <div class="max-h-[280px] overflow-y-auto no-scroll">
+              <!-- Item 1 — Urgent -->
+              <div
+                class="notif-item unread flex gap-2.5 px-4 py-3 border-b border-bdr cursor-pointer bg-accent/10 transition-colors"
+              >
+                <div
+                  class="w-[34px] h-[34px] rounded-full bg-red/10 flex items-center justify-center shrink-0"
+                >
+                  <i
+                    class="fa-solid fa-triangle-exclamation text-red text-xs"
+                  ></i>
+                </div>
+                <div>
+                  <p class="text-[0.78rem] font-medium text-prim leading-snug">
+                    Lab report submission deadline tomorrow!
+                  </p>
+                  <p class="text-[0.68rem] text-hint mt-0.5">
+                    <i class="fa-regular fa-clock mr-1"></i>2 hours ago
+                  </p>
+                </div>
+              </div>
+
+              <!-- Item 2 — Notice -->
+              <div
+                class="notif-item unread flex gap-2.5 px-4 py-3 border-b border-bdr cursor-pointer bg-accent/10 transition-colors"
+              >
+                <div
+                  class="w-[34px] h-[34px] rounded-full bg-accent/15 flex items-center justify-center shrink-0"
+                >
+                  <i class="fa-solid fa-bell text-accent text-xs"></i>
+                </div>
+                <div>
+                  <p class="text-[0.78rem] font-medium text-prim leading-snug">
+                    New notice posted by admin
+                  </p>
+                  <p class="text-[0.68rem] text-hint mt-0.5">
+                    <i class="fa-regular fa-clock mr-1"></i>Yesterday
+                  </p>
+                </div>
+              </div>
+
+              <!-- Item 3 — Poll -->
+              <div
+                class="notif-item unread flex gap-2.5 px-4 py-3 border-b border-bdr cursor-pointer bg-accent/10 transition-colors"
+              >
+                <div
+                  class="w-[34px] h-[34px] rounded-full bg-pur/10 flex items-center justify-center shrink-0"
+                >
+                  <i
+                    class="fa-solid fa-square-poll-vertical text-pur text-xs"
+                  ></i>
+                </div>
+                <div>
+                  <p class="text-[0.78rem] font-medium text-prim leading-snug">
+                    New poll is live — cast your vote now
+                  </p>
+                  <p class="text-[0.68rem] text-hint mt-0.5">
+                    <i class="fa-regular fa-clock mr-1"></i>2 days ago
+                  </p>
+                </div>
+              </div>
+
+              <!-- Item 4 — Read -->
+              <div
+                class="notif-item flex gap-2.5 px-4 py-3 border-b border-bdr cursor-pointer transition-colors"
+              >
+                <div
+                  class="w-[34px] h-[34px] rounded-full bg-grn/10 flex items-center justify-center shrink-0"
+                >
+                  <i class="fa-solid fa-file-pen text-grn text-xs"></i>
+                </div>
+                <div>
+                  <p class="text-[0.78rem] font-medium text-sec leading-snug">
+                    Assignment #4 deadline extended
+                  </p>
+                  <p class="text-[0.68rem] text-hint mt-0.5">
+                    <i class="fa-regular fa-clock mr-1"></i>3 days ago
+                  </p>
+                </div>
+              </div>
+            </div>
+
+            <!-- Footer -->
+            <div class="px-4 py-2.5 text-center border-t border-bdr">
+              <a
+                href="#"
+                class="text-[0.75rem] text-accent font-medium hover:text-ahover"
+                >View all notifications</a
+              >
+            </div>
+          </div>
+        </div>
+        <!-- /Notification -->
+
+        <!-- ── Profile Trigger ── -->
+        <div
+          id="profileTrigger"
+          onclick="toggleDropdown()"
+          role="button"
+          tabindex="0"
+          aria-haspopup="true"
+          aria-expanded="false"
+          class="flex items-center gap-2 bg-input border border-bdr rounded-full pl-1 pr-3 py-1 cursor-pointer hover:border-accent transition-all"
+        >
+          <div
+            class="w-7 h-7 rounded-full bg-accent/15 border-[1.5px] border-accent flex items-center justify-center text-[0.7rem] font-semibold text-accent"
+          >
+            SK
+          </div>
+          <span
+            class="text-[0.78rem] font-medium text-prim max-w-[90px] truncate hidden sm:block"
+            >Shakhawat</span
+          >
+          <i
+            id="chevronIcon"
+            class="fa-solid fa-chevron-down text-[0.6rem] text-hint transition-transform duration-200"
+          ></i>
+        </div>
+      </div>
+
+      <!-- Profile Dropdown (absolutely positioned in header) -->
+      <div
+        id="profileDropdown"
+        role="menu"
+        class="profile-dropdown absolute top-[54px] right-4 bg-card border border-bdr rounded-xl min-w-[185px] py-1.5 shadow-[0_12px_40px_rgba(0,0,0,.45)] z-[999]"
+      >
+        <div class="px-4 pt-2.5 pb-2 border-b border-bdr mb-1">
+          <p class="text-[0.82rem] font-semibold text-prim">Shakhawat K.</p>
+          <p class="text-[0.72rem] text-sec mt-px">shakhawat@cse105.edu</p>
+        </div>
+        <a
+          href="#"
+          role="menuitem"
+          class="flex items-center gap-2.5 px-4 py-2 text-[0.8rem] text-sec hover:bg-hover hover:text-prim transition-colors"
+        >
+          <i class="fa-regular fa-circle-user w-3.5 text-center"></i> Profile
+        </a>
+        <a
+          href="#"
+          role="menuitem"
+          class="flex items-center gap-2.5 px-4 py-2 text-[0.8rem] text-sec hover:bg-hover hover:text-prim transition-colors"
+        >
+          <i class="fa-solid fa-key w-3.5 text-center"></i> Change Password
+        </a>
+        <a
+          href="#"
+          role="menuitem"
+          class="flex items-center gap-2.5 px-4 py-2 text-[0.8rem] text-sec hover:bg-hover hover:text-prim transition-colors"
+        >
+          <i class="fa-regular fa-bell w-3.5 text-center"></i> Notifications
+        </a>
+        <a
+          href="#"
+          role="menuitem"
+          class="flex items-center gap-2.5 px-4 py-2 text-[0.8rem] text-sec hover:bg-hover hover:text-prim transition-colors"
+        >
+          <i class="fa-solid fa-gear w-3.5 text-center"></i> Settings
+        </a>
+        <div class="h-px bg-bdr mx-0 my-1"></div>
+        <a
+          href="cse105-login.html"
+          role="menuitem"
+          class="flex items-center gap-2.5 px-4 py-2 text-[0.8rem] text-red hover:bg-red/10 transition-colors"
+        >
+          <i class="fa-solid fa-right-from-bracket w-3.5 text-center"></i>
+          Logout
+        </a>
+      </div>
+    </header>
+
+    <!-- ═══════════════════════════════════════════════════
+     NOTICE TICKER BAR  (fixed, top-14 = 56px, h-9 = 36px)
+═══════════════════════════════════════════════════ -->
+    <div
+      class="fixed top-14 left-0 bg-accent right-0 h-9 bg-hover border-b border-accent/20 flex items-center z-[990] overflow-hidden"
+      role="marquee"
+      aria-label="Batch notices"
+    >
+      <!-- Label -->
+      <div
+        class="flex items-center gap-1.5 px-3 border-r border-accent/25 h-full shrink-0 bg-accent/10"
+      >
+        <i class="fa-solid fa-bullhorn text-accent text-[0.7rem]"></i>
+        <span
+          class="text-[0.7rem] font-bold text-accent uppercase tracking-widest"
+          >Notice</span
+        >
+        <span
+          class="bg-red text-white text-[0.58rem] font-bold rounded-full px-1.5 py-px"
+          >3</span
+        >
+        >
+      </div>
+
+      <!-- Ticker -->
+      <div class="flex-1 overflow-hidden h-full flex items-center">
+        <div class="ticker-track" id="noticeTrack">
+          <span
+            class="inline-flex items-center gap-2 text-[0.78rem] text-prim cursor-pointer hover:text-ahover"
+          >
+            <i
+              class="fa-solid fa-circle-exclamation text-red text-[0.72rem]"
+            ></i>
+            Everyone must complete the Computer &amp; Cyber Security lab report
+            and exam preparation — Deadline: 25 May
+          </span>
+          <span class="text-hint">•</span>
+          <span
+            class="inline-flex items-center gap-2 text-[0.78rem] text-prim cursor-pointer hover:text-ahover"
+          >
+            <i class="fa-solid fa-circle-info text-accent text-[0.72rem]"></i>
+            Mid-term exam routine has been published. Check the Routine tab for
+            details.
+          </span>
+          <span class="text-hint">•</span>
+          <span
+            class="inline-flex items-center gap-2 text-[0.78rem] text-prim cursor-pointer hover:text-ahover"
+          >
+            <i class="fa-solid fa-circle-info text-accent text-[0.72rem]"></i>
+            Assignment #4 (Data Structures) submission deadline extended to 30
+            May.
+          </span>
+          <span class="text-hint">•</span>
+          <span
+            class="inline-flex items-center gap-2 text-[0.78rem] text-prim cursor-pointer hover:text-ahover"
+          >
+            <i
+              class="fa-solid fa-circle-exclamation text-red text-[0.72rem]"
+            ></i>
+            New poll posted — vote on preferred lab session timing before 20
+            May.
+          </span>
+        </div>
+      </div>
+    </div>
+
+    <!-- ═══════════════════════════════════════════════════
+     TAB NAVIGATION  (fixed, top-23 = 56+36=92px, h-11 = 44px)
+═══════════════════════════════════════════════════ -->
+    <nav
+      class="fixed top-[92px] left-0 right-0 h-11 bg-nav border-b border-bdr z-[980] overflow-x-auto no-scroll"
+      role="navigation"
+      aria-label="Page sections"
+    >
+      <div class="flex items-stretch h-full px-2 whitespace-nowrap">
+        <a
+          href="#"
+          onclick="setTab(this, event)"
+          class="tab-link active inline-flex items-center gap-1.5 px-3.5 text-[0.78rem] font-medium text-accent shrink-0 cursor-pointer"
+        >
+          <i class="fa-solid fa-gauge-high text-[0.8rem]"></i> Dashboard
+        </a>
+        <a
+          href="#"
+          onclick="setTab(this, event)"
+          class="tab-link inline-flex items-center gap-1.5 px-3.5 text-[0.78rem] font-medium text-sec shrink-0 cursor-pointer"
+        >
+          <i class="fa-solid fa-bell text-[0.8rem]"></i> Notice
+          <span
+            class="bg-red text-white text-[0.58rem] font-bold rounded-full px-1.5 py-px"
+            >3</span
+          >
+        </a>
+        <a
+          href="#"
+          onclick="setTab(this, event)"
+          class="tab-link inline-flex items-center gap-1.5 px-3.5 text-[0.78rem] font-medium text-sec shrink-0 cursor-pointer"
+        >
+          <i class="fa-solid fa-flask text-[0.8rem]"></i> Lab Report
+        </a>
+        <a
+          href="#"
+          onclick="setTab(this, event)"
+          class="tab-link inline-flex items-center gap-1.5 px-3.5 text-[0.78rem] font-medium text-sec shrink-0 cursor-pointer"
+        >
+          <i class="fa-solid fa-file-pen text-[0.8rem]"></i> Assignment
+          <span
+            class="bg-red text-white text-[0.58rem] font-bold rounded-full px-1.5 py-px"
+            >2</span
+          >
+        </a>
+        <a
+          href="#"
+          onclick="setTab(this, event)"
+          class="tab-link inline-flex items-center gap-1.5 px-3.5 text-[0.78rem] font-medium text-sec shrink-0 cursor-pointer"
+        >
+          <i class="fa-regular fa-calendar text-[0.8rem]"></i> Routine
+        </a>
+        <a
+          href="#"
+          onclick="setTab(this, event)"
+          class="tab-link inline-flex items-center gap-1.5 px-3.5 text-[0.78rem] font-medium text-sec shrink-0 cursor-pointer"
+        >
+          <i class="fa-solid fa-square-poll-vertical text-[0.8rem]"></i> Poll
+        </a>
+        <a
+          href="#"
+          onclick="setTab(this, event)"
+          class="tab-link inline-flex items-center gap-1.5 px-3.5 text-[0.78rem] font-medium text-sec shrink-0 cursor-pointer"
+        >
+          <i class="fa-solid fa-book-open text-[0.8rem]"></i> Subjects
+        </a>
+        <a
+          href="#"
+          onclick="setTab(this, event)"
+          class="tab-link inline-flex items-center gap-1.5 px-3.5 text-[0.78rem] font-medium text-sec shrink-0 cursor-pointer"
+        >
+          <i class="fa-solid fa-chalkboard-user text-[0.8rem]"></i> Teachers
+        </a>
+        <a
+          href="#"
+          onclick="setTab(this, event)"
+          class="tab-link inline-flex items-center gap-1.5 px-3.5 text-[0.78rem] font-medium text-sec shrink-0 cursor-pointer"
+        >
+          <i class="fa-solid fa-users text-[0.8rem]"></i> Classmates
+        </a>
+        <a
+          href="#"
+          onclick="setTab(this, event)"
+          class="tab-link inline-flex items-center gap-1.5 px-3.5 text-[0.78rem] font-medium text-sec shrink-0 cursor-pointer"
+        >
+          <i class="fa-solid fa-comments text-[0.8rem]"></i> Feedback
+        </a>
+        <a
+          href="#"
+          onclick="setTab(this, event)"
+          class="tab-link inline-flex items-center gap-1.5 px-3.5 text-[0.78rem] font-medium text-sec shrink-0 cursor-pointer"
+        >
+          <i class="fa-solid fa-photo-film text-[0.8rem]"></i> Resources
+        </a>
+        <a
+          href="#"
+          onclick="setTab(this, event)"
+          class="tab-link inline-flex items-center gap-1.5 px-3.5 text-[0.78rem] font-medium text-sec shrink-0 cursor-pointer"
+        >
+          <i class="fa-solid fa-link text-[0.8rem]"></i> Links
+        </a>
+      </div>
+    </nav>
+
+    <!-- ═══════════════════════════════════════════════════
+     MAIN PAGE BODY
+     top offset = 56 (topnav) + 36 (notice) + 44 (tabnav) = 136px
+═══════════════════════════════════════════════════ -->
+    <main class="pt-[152px] px-4 md:px-5 pb-8 max-w-auto mx-5" role="main">
+      <!-- ── SECTION HEADING: Batch Overview ── -->
+      <div class="flex items-center justify-between mb-4">
+        <h2
+          class="text-[0.78rem] font-semibold uppercase tracking-widest text-sec"
+        >
+          <i class="fa-solid fa-chart-simple text-accent mr-1.5"></i>Batch
+          Overview
+        </h2>
+        <a
+          href="#"
+          class="text-[0.72rem] text-accent font-medium hover:text-ahover transition-colors"
+          >See all</a
+        >
+      </div>
+
+      <!-- ── STATS GRID ── -->
+      <div class="grid grid-cols-2 sm:grid-cols-4 lg:grid-cols-8 gap-3 mb-7">
+        <!-- Notice -->
+        <div
+          class="stat-card animate-fadeUp bg-card border border-bdr rounded-2xl p-4 flex flex-col gap-2.5 hover:border-accent transition-all hover:-translate-y-0.5 cursor-default"
+        >
+          <div
+            class="w-10 h-10 rounded-xl bg-accent/15 flex items-center justify-center text-base"
+          >
+            <i class="fa-solid fa-bell text-accent"></i>
+          </div>
+          <div>
+            <div
+              class="stat-value text-[1.6rem] font-bold leading-none text-prim"
+            >
+              3
+            </div>
+            <div class="text-[0.72rem] text-sec mt-1">New Notices</div>
+          </div>
+        </div>
+
+        <!-- Assignment -->
+        <div
+          class="stat-card animate-fadeUp bg-card border border-bdr rounded-2xl p-4 flex flex-col gap-2.5 hover:border-amb transition-all hover:-translate-y-0.5 cursor-default"
+        >
+          <div
+            class="w-10 h-10 rounded-xl bg-amb/15 flex items-center justify-center text-base"
+          >
+            <i class="fa-solid fa-file-pen text-amb"></i>
+          </div>
+          <div>
+            <div
+              class="stat-value text-[1.6rem] font-bold leading-none text-prim"
+            >
+              4
+            </div>
+            <div class="text-[0.72rem] text-sec mt-1">Assignments</div>
+          </div>
+        </div>
+
+        <!-- Lab Report -->
+        <div
+          class="stat-card animate-fadeUp bg-card border border-bdr rounded-2xl p-4 flex flex-col gap-2.5 hover:border-pur transition-all hover:-translate-y-0.5 cursor-default"
+        >
+          <div
+            class="w-10 h-10 rounded-xl bg-pur/15 flex items-center justify-center text-base"
+          >
+            <i class="fa-solid fa-flask text-pur"></i>
+          </div>
+          <div>
+            <div
+              class="stat-value text-[1.6rem] font-bold leading-none text-prim"
+            >
+              6
+            </div>
+            <div class="text-[0.72rem] text-sec mt-1">Lab Reports</div>
+          </div>
+        </div>
+
+        <!-- Routine -->
+        <div
+          class="stat-card animate-fadeUp bg-card border border-bdr rounded-2xl p-4 flex flex-col gap-2.5 hover:border-grn transition-all hover:-translate-y-0.5 cursor-default"
+        >
+          <div
+            class="w-10 h-10 rounded-xl bg-grn/15 flex items-center justify-center text-base"
+          >
+            <i class="fa-regular fa-calendar text-grn"></i>
+          </div>
+          <div>
+            <div
+              class="stat-value text-[1.6rem] font-bold leading-none text-prim"
+            >
+              1
+            </div>
+            <div class="text-[0.72rem] text-sec mt-1">Routines</div>
+          </div>
+        </div>
+
+        <!-- Teachers -->
+        <div
+          class="stat-card animate-fadeUp bg-card border border-bdr rounded-2xl p-4 flex flex-col gap-2.5 hover:border-tel transition-all hover:-translate-y-0.5 cursor-default"
+        >
+          <div
+            class="w-10 h-10 rounded-xl bg-tel/15 flex items-center justify-center text-base"
+          >
+            <i class="fa-solid fa-chalkboard-user text-tel"></i>
+          </div>
+          <div>
+            <div
+              class="stat-value text-[1.6rem] font-bold leading-none text-prim"
+            >
+              8
+            </div>
+            <div class="text-[0.72rem] text-sec mt-1">Teachers</div>
+          </div>
+        </div>
+
+        <!-- Classmates -->
+        <div
+          class="stat-card animate-fadeUp bg-card border border-bdr rounded-2xl p-4 flex flex-col gap-2.5 hover:border-crl transition-all hover:-translate-y-0.5 cursor-default"
+        >
+          <div
+            class="w-10 h-10 rounded-xl bg-crl/15 flex items-center justify-center text-base"
+          >
+            <i class="fa-solid fa-users text-crl"></i>
+          </div>
+          <div>
+            <div
+              class="stat-value text-[1.6rem] font-bold leading-none text-prim"
+            >
+              52
+            </div>
+            <div class="text-[0.72rem] text-sec mt-1">Classmates</div>
+          </div>
+        </div>
+
+        <!-- Polls -->
+        <div
+          class="stat-card animate-fadeUp bg-card border border-bdr rounded-2xl p-4 flex flex-col gap-2.5 hover:border-pnk transition-all hover:-translate-y-0.5 cursor-default"
+        >
+          <div
+            class="w-10 h-10 rounded-xl bg-pnk/15 flex items-center justify-center text-base"
+          >
+            <i class="fa-solid fa-square-poll-vertical text-pnk"></i>
+          </div>
+          <div>
+            <div
+              class="stat-value text-[1.6rem] font-bold leading-none text-prim"
+            >
+              2
+            </div>
+            <div class="text-[0.72rem] text-sec mt-1">Active Polls</div>
+          </div>
+        </div>
+
+        <!-- Feedback -->
+        <div
+          class="stat-card animate-fadeUp bg-card border border-bdr rounded-2xl p-4 flex flex-col gap-2.5 hover:border-red transition-all hover:-translate-y-0.5 cursor-default"
+        >
+          <div
+            class="w-10 h-10 rounded-xl bg-red/15 flex items-center justify-center text-base"
+          >
+            <i class="fa-solid fa-comments text-red"></i>
+          </div>
+          <div>
+            <div
+              class="stat-value text-[1.6rem] font-bold leading-none text-prim"
+            >
+              14
+            </div>
+            <div class="text-[0.72rem] text-sec mt-1">Feedbacks</div>
+          </div>
+        </div>
+      </div>
+      <!-- /stats grid -->
+
+      <!-- ── SECTION HEADING: Latest Updates ── -->
+      <div class="flex items-center justify-between mb-3 mt-1">
+        <h2
+          class="text-[0.78rem] font-semibold uppercase tracking-widest text-sec"
+        >
+          <i class="fa-solid fa-table-columns text-accent mr-1.5"></i>Latest
+          Updates
+        </h2>
+      </div>
+
+      <!-- ── CONTENT GRID (2 columns on md+) ── -->
+      <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
+        <!-- ════ LEFT PANEL: Important Notices ════ -->
+        <div
+          class="bg-card border border-bdr rounded-2xl overflow-hidden animate-fadeUp"
+        >
+          <!-- Panel Header -->
+          <div
+            class="flex items-center justify-between px-4 py-3.5 border-b border-bdr bg-white/[.015]"
+          >
+            <div
+              class="flex items-center gap-2 text-[0.82rem] font-semibold text-prim"
+            >
+              <i class="fa-solid fa-bell text-accent text-[0.85rem]"></i>
+              Important Notices
+            </div>
+            <a
+              href="#"
+              class="text-[0.72rem] text-accent font-medium hover:text-ahover transition-colors"
+              >View all →</a
+            >
+          </div>
+
+          <!-- Notice rows -->
+          <div class="py-2">
+            <!-- Row 1 — Urgent -->
+            <div
+              class="notice-row flex items-start gap-3 px-4 py-3 border-b border-bdr cursor-pointer hover:bg-hover transition-colors"
+              onclick="
+                this.style.background = 'rgba(61,127,255,.08)';
+                setTimeout(() => (this.style.background = ''), 300);
+              "
+            >
+              <div class="w-2 h-2 rounded-full bg-red mt-1.5 shrink-0"></div>
+              <div>
+                <p class="text-[0.8rem] font-medium text-prim leading-snug">
+                  Complete Computer &amp; Cyber Security lab report before the
+                  exam
+                </p>
+                <div
+                  class="flex items-center gap-2.5 mt-1 text-[0.68rem] text-hint"
+                >
+                  <i class="fa-regular fa-clock text-[0.65rem]"></i> 2 hours ago
+                  <span
+                    class="bg-red/15 text-red px-1.5 py-px rounded-full text-[0.6rem] font-semibold uppercase tracking-wide"
+                    >Urgent</span
+                  >
+                </div>
+              </div>
+            </div>
+
+            <!-- Row 2 — Exam -->
+            <div
+              class="notice-row flex items-start gap-3 px-4 py-3 border-b border-bdr cursor-pointer hover:bg-hover transition-colors"
+              onclick="
+                this.style.background = 'rgba(61,127,255,.08)';
+                setTimeout(() => (this.style.background = ''), 300);
+              "
+            >
+              <div class="w-2 h-2 rounded-full bg-accent mt-1.5 shrink-0"></div>
+              <div>
+                <p class="text-[0.8rem] font-medium text-prim leading-snug">
+                  Mid-term exam routine published — check the Routine section
+                </p>
+                <div
+                  class="flex items-center gap-2.5 mt-1 text-[0.68rem] text-hint"
+                >
+                  <i class="fa-regular fa-clock text-[0.65rem]"></i> Yesterday
+                  <span
+                    class="bg-amb/15 text-amb px-1.5 py-px rounded-full text-[0.6rem] font-semibold uppercase tracking-wide"
+                    >Exam</span
+                  >
+                </div>
+              </div>
+            </div>
+
+            <!-- Row 3 — Updated -->
+            <div
+              class="notice-row flex items-start gap-3 px-4 py-3 border-b border-bdr cursor-pointer hover:bg-hover transition-colors"
+              onclick="
+                this.style.background = 'rgba(61,127,255,.08)';
+                setTimeout(() => (this.style.background = ''), 300);
+              "
+            >
+              <div class="w-2 h-2 rounded-full bg-accent mt-1.5 shrink-0"></div>
+              <div>
+                <p class="text-[0.8rem] font-medium text-prim leading-snug">
+                  Data Structures Assignment #4 deadline extended to 30 May
+                </p>
+                <div
+                  class="flex items-center gap-2.5 mt-1 text-[0.68rem] text-hint"
+                >
+                  <i class="fa-regular fa-clock text-[0.65rem]"></i> 2 days ago
+                  <span
+                    class="bg-accent/15 text-accent px-1.5 py-px rounded-full text-[0.6rem] font-semibold uppercase tracking-wide"
+                    >Updated</span
+                  >
+                </div>
+              </div>
+            </div>
+
+            <!-- Row 4 — Resource -->
+            <div
+              class="notice-row flex items-start gap-3 px-4 py-3 border-b border-bdr cursor-pointer hover:bg-hover transition-colors"
+              onclick="
+                this.style.background = 'rgba(61,127,255,.08)';
+                setTimeout(() => (this.style.background = ''), 300);
+              "
+            >
+              <div class="w-2 h-2 rounded-full bg-grn mt-1.5 shrink-0"></div>
+              <div>
+                <p class="text-[0.8rem] font-medium text-prim leading-snug">
+                  New study material uploaded for Computer Networks — Chapter 5
+                </p>
+                <div
+                  class="flex items-center gap-2.5 mt-1 text-[0.68rem] text-hint"
+                >
+                  <i class="fa-regular fa-clock text-[0.65rem]"></i> 3 days ago
+                  <span
+                    class="bg-grn/15 text-grn px-1.5 py-px rounded-full text-[0.6rem] font-semibold uppercase tracking-wide"
+                    >Resource</span
+                  >
+                </div>
+              </div>
+            </div>
+
+            <!-- Row 5 — Schedule -->
+            <div
+              class="notice-row flex items-start gap-3 px-4 py-3 cursor-pointer hover:bg-hover transition-colors"
+              onclick="
+                this.style.background = 'rgba(61,127,255,.08)';
+                setTimeout(() => (this.style.background = ''), 300);
+              "
+            >
+              <div class="w-2 h-2 rounded-full bg-grn mt-1.5 shrink-0"></div>
+              <div>
+                <p class="text-[0.8rem] font-medium text-prim leading-snug">
+                  Lab session rescheduled — Thursday group move to Friday 10am
+                </p>
+                <div
+                  class="flex items-center gap-2.5 mt-1 text-[0.68rem] text-hint"
+                >
+                  <i class="fa-regular fa-clock text-[0.65rem]"></i> 4 days ago
+                  <span
+                    class="bg-grn/15 text-grn px-1.5 py-px rounded-full text-[0.6rem] font-semibold uppercase tracking-wide"
+                    >Schedule</span
+                  >
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+        <!-- /left panel -->
+
+        <!-- ════ RIGHT COLUMN ════ -->
+        <div class="flex flex-col gap-4">
+          <!-- Assignments Panel -->
+          <div
+            class="bg-card border border-bdr rounded-2xl overflow-hidden animate-fadeUp"
+          >
+            <!-- Panel Header -->
+            <div
+              class="flex items-center justify-between px-4 py-3.5 border-b border-bdr bg-white/[.015]"
+            >
+              <div
+                class="flex items-center gap-2 text-[0.82rem] font-semibold text-prim"
+              >
+                <i class="fa-solid fa-file-pen text-accent text-[0.85rem]"></i>
+                Upcoming Assignments
+              </div>
+              <a
+                href="#"
+                class="text-[0.72rem] text-accent font-medium hover:text-ahover transition-colors"
+                >View all →</a
+              >
+            </div>
+
+            <!-- Quick actions -->
+            <div
+              class="flex gap-2 px-4 py-2.5 border-b border-bdr overflow-x-auto no-scroll"
+            >
+              <button
+                class="inline-flex items-center gap-1.5 px-3 py-1.5 bg-input border border-bdr rounded-md text-[0.72rem] font-medium text-sec whitespace-nowrap hover:text-prim hover:border-accent hover:bg-accent/10 transition-all"
+              >
+                <i class="fa-solid fa-plus text-accent text-[0.75rem]"></i>
+                Submit
+              </button>
+              <button
+                class="inline-flex items-center gap-1.5 px-3 py-1.5 bg-input border border-bdr rounded-md text-[0.72rem] font-medium text-sec whitespace-nowrap hover:text-prim hover:border-accent hover:bg-accent/10 transition-all"
+              >
+                <i class="fa-solid fa-filter text-accent text-[0.75rem]"></i>
+                Filter
+              </button>
+              <button
+                class="inline-flex items-center gap-1.5 px-3 py-1.5 bg-input border border-bdr rounded-md text-[0.72rem] font-medium text-sec whitespace-nowrap hover:text-prim hover:border-accent hover:bg-accent/10 transition-all"
+              >
+                <i class="fa-solid fa-sort text-accent text-[0.75rem]"></i> Sort
+                by date
+              </button>
+            </div>
+
+            <!-- Assignment rows -->
+            <div class="py-2">
+              <div
+                class="flex items-center gap-3 px-4 py-3 border-b border-bdr cursor-pointer hover:bg-hover transition-colors"
+              >
+                <div
+                  class="w-9 h-9 rounded-xl bg-amb/15 flex items-center justify-center text-[0.85rem] shrink-0"
+                >
+                  <i class="fa-solid fa-database text-amb"></i>
+                </div>
+                <div class="flex-1 min-w-0">
+                  <p class="text-[0.8rem] font-medium text-prim truncate">
+                    Data Structures — Assignment #4
+                  </p>
+                  <p class="text-[0.68rem] text-hint mt-0.5">
+                    <i class="fa-regular fa-clock mr-1"></i>Due: 30 May · DSA
+                  </p>
+                </div>
+                <span
+                  class="bg-amb/15 text-amb text-[0.65rem] font-semibold px-2.5 py-1 rounded-full shrink-0"
+                  >Soon</span
+                >
+              </div>
+
+              <div
+                class="flex items-center gap-3 px-4 py-3 border-b border-bdr cursor-pointer hover:bg-hover transition-colors"
+              >
+                <div
+                  class="w-9 h-9 rounded-xl bg-red/15 flex items-center justify-center text-[0.85rem] shrink-0"
+                >
+                  <i class="fa-solid fa-network-wired text-red"></i>
+                </div>
+                <div class="flex-1 min-w-0">
+                  <p class="text-[0.8rem] font-medium text-prim truncate">
+                    Computer Networks — Lab Report #3
+                  </p>
+                  <p class="text-[0.68rem] text-hint mt-0.5">
+                    <i class="fa-regular fa-clock mr-1"></i>Due: 22 May ·
+                    Networks
+                  </p>
+                </div>
+                <span
+                  class="bg-red/15 text-red text-[0.65rem] font-semibold px-2.5 py-1 rounded-full shrink-0"
+                  >Due soon</span
+                >
+              </div>
+
+              <div
+                class="flex items-center gap-3 px-4 py-3 border-b border-bdr cursor-pointer hover:bg-hover transition-colors"
+              >
+                <div
+                  class="w-9 h-9 rounded-xl bg-grn/15 flex items-center justify-center text-[0.85rem] shrink-0"
+                >
+                  <i class="fa-brands fa-python text-grn"></i>
+                </div>
+                <div class="flex-1 min-w-0">
+                  <p class="text-[0.8rem] font-medium text-prim truncate">
+                    OOP in Python — Project Submission
+                  </p>
+                  <p class="text-[0.68rem] text-hint mt-0.5">
+                    <i class="fa-regular fa-clock mr-1"></i>Due: 5 Jun · OOP
+                  </p>
+                </div>
+                <span
+                  class="bg-grn/15 text-grn text-[0.65rem] font-semibold px-2.5 py-1 rounded-full shrink-0"
+                  >Open</span
+                >
+              </div>
+
+              <div
+                class="flex items-center gap-3 px-4 py-3 cursor-pointer hover:bg-hover transition-colors"
+              >
+                <div
+                  class="w-9 h-9 rounded-xl bg-bdr flex items-center justify-center text-[0.85rem] shrink-0"
+                >
+                  <i class="fa-solid fa-microchip text-hint"></i>
+                </div>
+                <div class="flex-1 min-w-0">
+                  <p class="text-[0.8rem] font-medium text-prim truncate">
+                    Digital Logic Design — Quiz Prep
+                  </p>
+                  <p class="text-[0.68rem] text-hint mt-0.5">
+                    <i class="fa-regular fa-clock mr-1"></i>Submitted · DLD
+                  </p>
+                </div>
+                <span
+                  class="bg-bdr text-hint text-[0.65rem] font-semibold px-2.5 py-1 rounded-full shrink-0"
+                  >Closed</span
+                >
+              </div>
+            </div>
+          </div>
+          <!-- /assignments -->
+
+          <!-- Poll Panel -->
+          <div
+            class="bg-card border border-bdr rounded-2xl overflow-hidden animate-fadeUp"
+          >
+            <div
+              class="flex items-center justify-between px-4 py-3.5 border-b border-bdr bg-white/[.015]"
+            >
+              <div
+                class="flex items-center gap-2 text-[0.82rem] font-semibold text-prim"
+              >
+                <i
+                  class="fa-solid fa-square-poll-vertical text-accent text-[0.85rem]"
+                ></i>
+                Active Poll
+              </div>
+              <a
+                href="#"
+                class="text-[0.72rem] text-accent font-medium hover:text-ahover transition-colors"
+                >Vote →</a
+              >
+            </div>
+
+            <div class="px-4 py-4">
+              <p class="text-[0.8rem] font-medium text-prim mb-3">
+                Which lab session time works best for the group?
+              </p>
+
+              <!-- Option 1 -->
+              <div class="mb-3">
+                <div class="flex justify-between text-[0.72rem] text-sec mb-1">
+                  <span>Thursday 10:00 AM</span>
+                  <span class="text-accent font-semibold">42%</span>
+                </div>
+                <div class="h-[5px] bg-bdr rounded-full overflow-hidden">
+                  <div
+                    class="poll-bar h-full bg-accent rounded-full"
+                    style="width: 42%"
+                  ></div>
+                </div>
+              </div>
+
+              <!-- Option 2 -->
+              <div class="mb-3">
+                <div class="flex justify-between text-[0.72rem] text-sec mb-1">
+                  <span>Friday 10:00 AM</span>
+                  <span class="text-grn font-semibold">35%</span>
+                </div>
+                <div class="h-[5px] bg-bdr rounded-full overflow-hidden">
+                  <div
+                    class="poll-bar h-full bg-grn rounded-full"
+                    style="width: 35%"
+                  ></div>
+                </div>
+              </div>
+
+              <!-- Option 3 -->
+              <div class="mb-3">
+                <div class="flex justify-between text-[0.72rem] text-sec mb-1">
+                  <span>Saturday 9:00 AM</span>
+                  <span class="text-amb font-semibold">23%</span>
+                </div>
+                <div class="h-[5px] bg-bdr rounded-full overflow-hidden">
+                  <div
+                    class="poll-bar h-full bg-amb rounded-full"
+                    style="width: 23%"
+                  ></div>
+                </div>
+              </div>
+
+              <p class="text-[0.68rem] text-hint mt-2">
+                <i class="fa-solid fa-users mr-1"></i>38 votes · Closes May 20
+              </p>
+            </div>
+          </div>
+          <!-- /poll -->
+        </div>
+        <!-- /right column -->
+      </div>
+      <!-- /content grid -->
+    </main>
+
+    <!-- ═══ FOOTER ═══ -->
+    <footer
+      class="text-center px-4 py-5 text-[0.7rem] text-hint border-t border-bdr mt-8"
+    >
+      &copy; 2025 CSE-105 Batch Solution Hub — Built with ❤️ by CSE-105 Students
+    </footer>
+
+    <!-- ═══════════════════════════════════════════════════
+     JAVASCRIPT
+═══════════════════════════════════════════════════ -->
+    <script>
+      /* ── PROFILE DROPDOWN ─────────────────────────── */
+      const profileTrigger = document.getElementById("profileTrigger");
+      const profileDropdown = document.getElementById("profileDropdown");
+      const chevronIcon = document.getElementById("chevronIcon");
+
+      function toggleDropdown() {
+        const isOpen = profileDropdown.classList.toggle("open");
+        profileTrigger.setAttribute("aria-expanded", isOpen);
+        // Rotate chevron when open
+        chevronIcon.style.transform = isOpen
+          ? "rotate(180deg)"
+          : "rotate(0deg)";
+        // Close notif if open
+        notifDropdown.style.display = "none";
+      }
+
+      document.addEventListener("click", function (e) {
+        if (
+          !profileTrigger.contains(e.target) &&
+          !profileDropdown.contains(e.target)
+        ) {
+          profileDropdown.classList.remove("open");
+          profileTrigger.setAttribute("aria-expanded", "false");
+          chevronIcon.style.transform = "rotate(0deg)";
+        }
+      });
+
+      profileTrigger.addEventListener("keydown", function (e) {
+        if (e.key === "Enter" || e.key === " ") {
+          e.preventDefault();
+          toggleDropdown();
+        }
+      });
+
+      /* ── NOTIFICATION DROPDOWN ────────────────────── */
+      const notifBtn = document.getElementById("notifBtn");
+      const notifDropdown = document.getElementById("notifDropdown");
+      const notifDot = document.getElementById("notifDot");
+      const markAllRead = document.getElementById("markAllRead");
+
+      // Toggle on bell click
+      notifBtn.addEventListener("click", function (e) {
+        e.stopPropagation();
+        const isOpen = notifDropdown.style.display === "block";
+        notifDropdown.style.display = isOpen ? "none" : "block";
+        // Close profile dropdown if open
+        profileDropdown.classList.remove("open");
+        chevronIcon.style.transform = "rotate(0deg)";
+      });
+
+      // Close on outside click
+      document.addEventListener("click", function (e) {
+        if (!notifBtn.contains(e.target) && !notifDropdown.contains(e.target)) {
+          notifDropdown.style.display = "none";
+        }
+      });
+
+      // Mark all read
+      markAllRead.addEventListener("click", function () {
+        document
+          .querySelectorAll(".notif-item.unread")
+          .forEach(function (item) {
+            item.classList.remove("unread");
+            item.style.background = "transparent";
+          });
+        notifDot.style.display = "none";
+      });
+
+      // Single item click → mark as read
+      document.querySelectorAll(".notif-item").forEach(function (item) {
+        item.addEventListener("click", function () {
+          this.classList.remove("unread");
+          this.style.background = "transparent";
+          if (!document.querySelector(".notif-item.unread")) {
+            notifDot.style.display = "none";
+          }
+        });
+      });
+
+      /* ── TAB NAVIGATION ───────────────────────────── */
+      function setTab(el, event) {
+        event.preventDefault();
+        document
+          .querySelectorAll(".tab-link")
+          .forEach((t) => t.classList.remove("active"));
+        el.classList.add("active");
+      }
+
+      /* ── MOBILE SIDEBAR ───────────────────────────── */
+      const mobOverlay = document.getElementById("mobOverlay");
+      const mobSidebar = document.getElementById("mobSidebar");
+
+      function openMobMenu() {
+        mobOverlay.style.display = "block";
+        requestAnimationFrame(() => {
+          mobOverlay.classList.add("open");
+          mobSidebar.classList.add("open");
+        });
+        document.body.style.overflow = "hidden";
+      }
+
+      function closeMobMenu() {
+        mobOverlay.classList.remove("open");
+        mobSidebar.classList.remove("open");
+        document.body.style.overflow = "";
+        setTimeout(() => {
+          mobOverlay.style.display = "none";
+        }, 280);
+      }
+
+      /* ── NOTICE TICKER — seamless loop ───────────── */
+      // (function () {
+      //   const track = document.getElementById("noticeTrack");
+      //   const clone = track.cloneNode(true);
+      //   clone.setAttribute("aria-hidden", "true");
+      //   track.parentElement.appendChild(clone);
+      // })();
+
+      /* ── STAT COUNTER ANIMATION ───────────────────── */
+      function animateCounter(el, target, duration) {
+        let start = 0;
+        const step = target / (duration / 16);
+        const timer = setInterval(() => {
+          start += step;
+          if (start >= target) {
+            el.textContent = target;
+            clearInterval(timer);
+          } else {
+            el.textContent = Math.floor(start);
+          }
+        }, 16);
+      }
+
+      window.addEventListener("load", function () {
+        document.querySelectorAll(".stat-value").forEach(function (el) {
+          const target = parseInt(el.textContent, 10);
+          if (!isNaN(target)) {
+            el.textContent = "0";
+            animateCounter(el, target, 900);
+          }
+        });
+      });
+    </script>
+  </body>
+</html>
