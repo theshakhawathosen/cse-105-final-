@@ -1,8 +1,8 @@
     <nav class="fixed top-[92px] left-0 right-0 h-11 bg-nav border-b border-bdr z-[980] overflow-x-auto no-scroll"
         role="navigation" aria-label="Page sections">
         <div class="flex items-stretch h-full px-2 whitespace-nowrap">
-            <a href="#"
-                class="tab-link active inline-flex items-center gap-1.5 px-3.5 text-[0.78rem] font-medium text-accent shrink-0 cursor-pointer">
+            <a href="{{ route('student.dashboard') }}"
+                class=" {{ Route::is('student.dashboard') ? 'active text-accent' : 'text-sec' }} tab-link inline-flex items-center gap-1.5 px-3.5 text-[0.78rem] font-medium  shrink-0 cursor-pointer">
                 <i class="fa-solid fa-gauge-high text-[0.8rem]"></i> Dashboard
             </a>
             <a href="#"
@@ -36,8 +36,12 @@
                 <i class="fa-solid fa-chalkboard-user text-[0.8rem]"></i> Teachers
             </a>
             <a href="{{ route('student.classmate') }}"
-                class="tab-link inline-flex items-center gap-1.5 px-3.5 text-[0.78rem] font-medium text-sec shrink-0 cursor-pointer">
+                class="{{ Route::is('student.classmate') ? 'active text-accent' : 'text-sec' }} tab-link inline-flex items-center gap-1.5 px-3.5 text-[0.78rem] font-medium shrink-0 cursor-pointer">
                 <i class="fa-solid fa-users text-[0.8rem]"></i> Classmates
+            </a>
+            <a href="{{ route('student.attendances') }}"
+                class=" {{ Route::is('student.attendances') ? 'active text-accent' : 'text-sec' }} tab-link inline-flex items-center gap-1.5 px-3.5 text-[0.78rem] font-medium  shrink-0 cursor-pointer">
+                <i class="fa-solid fa-th text-[0.8rem]"></i> Attendance
             </a>
             <a href="#"
                 class="tab-link inline-flex items-center gap-1.5 px-3.5 text-[0.78rem] font-medium text-sec shrink-0 cursor-pointer">

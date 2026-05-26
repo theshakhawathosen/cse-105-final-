@@ -192,9 +192,6 @@ public function show(string $id)
 
         $students = User::where('role', 'student')->get();
 
-        // TakeAttendance::where('subject_id', $request->subject_id)
-        //     ->where('date', $request->date)
-        //     ->delete();
         // Create Attendence Row
         $attendance = Attendance::updateOrCreate(
             [

@@ -108,8 +108,11 @@ Route::prefix('/student')->middleware(['auth', 'role:student'])->group(function 
     Route::get('/logout', [AuthController::class, 'logout'])->name('student.logout');
 
     // Classmate
-    Route::get('/classmatea', [StudentController::class, 'classmate'])->name('student.classmate');
-});
+    Route::get('/classmates', [StudentController::class, 'classmate'])->name('student.classmate');
+    // Classmate
+    Route::get('/attendances', [StudentController::class, 'attendances'])->name('student.attendances');
+    Route::get('/attendances/{id}', [StudentController::class, 'showattendance'])->name('student.attendance.show');
+    });
 
 
 Route::fallback(function () {
