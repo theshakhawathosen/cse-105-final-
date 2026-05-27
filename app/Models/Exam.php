@@ -4,23 +4,17 @@ namespace App\Models;
 
 use Illuminate\Database\Eloquent\Model;
 
-class Resource extends Model
+class Exam extends Model
 {
     protected $fillable = [
-        'title',
+        'exam_type',
+        'exam_name',
         'subject_id',
-        'category',
-        'link',
-        'is_published',
+        'date',
     ];
 
     public function subject()
     {
         return $this->belongsTo(Subject::class);
-    }
-
-    public function files()
-    {
-        return $this->hasMany(ResourceFile::class);
     }
 }

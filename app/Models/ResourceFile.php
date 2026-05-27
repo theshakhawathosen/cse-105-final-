@@ -12,9 +12,6 @@ class ResourceFile extends Model
         'original_name',
     ];
 
-    /**
-     * Relationship
-     */
     public function resource()
     {
         return $this->belongsTo(Resource::class);

@@ -41,6 +41,17 @@
                             <p class="text-red text-xs mt-1">{{ $message }}</p>
                         @enderror
                     </div>
+                    <!-- designation -->
+                    <div>
+                        <label class="text-ts text-xs">Designation</label>
+                        <input type="text" name="designation" value="{{ old('designation', $teacher->designation) }}"
+                            placeholder="Enter designation"
+                            class="w-full mt-1 bg-input border border-border rounded-xl px-3 py-2 text-tp">
+
+                        @error('designation')
+                            <p class="text-red text-xs mt-1">{{ $message }}</p>
+                        @enderror
+                    </div>
 
                     <!-- Email -->
                     <div>

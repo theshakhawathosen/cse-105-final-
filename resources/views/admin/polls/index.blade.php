@@ -1,4 +1,5 @@
 @extends('layouts.admin.admin-layout')
+
 @section('title', 'Polls')
 
 @section('content')
@@ -6,357 +7,389 @@
 <main id="main-content">
 
     <!-- Header -->
-    <div class="flex flex-col sm:flex-row sm:items-center sm:justify-between gap-3 mb-6 fade-up">
+    <div class="flex flex-col sm:flex-row sm:items-center sm:justify-between gap-4 mb-7 fade-up">
 
         <div>
 
-            <span class="section-label">
-                <i class="fas fa-circle text-[6px] pulse-anim"></i>
-                Polls
+            <span
+                class="inline-flex items-center gap-2 px-3 py-1 rounded-full bg-card border border-border text-xs text-ts">
+
+                <span class="w-2 h-2 rounded-full bg-accent animate-pulse"></span>
+                Poll Management
+
             </span>
 
-            <h1 class="text-xl font-bold text-tp mt-4">
+            <h1 class="text-2xl font-bold text-tp mt-4">
                 Poll List
             </h1>
 
-            <p class="text-ts text-sm">
-                Manage all polls
+            <p class="text-ts text-sm mt-1">
+                Manage all polls from one place
             </p>
 
         </div>
 
+        <a href="{{ route('polls.create') }}"
+            class="inline-flex items-center gap-2 px-5 py-3 rounded-2xl bg-accent hover:bg-accentH text-white text-sm font-medium transition-all duration-300 shadow-lg shadow-accent/20">
+
+            <i class="fas fa-plus"></i>
+            Add Poll
+
+        </a>
+
     </div>
 
-    <!-- Table Card -->
-    <div class="dash-card p-5 fade-up fade-up-d2">
+    <!-- Grid -->
+    <div class="grid grid-cols-1 md:grid-cols-2 xl:grid-cols-3 gap-6">
 
-        <!-- Top -->
-        <div class="flex flex-col sm:flex-row sm:items-center sm:justify-between gap-3 mb-4">
+        @forelse($polls as $poll)
 
-            <h2 class="text-tp font-semibold text-sm">
-                All Polls
-            </h2>
+            @php
 
-            <a href="{{ route('polls.create') }}"
-                class="btn-primary text-xs px-4 py-2">
+                $isExpired = $poll->expire_at && now()->gt($poll->expire_at);
 
-                <i class="fas fa-plus mr-1"></i>
-                Add Poll
-            </a>
+                $winner = null;
 
-        </div>
+                if($isExpired) {
 
-        <!-- Table -->
-        <div class="overflow-x-auto">
+                    $winner = $poll->options
+                        ->sortByDesc(function($option) {
 
-            <table class="w-full text-sm">
+                            return $option->votes->count();
+                        })
+                        ->first();
+                }
 
-               <thead class="hidden md:table-header-group">
+            @endphp
 
-                    <tr class="text-ts border-b border-border">
+            <!-- Card -->
+            <div
+                class="group relative overflow-hidden rounded-3xl border border-border bg-card hover:border-accent/40 transition-all duration-300 hover:-translate-y-1 hover:shadow-2xl hover:shadow-accent/5">
 
-                        <th class="py-3 text-left">ID</th>
-                        <th class="py-3 text-left">Question</th>
-                        <th class="py-3 text-left">Result / Options</th>
-                        <th class="py-3 text-left">Votes</th>
-                        <th class="py-3 text-left">Status</th>
-                        <th class="py-3 text-left">Published</th>
-                        <th class="py-3 text-left">Expire</th>
-                        <th class="py-3 text-right">Action</th>
+                <!-- Glow -->
+                <div
+                    class="absolute inset-0 opacity-0 group-hover:opacity-100 transition duration-500 bg-gradient-to-br from-accent/5 via-transparent to-purple/5">
+                </div>
 
-                    </tr>
+                <div class="relative p-5 flex flex-col h-full">
 
-                </thead>
+                    <!-- Top -->
+                    <div class="flex items-start justify-between gap-3 mb-5">
 
-                <tbody class="text-tp">
+                        <div>
 
-                    @forelse($polls as $poll)
+                            <span
+                                class="inline-flex items-center px-3 py-1 rounded-full bg-input border border-border text-[11px] text-ts">
 
-                        @php
+                                Poll #{{ $poll->id }}
 
-                            $isExpired = $poll->expire_at && now()->gt($poll->expire_at);
+                            </span>
 
-                            $winner = null;
+                        </div>
 
-                            if($isExpired) {
+                        <!-- Status -->
+                        @if($poll->status == 'active')
 
-                                $winner = $poll->options
-                                    ->sortByDesc(function($option) {
+                            <span
+                                class="px-3 py-1 rounded-full bg-green/10 text-green border border-green/20 text-[11px] capitalize">
 
-                                        return $option->votes->count();
-                                    })
-                                    ->first();
-                            }
+                                Active
 
-                        @endphp
+                            </span>
 
-                        <!-- Desktop -->
-                        <tr class="border-b border-border hover:bg-input/40 transition hidden md:table-row">
+                        @elseif($poll->status == 'closed')
 
-                            <td class="py-3">
-                                #{{ $poll->id }}
-                            </td>
+                            <span
+                                class="px-3 py-1 rounded-full bg-red/10 text-red border border-red/20 text-[11px] capitalize">
 
-                            <td class="py-3 font-medium">
-                                {{ $poll->question }}
-                            </td>
+                                Closed
 
-                            <!-- Result / Options -->
-                            <td class="py-3 text-ts">
+                            </span>
 
-                                @if($isExpired && $winner)
+                        @else
 
-                                    <div class="flex flex-col gap-1">
+                            <span
+                                class="px-3 py-1 rounded-full bg-amber/10 text-amber border border-amber/20 text-[11px] capitalize">
 
-                                        <span class="text-xs  font-medium text-green">
-                                            {{ $winner->option_text }}
-                                        </span>
+                                {{ $poll->status }}
 
-                                    </div>
+                            </span>
 
-                                @else
+                        @endif
 
-                                    {{ $poll->options->count() }} Options
+                    </div>
 
-                                @endif
+                    <!-- Question -->
+                    <h2 class="text-lg font-semibold text-tp leading-relaxed mb-5 line-clamp-2">
 
-                            </td>
+                        {{ $poll->question }}
 
-                            <!-- Votes -->
-                            <td class="py-3 text-ts">
+                    </h2>
 
-                                {{ $poll->votes->count() }} Votes
+                    <!-- Tags -->
+                    <div class="flex flex-wrap gap-2 mb-5">
 
-                            </td>
+                        @if($poll->is_published)
 
-                            <!-- Status -->
-                            <td class="py-3">
+                            <span
+                                class="px-3 py-1 rounded-full bg-teal/10 text-teal border border-teal/20 text-[11px]">
 
-                                <span
-                                    class="px-2 py-1 text-[10px] rounded-lg bg-input border border-border capitalize">
+                                Published
 
-                                    {{ $poll->status }}
+                            </span>
+
+                        @else
+
+                            <span
+                                class="px-3 py-1 rounded-full bg-amber/10 text-amber border border-amber/20 text-[11px]">
+
+                                Draft
+
+                            </span>
+
+                        @endif
+
+                        @if($isExpired)
+
+                            <span
+                                class="px-3 py-1 rounded-full bg-red/10 text-red border border-red/20 text-[11px]">
+
+                                Expired
+
+                            </span>
+
+                        @else
+
+                            <span
+                                class="px-3 py-1 rounded-full bg-accent/10 text-accent border border-accent/20 text-[11px]">
+
+                                Running
+
+                            </span>
+
+                        @endif
+
+                    </div>
+
+                    <!-- Stats -->
+                    <div class="grid grid-cols-2 gap-3 mb-5">
+
+                        <!-- Options -->
+                        <div
+                            class="rounded-2xl bg-input border border-border p-4">
+
+                            <div class="flex items-center justify-between mb-2">
+
+                                <span class="text-ts text-xs">
+                                    Options
                                 </span>
 
-                            </td>
+                                <i class="fas fa-list text-accent text-xs"></i>
 
-                            <!-- Publish -->
-                            <td class="py-3">
+                            </div>
 
-                                @if($poll->is_published)
+                            <h3 class="text-xl font-bold text-tp">
 
-                                    <span
-                                        class="text-[10px] px-2 py-1 rounded-lg bg-green-500/10 text-green-400 border border-green-500/20">
+                                {{ $poll->options->count() }}
 
-                                        Published
-                                    </span>
+                            </h3>
 
-                                @else
+                        </div>
 
-                                    <span
-                                        class="text-[10px] px-2 py-1 rounded-lg bg-yellow-500/10 text-yellow-400 border border-yellow-500/20">
+                        <!-- Votes -->
+                        <div
+                            class="rounded-2xl bg-input border border-border p-4">
 
-                                        Draft
-                                    </span>
+                            <div class="flex items-center justify-between mb-2">
 
-                                @endif
+                                <span class="text-ts text-xs">
+                                    Votes
+                                </span>
 
-                            </td>
+                                <i class="fas fa-vote-yea text-green text-xs"></i>
 
-                            <!-- Expire -->
-                            <td class="py-3 text-ts">
+                            </div>
 
-                                @if($poll->expire_at)
+                            <h3 class="text-xl font-bold text-tp">
 
-                                    {{ \Carbon\Carbon::parse($poll->expire_at)->format('d M Y h:i A') }}
+                                {{ $poll->votes->count() }}
 
-                                @else
+                            </h3>
 
-                                    No Expire
+                        </div>
 
-                                @endif
+                    </div>
 
-                            </td>
+                    <!-- Expire -->
+                    <div
+                        class="rounded-2xl bg-input border border-border p-4 mb-5">
 
-                            <!-- Action -->
-                            <td class="py-3 text-right space-x-2">
+                        <div class="flex items-center justify-between">
 
-                                <!-- View -->
-                                <a href="{{ route('polls.show', $poll->id) }}"
-                                    class="text-xs px-3 py-1 rounded-lg bg-blue-500/10 text-blue-400 border border-blue-500/20 hover:bg-blue-500/20">
+                            <div>
 
-                                    View
-                                </a>
+                                <p class="text-xs text-ts mb-1">
+                                    Expire Date
+                                </p>
 
-                                <!-- Edit -->
-                                <a href="{{ route('polls.edit', $poll->id) }}"
-                                    class="text-xs px-3 py-1 rounded-lg bg-input border border-border hover:border-accent">
+                                <h4 class="text-sm font-medium text-tp">
 
-                                    Edit
-                                </a>
+                                    @if($poll->expire_at)
 
-                                <!-- Delete -->
-                                <form action="{{ route('polls.destroy', $poll->id) }}"
-                                    method="POST"
-                                    class="inline">
+                                        {{ \Carbon\Carbon::parse($poll->expire_at)->format('d M Y') }}
 
-                                    @csrf
-                                    @method('DELETE')
+                                    @else
 
-                                    <button type="submit"
-                                        onclick="return confirm('Are you sure?')"
-                                        class="text-xs px-3 py-1 rounded-lg bg-red-500/10 text-red-400 border border-red-500/20 hover:bg-red-500/20">
+                                        No Expire
 
-                                        Delete
-                                    </button>
+                                    @endif
 
-                                </form>
+                                </h4>
 
-                            </td>
+                            </div>
 
-                        </tr>
+                            @if($poll->expire_at)
 
-                        <!-- Mobile -->
-                        <tr class="md:hidden">
+                                <span class="text-xs text-ts">
 
-                            <td colspan="8" class="py-3">
+                                    {{ \Carbon\Carbon::parse($poll->expire_at)->format('h:i A') }}
 
-                                <div class="dash-card p-4 space-y-3">
+                                </span>
+                            @endif
 
-                                    <!-- Question -->
-                                    <div>
+                        </div>
 
-                                        <h3 class="font-semibold text-tp">
-                                            {{ $poll->question }}
-                                        </h3>
+                    </div>
 
-                                        @if($isExpired && $winner)
+                    <!-- Winner -->
+                    @if($isExpired && $winner)
 
-                                            <div class="mt-2 space-y-1">
+                        <div
+                            class="rounded-2xl bg-green/10 border border-green/20 p-4 mb-5">
 
+                            <div class="flex items-center gap-2 mb-2">
 
-                                                <p class="text-xs  font-medium text-green">
-                                                    {{ $winner->option_text }}
+                                <i class="fas fa-trophy text-green"></i>
 
-                                                </p>
+                                <span class="text-xs uppercase tracking-wider text-green font-semibold">
 
-                                            </div>
+                                    Winner Option
 
-                                        @else
+                                </span>
 
-                                            <p class="text-xs text-ts mt-1">
+                            </div>
 
-                                                {{ $poll->options->count() }} Options
-                                                •
-                                                {{ $poll->votes->count() }} Votes
+                            <h3 class="text-sm font-semibold text-tp">
 
-                                            </p>
+                                {{ $winner->option_text }}
 
-                                        @endif
+                            </h3>
 
-                                    </div>
+                            <p class="text-xs text-green mt-1">
 
-                                    <!-- Status -->
-                                    <div class="flex flex-wrap gap-2">
+                                {{ $winner->votes->count() }} Votes
 
-                                        <span
-                                            class="text-[10px] px-2 py-1 bg-input border border-border rounded-lg capitalize">
+                            </p>
 
-                                            {{ $poll->status }}
-                                        </span>
+                        </div>
 
-                                        @if($poll->is_published)
+                    @endif
 
-                                            <span
-                                                class="text-[10px] px-2 py-1 rounded-lg bg-green-500/10 text-green-400 border border-green-500/20">
+                    <!-- Actions -->
+                    <div class="grid grid-cols-3 gap-2 mt-auto">
 
-                                                Published
-                                            </span>
+                        <!-- View -->
+                        <a href="{{ route('polls.show', $poll->id) }}"
+                            class="flex items-center justify-center gap-2 px-3 py-3 rounded-2xl bg-accent/10 text-accent border border-accent/20 hover:bg-accent hover:text-white transition-all duration-300 text-xs font-medium">
 
-                                        @else
+                            <i class="fas fa-eye"></i>
 
-                                            <span
-                                                class="text-[10px] px-2 py-1 rounded-lg bg-yellow-500/10 text-yellow-400 border border-yellow-500/20">
+                            <span class="hidden sm:inline">
+                                View
+                            </span>
 
-                                                Draft
-                                            </span>
+                        </a>
 
-                                        @endif
+                        <!-- Edit -->
+                        <a href="{{ route('polls.edit', $poll->id) }}"
+                            class="flex items-center justify-center gap-2 px-3 py-3 rounded-2xl bg-input border border-border hover:border-purple hover:text-purple transition-all duration-300 text-xs font-medium text-ts">
 
-                                    </div>
+                            <i class="fas fa-edit"></i>
 
-                                    <!-- Expire -->
-                                    <div class="text-xs text-ts">
+                            <span class="hidden sm:inline">
+                                Edit
+                            </span>
 
-                                        Expire:
-                                        {{ $poll->expire_at ? \Carbon\Carbon::parse($poll->expire_at)->format('d M Y h:i A') : 'No Expire' }}
+                        </a>
 
-                                    </div>
+                        <!-- Delete -->
+                        <form action="{{ route('polls.destroy', $poll->id) }}"
+                            method="POST">
 
-                                    <!-- Actions -->
-                                    <div class="flex justify-between items-center">
+                            @csrf
+                            @method('DELETE')
 
-                                        <div class="space-x-2">
+                            <button type="submit"
+                                onclick="return confirm('Are you sure?')"
+                                class="w-full flex items-center justify-center gap-2 px-3 py-3 rounded-2xl bg-red/10 text-red border border-red/20 hover:bg-red hover:text-white transition-all duration-300 text-xs font-medium">
 
-                                            <!-- View -->
-                                            <a href="{{ route('polls.show', $poll->id) }}"
-                                                class="text-xs px-3 py-1 rounded-lg bg-blue-500/10 text-blue-400 border border-blue-500/20">
+                                <i class="fas fa-trash"></i>
 
-                                                View
-                                            </a>
+                                <span class="hidden sm:inline">
+                                    Delete
+                                </span>
 
-                                            <!-- Edit -->
-                                            <a href="{{ route('polls.edit', $poll->id) }}"
-                                                class="text-xs px-3 py-1 rounded-lg bg-input border border-border">
+                            </button>
 
-                                                Edit
-                                            </a>
+                        </form>
 
-                                            <!-- Delete -->
-                                            <form action="{{ route('polls.destroy', $poll->id) }}"
-                                                method="POST"
-                                                class="inline">
+                    </div>
 
-                                                @csrf
-                                                @method('DELETE')
+                </div>
 
-                                                <button
-                                                    class="text-xs px-3 py-1 rounded-lg bg-red-500/10 text-red-400 border border-red-500/20">
+            </div>
 
-                                                    Delete
-                                                </button>
+        @empty
 
-                                            </form>
+            <!-- Empty -->
+            <div class="col-span-full">
 
-                                        </div>
+                <div
+                    class="rounded-3xl border border-border bg-card p-12 text-center">
 
-                                    </div>
+                    <div
+                        class="w-20 h-20 mx-auto rounded-3xl bg-input border border-border flex items-center justify-center mb-5">
 
-                                </div>
+                        <i class="fas fa-poll text-3xl text-accent"></i>
 
-                            </td>
+                    </div>
 
-                        </tr>
+                    <h2 class="text-2xl font-bold text-tp mb-3">
 
-                    @empty
+                        No Poll Found
 
-                        <tr>
+                    </h2>
 
-                            <td colspan="8"
-                                class="py-6 text-center text-ts">
+                    <p class="text-ts text-sm mb-6 max-w-md mx-auto">
 
-                                No polls found
-                            </td>
+                        You have not created any polls yet.
+                        Start by creating your first poll.
 
-                        </tr>
+                    </p>
 
-                    @endforelse
+                    <a href="{{ route('polls.create') }}"
+                        class="inline-flex items-center gap-2 px-5 py-3 rounded-2xl bg-accent hover:bg-accentH text-white text-sm font-medium transition-all duration-300 shadow-lg shadow-accent/20">
 
-                </tbody>
+                        <i class="fas fa-plus"></i>
+                        Create Poll
 
-            </table>
+                    </a>
 
-        </div>
+                </div>
+
+            </div>
+
+        @endforelse
 
     </div>
 

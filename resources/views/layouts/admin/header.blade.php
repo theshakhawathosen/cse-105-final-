@@ -7,6 +7,7 @@
     <title>CSE-105 Admin — Batch Solution Hub</title>
     <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700;800&display=swap"
         rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Tiro+Bangla:ital@0;1&display=swap" rel="stylesheet">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css">
     <script src="https://cdn.tailwindcss.com"></script>
     <script>
@@ -34,7 +35,7 @@
                         coral: '#fb923c'
                     },
                     fontFamily: {
-                        poppins: ['Poppins', 'sans-serif']
+                        poppins: ["Poppins","Tiro Bangla","sans-serif"]
                     }
                 }
             }
@@ -54,7 +55,7 @@
         }
 
         body {
-            font-family: 'Poppins', sans-serif;
+            font-family: 'Poppins', "Tiro Bangla",sans-serif;
             background: #0d0f14;
             color: #e8eaf0;
             overflow-x: hidden

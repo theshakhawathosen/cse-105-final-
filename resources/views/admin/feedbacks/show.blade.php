@@ -91,7 +91,7 @@
 
                         </h2>
 
-                        <a href="{{ asset($feedback->file) }}"
+                        <a href="{{ asset('storage/feedback/'.$feedback->file) }}"
                             target="_blank"
                             class="text-xs px-3 py-1 rounded-lg bg-input border border-border hover:border-accent text-tp">
 
@@ -104,10 +104,10 @@
                     <!-- Image -->
                     <div>
 
-                        <img src="{{ asset($feedback->file) }}"
+                        <img src="{{ asset('storage/feedback/'.$feedback->file) }}"
                             alt="Attachment"
-                            onclick="openImageModal('{{ asset($feedback->file) }}')"
-                            class="w-full max-h-[500px] object-cover rounded-2xl border border-border cursor-pointer hover:scale-[1.01] transition">
+                            onclick="openImageModal('{{ asset('storage/feedback/'.$feedback->file) }}')"
+                            class="w-full max-h-[500px] object-cover rounded-2xl border border-border cursor-pointer hover:scale-[1.01] transition duration-300">
 
                     </div>
 
@@ -138,7 +138,7 @@
 
                         @if($feedback->user?->photo)
 
-                            <img src="{{ asset($feedback->user->photo) }}"
+                            <img src="{{ asset('storage/'.$feedback->user->photo) }}"
                                 alt="User Photo"
                                 class="w-16 h-16 rounded-2xl object-cover border border-border">
 
@@ -245,58 +245,73 @@
 
 </main>
 
-<!-- Image Modal -->
+<!-- IMAGE MODAL -->
 <div id="imageModal"
-    class="fixed inset-0 bg-black/80 z-50 hidden items-center justify-center p-5">
+    class="fixed inset-0 bg-black/90 z-50 hidden items-center justify-center p-5 transition duration-300">
 
-    <!-- Close -->
+    <!-- Background Click Close -->
+    <div class="absolute inset-0"
+        onclick="closeImageModal()"></div>
+
+    <!-- Close Button -->
     <button
         onclick="closeImageModal()"
-        class="absolute top-5 right-5 text-white text-2xl hover:text-red-400">
+        class="absolute top-5 right-5 w-10 h-10 rounded-full bg-white/10 hover:bg-red-500 text-white flex items-center justify-center transition z-50">
 
         <i class="fas fa-times"></i>
 
     </button>
 
-    <!-- Image -->
-    <img id="modalImage"
-        src=""
-        class="max-w-full max-h-[90vh] rounded-2xl border border-white/10 shadow-2xl">
+    <!-- Image Wrapper -->
+    <div class="relative z-40">
+
+        <img id="modalImage"
+            src=""
+            alt="Preview"
+            class="max-w-full max-h-[90vh] rounded-2xl border border-white/10 shadow-2xl animate-fadeIn">
+
+    </div>
 
 </div>
 
-<!-- Script -->
+<!-- SCRIPT -->
 <script>
 
+    const imageModal = document.getElementById('imageModal');
+    const modalImage = document.getElementById('modalImage');
+
+    // Open Modal
     function openImageModal(image)
     {
-        document
-            .getElementById('imageModal')
-            .classList
-            .remove('hidden');
+        modalImage.src = image;
 
-        document
-            .getElementById('imageModal')
-            .classList
-            .add('flex');
+        imageModal.classList.remove('hidden');
+        imageModal.classList.add('flex');
 
-        document
-            .getElementById('modalImage')
-            .src = image;
+        // Prevent body scroll
+        document.body.classList.add('overflow-hidden');
     }
 
+    // Close Modal
     function closeImageModal()
     {
-        document
-            .getElementById('imageModal')
-            .classList
-            .add('hidden');
+        imageModal.classList.add('hidden');
+        imageModal.classList.remove('flex');
 
-        document
-            .getElementById('imageModal')
-            .classList
-            .remove('flex');
+        modalImage.src = '';
+
+        // Enable body scroll
+        document.body.classList.remove('overflow-hidden');
     }
+
+    // ESC key close
+    document.addEventListener('keydown', function (e)
+    {
+        if (e.key === 'Escape')
+        {
+            closeImageModal();
+        }
+    });
 
 </script>
 

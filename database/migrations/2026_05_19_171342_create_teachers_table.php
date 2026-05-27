@@ -17,6 +17,7 @@ return new class extends Migration
             $table->string('phone')->nullable();
             $table->string('email')->nullable();
             $table->string('photo')->nullable();
+            $table->string('designation')->nullable();
             $table->enum('gender', ['male', 'female'])->default('male');
             $table->string('roomNumber')->nullable();
             $table->timestamps();

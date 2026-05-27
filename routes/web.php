@@ -3,12 +3,15 @@
 use App\Http\Controllers\Admin\AdminController;
 use App\Http\Controllers\Admin\AssignmentController;
 use App\Http\Controllers\Admin\AttendanceController;
+use App\Http\Controllers\Admin\ExamController;
 use App\Http\Controllers\Admin\FeedbackController;
 use App\Http\Controllers\Admin\LabReportController;
+use App\Http\Controllers\Admin\LinkController;
 use App\Http\Controllers\Admin\NoticeController;
 use App\Http\Controllers\Admin\PollController;
 use App\Http\Controllers\Admin\ResourceController;
 use App\Http\Controllers\Admin\ResourceFileController;
+use App\Http\Controllers\Admin\ResultController;
 use App\Http\Controllers\Admin\RoutineController;
 use App\Http\Controllers\Admin\StudentManage;
 use App\Http\Controllers\Admin\SubjectController;
@@ -81,8 +84,24 @@ Route::prefix('/admin')->middleware(['auth', 'role:admin'])->group(function () {
         ->name('polls.vote');
 
 
+    // Links
+    Route::resource('links', LinkController::class);
 
 
+    // Exams
+    Route::resource('exams', ExamController::class);
+    Route::get('/generate/exam', [ExamController::class, 'generateAll'])->name('exam.generate-all');
+
+    // Bulk Create
+    Route::get('/bulk-create/results', [ResultController::class, 'bulkCreate'])
+        ->name('results.bulk.create');
+
+    // Bulk Store
+    Route::post('/bulk-store/results', [ResultController::class, 'bulkStore'])
+        ->name('results.bulk.store');
+
+    // Resource Route
+    Route::resource('results', ResultController::class);
 
     // Feedback
     Route::resource('feedbacks', FeedbackController::class);
@@ -108,12 +127,47 @@ Route::prefix('/student')->middleware(['auth', 'role:student'])->group(function 
     Route::get('/logout', [AuthController::class, 'logout'])->name('student.logout');
 
     // Classmate
-    Route::get('/classmates', [StudentController::class, 'classmate'])->name('student.classmate');
+    Route::get('/classmates', [StudentController::class, 'classmate'])->name('student.classmates');
     // Classmate
     Route::get('/attendances', [StudentController::class, 'attendances'])->name('student.attendances');
     Route::get('/attendances/{id}', [StudentController::class, 'showattendance'])->name('student.attendance.show');
-    });
 
+    // teacher
+    Route::get('/teachers', [StudentController::class, 'teachers'])->name('student.teachers');
+    // subject
+    Route::get('/subjects', [StudentController::class, 'subjects'])->name('student.subjects');
+    // Poll
+    Route::get('/polls', [StudentController::class, 'polls'])->name('student.polls');
+    Route::post('/polls/{poll}/vote', [StudentController::class, 'vote'])
+        ->name('student.poll.vote');
+
+    // feedback
+    Route::get('/feedback', [StudentController::class, 'feedback'])
+        ->name('student.feedback');
+
+    Route::post('/feedback/store', [StudentController::class, 'feedbackStore'])
+        ->name('student.feedback.store');
+
+
+    // routine
+    Route::get('/routine', [StudentController::class, 'routine'])
+        ->name('student.routine');
+
+
+    // resource
+    Route::get('/resources', [StudentController::class, 'resources'])
+        ->name('student.resources');
+
+    Route::get('/resources/{resource}', [StudentController::class, 'resourceShow'])
+        ->name('student.resources.show');
+
+    Route::get('/resources/download/{file}', [StudentController::class, 'downloadResource'])
+        ->name('student.resources.download');
+
+    // Links
+    Route::get('/links', [StudentController::class, 'links'])
+        ->name('student.links');
+}); // End of Student Routes
 
 Route::fallback(function () {
     return view('errors.404');

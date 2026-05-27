@@ -32,6 +32,7 @@ class TeacherController extends Controller
     {
         $validated = $request->validate([
             'name'        => 'required|string|max:255',
+            'designation'        => 'required|string|max:255',
             'email'       => 'nullable|email|max:255',
             'phone'       => 'nullable|string|max:20',
             'gender'      => 'required|in:male,female',
@@ -48,6 +49,7 @@ class TeacherController extends Controller
 
         Teacher::create([
             'name'       => $validated['name'],
+            'designation'=> $validated['designation'] ?? null,
             'email'      => $validated['email'] ?? null,
             'phone'      => $validated['phone'] ?? null,
             'gender'     => $validated['gender'],
@@ -86,6 +88,7 @@ class TeacherController extends Controller
 
         $validated = $request->validate([
             'name'        => 'required|string|max:255',
+            'designation'        => 'required|string|max:255',
             'email'       => 'nullable|email|max:255',
             'phone'       => 'nullable|string|max:20',
             'gender'      => 'required|in:male,female',

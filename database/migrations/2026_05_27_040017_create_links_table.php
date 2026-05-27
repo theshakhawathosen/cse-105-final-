@@ -11,19 +11,18 @@ return new class extends Migration
      */
     public function up(): void
     {
-        Schema::create('routines', function (Blueprint $table) {
+        Schema::create('links', function (Blueprint $table) {
 
             $table->id();
 
             $table->string('title');
 
-            $table->enum('type', [
-                'class_routine',
-                'mid_exam_routine',
-                'final_exam_routine'
-            ]);
+            $table->string('url');
 
-            $table->string('filepath'); // jpg or png
+            $table->enum('type', [
+                'google classroom',
+                'group'
+            ]);
 
             $table->timestamps();
         });
@@ -34,6 +33,6 @@ return new class extends Migration
      */
     public function down(): void
     {
-        Schema::dropIfExists('routines');
+        Schema::dropIfExists('links');
     }
 };

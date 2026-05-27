@@ -27,7 +27,6 @@
         </div>
 
         <div class="dash-card p-5 max-w-3xl mx-auto fade-up fade-up-d2">
-
             <form method="POST" action="{{ route('resources.store') }}" enctype="multipart/form-data">
 
                 @csrf

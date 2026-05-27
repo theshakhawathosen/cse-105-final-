@@ -11,21 +11,24 @@ return new class extends Migration
      */
     public function up(): void
     {
-        Schema::create('routines', function (Blueprint $table) {
+        Schema::create('exams', function (Blueprint $table) {
 
             $table->id();
 
-            $table->string('title');
+            // CT / Mid / Final
+            $table->string('exam_type');
 
-            $table->enum('type', [
-                'class_routine',
-                'mid_exam_routine',
-                'final_exam_routine'
-            ]);
+            // CT 1 / CT 2 / Mid Term / Final Term
+            $table->string('exam_name');
 
-            $table->string('filepath'); // jpg or png
+            $table->foreignId('subject_id')
+                ->constrained('subjects')
+                ->onDelete('cascade');
+
+            $table->date('date');
 
             $table->timestamps();
+
         });
     }
 
@@ -34,6 +37,6 @@ return new class extends Migration
      */
     public function down(): void
     {
-        Schema::dropIfExists('routines');
+        Schema::dropIfExists('exams');
     }
 };

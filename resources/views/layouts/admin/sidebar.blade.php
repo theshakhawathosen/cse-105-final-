@@ -60,6 +60,18 @@
                 <i class="nav-icon fas fa-cloud-upload-alt"></i>
                 <span class="nav-label">Resources</span>
             </a>
+            <a href="{{ route('links.index') }}" class="nav-item">
+                <i class="nav-icon fas fa-link"></i>
+                <span class="nav-label">Links</span>
+            </a>
+            <a href="{{ route('exams.index') }}" class="nav-item">
+                <i class="nav-icon fas fa-pen"></i>
+                <span class="nav-label">Exams</span>
+            </a>
+            <a href="{{ route('results.index') }}" class="nav-item">
+                <i class="nav-icon fas fa-graduation-cap"></i>
+                <span class="nav-label">Result</span>
+            </a>
 
             <div class="sidebar-section-label">Reports</div>
             <a href="{{ route('feedbacks.index') }}" class="nav-item">

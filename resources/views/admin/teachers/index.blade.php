@@ -62,7 +62,7 @@
                                     @endif
                                 </td>
 
-                                <td class="py-3 font-medium">{{ $teacher->name }}</td>
+                                <td class="py-3 font-medium ">{{ $teacher->name }} <div><small class="text-[8px] m-0 p-0 text-green">{{ $teacher->designation }}</small></div></td>
                                 <td class="py-3 text-ts">{{ $teacher->email ?? '-' }}</td>
                                 <td class="py-3 text-ts">{{ $teacher->phone ?? '-' }}</td>
 

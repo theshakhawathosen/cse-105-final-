@@ -20,6 +20,7 @@ class TeacherSeeder extends Seeder
                 'photo' => null,
                 'gender' => 'male',
                 'roomNumber' => 'A-101',
+                'designation' => 'Lecturer'
             ],
             [
                 'name' => 'Sharmin Akter',
@@ -28,6 +29,7 @@ class TeacherSeeder extends Seeder
                 'photo' => null,
                 'gender' => 'female',
                 'roomNumber' => 'A-102',
+                'designation' => 'Ass. Professor'
             ],
             [
                 'name' => 'Rezaul Karim',
@@ -36,6 +38,7 @@ class TeacherSeeder extends Seeder
                 'photo' => null,
                 'gender' => 'male',
                 'roomNumber' => 'B-201',
+                'designation' => 'Lecturer'
             ],
             [
                 'name' => 'Farhana Yasmin',
@@ -44,6 +47,7 @@ class TeacherSeeder extends Seeder
                 'photo' => null,
                 'gender' => 'female',
                 'roomNumber' => 'B-202',
+                'designation' => 'Lecturer'
             ],
             [
                 'name' => 'Jahidul Islam',
@@ -52,6 +56,7 @@ class TeacherSeeder extends Seeder
                 'photo' => null,
                 'gender' => 'male',
                 'roomNumber' => 'C-301',
+                'designation' => 'Lecturer'
             ],
             [
                 'name' => 'Nargis Sultana',
@@ -60,6 +65,7 @@ class TeacherSeeder extends Seeder
                 'photo' => null,
                 'gender' => 'female',
                 'roomNumber' => 'C-302',
+                'designation' => 'Lecturer'
             ],
             [
                 'name' => 'Mahfuz Rahman',
@@ -68,6 +74,7 @@ class TeacherSeeder extends Seeder
                 'photo' => null,
                 'gender' => 'male',
                 'roomNumber' => 'D-401',
+                'designation' => 'Lecturer'
             ],
             [
                 'name' => 'Sanjida Rahman',
@@ -76,6 +83,7 @@ class TeacherSeeder extends Seeder
                 'photo' => null,
                 'gender' => 'female',
                 'roomNumber' => 'D-402',
+                'designation' => 'Lecturer'
             ],
             [
                 'name' => 'Tariqul Islam',
@@ -84,6 +92,7 @@ class TeacherSeeder extends Seeder
                 'photo' => null,
                 'gender' => 'male',
                 'roomNumber' => 'E-501',
+                'designation' => 'Lecturer'
             ],
             [
                 'name' => 'Ayesha Siddika',
@@ -92,6 +101,7 @@ class TeacherSeeder extends Seeder
                 'photo' => null,
                 'gender' => 'female',
                 'roomNumber' => 'E-502',
+                'designation' => 'Lecturer'
             ],
         ];
 

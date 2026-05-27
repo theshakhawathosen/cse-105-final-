@@ -1,4 +1,4 @@
-    <div class="fixed top-14 left-0 bg-accent right-0 h-9 bg-hover border-b border-accent/20 flex items-center z-[990] overflow-hidden"
+    <div class=" bg-accent right-0 h-9 bg-hover border-b border-accent/20 flex items-center z-[990] overflow-hidden"
         role="marquee" aria-label="Batch notices">
         <!-- Label -->
         <div class="flex items-center gap-1.5 px-3 border-r border-accent/25 h-full shrink-0 bg-accent/10">
@@ -13,8 +13,7 @@
             <div class="ticker-track" id="noticeTrack">
                 <span class="inline-flex items-center gap-2 text-[0.78rem] text-prim cursor-pointer hover:text-ahover">
                     <i class="fa-solid fa-circle-exclamation text-red text-[0.72rem]"></i>
-                    Everyone must complete the Computer &amp; Cyber Security lab report
-                    and exam preparation — Deadline: 25 May
+                    যেহেতু মানব পরিবারের সকল সদস্যের সমান ও অবিচ্ছেদ্য অধিকারসমূহ
                 </span>
                 <span class="text-hint">•</span>
                 <span class="inline-flex items-center gap-2 text-[0.78rem] text-prim cursor-pointer hover:text-ahover">

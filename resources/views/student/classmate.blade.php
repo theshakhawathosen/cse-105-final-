@@ -7,7 +7,7 @@
      CLASSMATES TAB CONTENT
 ═══════════════════════════════════════════════════ -->
 
-<main class="pt-[152px] px-4 md:px-5 pb-8 max-w-auto mx-5" role="main">
+<main class="pt-5 px-4 md:px-5 pb-8 max-w-auto mx-5" role="main">
 
     <!-- ── PAGE HEADER ── -->
     <div class="flex flex-col md:flex-row md:items-center md:justify-between gap-3 mb-6">
@@ -24,7 +24,7 @@
         </div>
 
         <!-- Search -->
-        <form action="{{ route('student.classmate') }}" method="GET">
+        <form action="{{ route('student.classmates') }}" method="GET">
             <div class="relative">
                 <i
                     class="fa-solid fa-magnifying-glass absolute left-3 top-1/2 -translate-y-1/2 text-hint text-[0.72rem]">

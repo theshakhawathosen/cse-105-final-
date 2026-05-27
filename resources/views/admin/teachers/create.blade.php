@@ -40,6 +40,17 @@
                             <p class="text-red text-xs mt-1">{{ $message }}</p>
                         @enderror
                     </div>
+                    <!-- designation -->
+                    <div>
+                        <label class="text-ts text-xs">Designation</label>
+                        <input type="text" name="designation" placeholder="Enter designation"
+                            class="w-full mt-1 bg-input border border-border rounded-xl px-3 py-2 text-tp"
+                            value="{{ old('designation') }}">
+
+                        @error('designation')
+                            <p class="text-red text-xs mt-1">{{ $message }}</p>
+                        @enderror
+                    </div>
 
                     <!-- Email -->
                     <div>
@@ -80,7 +91,7 @@
                     </div>
 
                     <!-- Room Number -->
-                    <div class="md:col-span-2">
+                    <div >
                         <label class="text-ts text-xs">Room Number</label>
                         <input type="text" name="roomNumber" placeholder="Enter room number"
                             class="w-full mt-1 bg-input border border-border rounded-xl px-3 py-2 text-tp"

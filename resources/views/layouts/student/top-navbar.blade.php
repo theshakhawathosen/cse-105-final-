@@ -1,5 +1,5 @@
     <header
-        class="topnav-accent fixed top-0 left-0 right-0 h-14 bg-nav border-b border-bdr flex items-center px-4 gap-4 z-[1000]">
+        class="topnav-accent  h-14 bg-nav border-b border-bdr flex items-center px-4 gap-4 z-[1000]">
         <!-- Hamburger — mobile only -->
         <button id="mobMenuBtn" onclick="openMobMenu()"
             class="md:hidden w-[34px] h-[34px] bg-input border border-bdr rounded-md flex items-center justify-center text-sec text-sm cursor-pointer shrink-0">
