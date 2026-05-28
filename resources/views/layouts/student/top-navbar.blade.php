@@ -1,5 +1,5 @@
     <header
-        class="topnav-accent  h-14 bg-nav border-b border-bdr flex items-center px-4 gap-4 z-[1000]">
+        class="  h-14 bg-nav border-b border-bdr flex items-center px-4 gap-4 z-[1000]">
         <!-- Hamburger — mobile only -->
         <button id="mobMenuBtn" onclick="openMobMenu()"
             class="md:hidden w-[34px] h-[34px] bg-input border border-bdr rounded-md flex items-center justify-center text-sec text-sm cursor-pointer shrink-0">
@@ -23,105 +23,7 @@
         <!-- Right: Notification + Profile -->
         <div class="flex items-center gap-3 shrink-0 min-w-[150px] justify-end">
             <!-- ── Notification Bell ── -->
-            <div class="relative">
-                <button id="notifBtn"
-                    class="relative w-[34px] h-[34px] bg-input border border-bdr rounded-full flex items-center justify-center text-sec text-sm hover:text-accent hover:border-accent transition-all cursor-pointer">
-                    <i class="fa-regular fa-bell"></i>
-                    <!-- Red dot badge -->
-                    <span id="notifDot"
-                        class="absolute top-[5px] right-[5px] w-2 h-2 bg-red rounded-full border-[1.5px] border-nav"></span>
-                </button>
-
-                <!-- Notification Dropdown -->
-                <div id="notifDropdown"
-                    class="hidden absolute top-[calc(100%+10px)] right-0 w-[300px] bg-card border border-bdr rounded-xl shadow-[0_12px_40px_rgba(0,0,0,.45)] z-[9999] overflow-hidden">
-                    <!-- Header -->
-                    <div class="flex items-center justify-between px-4 py-3 border-b border-bdr">
-                        <span class="text-[0.8rem] font-semibold text-prim">Notifications</span>
-                        <span id="markAllRead"
-                            class="text-[0.7rem] text-accent font-medium cursor-pointer hover:text-ahover">
-                            Mark all read
-                        </span>
-                    </div>
-
-                    <!-- Items list -->
-                    <div class="max-h-[280px] overflow-y-auto no-scroll">
-                        <!-- Item 1 — Urgent -->
-                        <div
-                            class="notif-item unread flex gap-2.5 px-4 py-3 border-b border-bdr cursor-pointer bg-accent/10 transition-colors">
-                            <div
-                                class="w-[34px] h-[34px] rounded-full bg-red/10 flex items-center justify-center shrink-0">
-                                <i class="fa-solid fa-triangle-exclamation text-red text-xs"></i>
-                            </div>
-                            <div>
-                                <p class="text-[0.78rem] font-medium text-prim leading-snug">
-                                    Lab report submission deadline tomorrow!
-                                </p>
-                                <p class="text-[0.68rem] text-hint mt-0.5">
-                                    <i class="fa-regular fa-clock mr-1"></i>2 hours ago
-                                </p>
-                            </div>
-                        </div>
-
-                        <!-- Item 2 — Notice -->
-                        <div
-                            class="notif-item unread flex gap-2.5 px-4 py-3 border-b border-bdr cursor-pointer bg-accent/10 transition-colors">
-                            <div
-                                class="w-[34px] h-[34px] rounded-full bg-accent/15 flex items-center justify-center shrink-0">
-                                <i class="fa-solid fa-bell text-accent text-xs"></i>
-                            </div>
-                            <div>
-                                <p class="text-[0.78rem] font-medium text-prim leading-snug">
-                                    New notice posted by admin
-                                </p>
-                                <p class="text-[0.68rem] text-hint mt-0.5">
-                                    <i class="fa-regular fa-clock mr-1"></i>Yesterday
-                                </p>
-                            </div>
-                        </div>
-
-                        <!-- Item 3 — Poll -->
-                        <div
-                            class="notif-item unread flex gap-2.5 px-4 py-3 border-b border-bdr cursor-pointer bg-accent/10 transition-colors">
-                            <div
-                                class="w-[34px] h-[34px] rounded-full bg-pur/10 flex items-center justify-center shrink-0">
-                                <i class="fa-solid fa-square-poll-vertical text-pur text-xs"></i>
-                            </div>
-                            <div>
-                                <p class="text-[0.78rem] font-medium text-prim leading-snug">
-                                    New poll is live — cast your vote now
-                                </p>
-                                <p class="text-[0.68rem] text-hint mt-0.5">
-                                    <i class="fa-regular fa-clock mr-1"></i>2 days ago
-                                </p>
-                            </div>
-                        </div>
-
-                        <!-- Item 4 — Read -->
-                        <div
-                            class="notif-item flex gap-2.5 px-4 py-3 border-b border-bdr cursor-pointer transition-colors">
-                            <div
-                                class="w-[34px] h-[34px] rounded-full bg-grn/10 flex items-center justify-center shrink-0">
-                                <i class="fa-solid fa-file-pen text-grn text-xs"></i>
-                            </div>
-                            <div>
-                                <p class="text-[0.78rem] font-medium text-sec leading-snug">
-                                    Assignment #4 deadline extended
-                                </p>
-                                <p class="text-[0.68rem] text-hint mt-0.5">
-                                    <i class="fa-regular fa-clock mr-1"></i>3 days ago
-                                </p>
-                            </div>
-                        </div>
-                    </div>
-
-                    <!-- Footer -->
-                    <div class="px-4 py-2.5 text-center border-t border-bdr">
-                        <a href="#" class="text-[0.75rem] text-accent font-medium hover:text-ahover">View all
-                            notifications</a>
-                    </div>
-                </div>
-            </div>
+            @include('layouts.student.top-notifications')
             <!-- /Notification -->
 
             <!-- ── Profile Trigger ── -->
@@ -148,15 +50,15 @@
                 <p class="text-[0.82rem] font-semibold text-prim">{{ auth()->user()->name ?? 'N/A' }}</p>
                 <p class="text-[0.72rem] text-sec mt-px">{{ auth()->user()->email ?? 'N/A' }}</p>
             </div>
-            <a href="#" role="menuitem"
+            <a href="{{ route('student.profile') }}" role="menuitem"
                 class="flex items-center gap-2.5 px-4 py-2 text-[0.8rem] text-sec hover:bg-hover hover:text-prim transition-colors">
                 <i class="fa-regular fa-circle-user w-3.5 text-center"></i> Profile
             </a>
-            <a href="#" role="menuitem"
+            <a href="{{ route('student.change.password') }}" role="menuitem"
                 class="flex items-center gap-2.5 px-4 py-2 text-[0.8rem] text-sec hover:bg-hover hover:text-prim transition-colors">
                 <i class="fa-solid fa-key w-3.5 text-center"></i> Change Password
             </a>
-            <a href="#" role="menuitem"
+            <a href="{{ route('student.notifications') }}" role="menuitem"
                 class="flex items-center gap-2.5 px-4 py-2 text-[0.8rem] text-sec hover:bg-hover hover:text-prim transition-colors">
                 <i class="fa-regular fa-bell w-3.5 text-center"></i> Notifications
             </a>

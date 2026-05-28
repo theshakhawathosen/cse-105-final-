@@ -96,7 +96,7 @@
                     <div class="w-9 h-9 rounded-xl bg-yellow-400/10 border border-yellow-400/20 text-yellow-400 flex items-center justify-center">
                         <i class="fas fa-file-alt text-sm"></i>
                     </div>
-                    <h2 class="text-base font-semibold text-prim">Notice Content</h2>
+                    <h2 class="text-base font-semibold text-white">Notice Content</h2>
                 </div>
 
                 <div class="bg-input border border-bdr rounded-2xl px-5 py-5">

@@ -64,7 +64,7 @@
             @endphp
 
             <a href="{{ route('student.notice.show', $notice->id) }}"
-               class="group bg-card border border-bdr rounded-2xl px-5 py-4 hover:border-yellow-400/40 transition-all duration-300 shadow-md shadow-black/10 animate-fadeUp flex items-center gap-5 block">
+               class="group bg-card border border-bdr rounded-2xl px-5 py-4 hover:border-yellow-400/40 transition-all duration-300 shadow-md shadow-black/10 animate-fadeUp flex items-center gap-5 block text-white">
 
                 <!-- Priority Color Bar -->
                 <div class="w-1 self-stretch rounded-full {{ $p['dot'] }} opacity-60 shrink-0"></div>
@@ -107,11 +107,11 @@
                         @endif
 
                         <!-- Scrolling -->
-                        @if($notice->is_scrolling)
+                        {{-- @if($notice->is_scrolling)
                             <span class="inline-flex items-center gap-1 bg-yellow-400/10 text-yellow-400 border border-yellow-400/20 text-[11px] px-2.5 py-0.5 rounded-full">
                                 <i class="fas fa-scroll text-[9px]"></i> Scrolling
                             </span>
-                        @endif
+                        @endif --}}
 
                     </div>
 

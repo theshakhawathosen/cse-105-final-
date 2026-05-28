@@ -23,8 +23,7 @@
                     {{ session('success') }}
                 </div>
             @endif
-
-            <form method="POST" action="{{ route('notices.update', $notice->id) }}">
+            <form method="POST" action="{{ route('notices.update', $notice->id) }}" enctype="multipart/form-data">
                 @csrf
                 @method('PUT')
 
@@ -86,6 +85,32 @@
                             class="w-full mt-1 bg-input border border-border rounded-xl px-3 py-2 text-tp">
                     </div>
 
+                    <!-- ATTACHMENT -->
+                    <div class="md:col-span-2">
+                        <label class="text-ts text-xs">Attachment</label>
+
+                        <input type="file" name="attachment"
+                            class="w-full mt-1 bg-input border border-border rounded-xl px-3 py-2 text-tp">
+
+                        <p class="text-xs text-ts mt-1">
+                            PDF, DOC, DOCX, PNG, JPG allowed (Max: 5MB)
+                        </p>
+
+                        @if ($notice->attachment)
+                            <div class="mt-3">
+                                <a href="{{ asset('storage/' . $notice->attachment) }}" target="_blank"
+                                    class="inline-flex items-center gap-2 chip chip-blue">
+
+                                    <i class="fas fa-paperclip"></i>
+                                    View Current File
+                                </a>
+                            </div>
+                        @endif
+
+                        @error('attachment')
+                            <p class="text-red text-xs mt-1">{{ $message }}</p>
+                        @enderror
+                    </div>
                     <!-- Content -->
                     <div class="md:col-span-2">
                         <label class="text-ts text-xs">Content</label>

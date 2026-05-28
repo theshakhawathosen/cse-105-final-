@@ -62,7 +62,7 @@
                                     <option value="{{ $student->id }}"
                                         {{ request()->student_id == $student->id ? 'selected' : '' }}>
 
-                                        {{ $student->name }}
+                                        {{ $student->name }} - {{ $student->roll}}
 
                                     </option>
 
@@ -104,7 +104,7 @@
 
                                 @else
 
-                                    <img src="{{ asset('storage/man.png') }}"
+                                    <img src="{{ asset('default.png') }}"
                                         class="w-28 h-28 rounded-3xl object-cover border border-border shadow-lg">
 
                                 @endif

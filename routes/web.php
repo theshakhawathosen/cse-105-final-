@@ -182,8 +182,49 @@ Route::prefix('/student')->middleware(['auth', 'role:student'])->group(function 
     // Notice
     Route::get('notices', [StudentController::class, 'notices'])->name('student.notice');
     Route::get('notices/{notice}', [StudentController::class, 'noticeshow'])->name('student.notice.show');
+
+
+    Route::get('/profile', [StudentController::class, 'profile'])
+        ->name('student.profile');
+
+    Route::put('/profile/update', [StudentController::class, 'updateProfile'])
+        ->name('student.profile.update');
+
+    // Password
+    Route::get('/change-password', [StudentController::class, 'changePassword'])->name('student.change.password');
+    Route::put('/change-password/update', [StudentController::class, 'updatePassword'])->name('student.change.password.update');
+
+    // Notifications
+
+    // Notifications page
+    Route::get('notifications', [StudentController::class, 'notifications'])
+        ->name('student.notifications');
+
+    Route::get('read-and-redirect/{notificationid}/{route}', [StudentController::class, 'readAndRedirect'])
+        ->name('student.readAndRedirect');
+
+    // Mark single notification as read
+    Route::post('notifications/{id}/mark-as-read', [StudentController::class, 'markNotificationRead'])
+        ->name('student.notifications.markAsRead');
+
+
+    // Mark all notifications as read
+    Route::post('notifications/mark-all-as-read', [StudentController::class, 'markAllNotificationsRead'])
+        ->name('student.notifications.markAllAsRead');
+
+
+    // Delete single notification
+    Route::delete('notifications/{id}/delete', [StudentController::class, 'deleteNotification'])
+        ->name('student.notifications.delete');
+
+
+    // Delete all notifications
+    Route::delete('notifications/delete-all', [StudentController::class, 'deleteAllNotifications'])
+        ->name('student.notifications.deleteAll');
 }); // End of Student Routes
 
 Route::fallback(function () {
     return view('errors.404');
 });
+use Illuminate\Support\Facades\Mail;
+

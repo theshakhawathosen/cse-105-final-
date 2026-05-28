@@ -4,7 +4,10 @@ namespace App\Http\Controllers\Admin;
 
 use App\Http\Controllers\Controller;
 use App\Models\Notice;
+use App\Models\User;
+use App\Notifications\NoticeCreatedNotification;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Storage;
 
 class NoticeController extends Controller
 {
@@ -48,19 +51,37 @@ class NoticeController extends Controller
             'category'    => 'nullable|string|max:255',
             'priority'    => 'required|in:low,normal,high,urgent',
             'expire_at'   => 'nullable|date',
+
+            // FILE VALIDATION
+            'attachment'  => 'nullable|file|mimes:pdf,doc,docx,png,jpg,jpeg|max:5120',
         ]);
 
-        Notice::create([
+        $attachmentPath = null;
+
+        // FILE UPLOAD
+        if ($request->hasFile('attachment')) {
+            $attachmentPath = $request->file('attachment')
+                ->store('notices', 'public');
+        }
+
+       $notice =  Notice::create([
             'title'         => $validated['title'],
             'content'       => $validated['content'],
             'category'      => $validated['category'] ?? null,
             'priority'      => $validated['priority'],
             'expire_at'     => $validated['expire_at'] ?? null,
+            'attachment'    => $attachmentPath,
 
             // checkbox handling
             'is_published'  => $request->has('is_published'),
             'is_scrolling'  => $request->has('is_scrolling'),
         ]);
+
+        // Send Notification
+        $notiStu = User::where('role','student')->get();
+        foreach ($notiStu as $stu) {
+            $stu->notify(new NoticeCreatedNotification($notice));
+        }
 
         return redirect()
             ->route('notices.index')
@@ -94,7 +115,24 @@ class NoticeController extends Controller
             'category'    => 'nullable|string|max:255',
             'priority'    => 'required|in:low,normal,high,urgent',
             'expire_at'   => 'nullable|date',
+
+            // FILE VALIDATION
+            'attachment'  => 'nullable|file|mimes:pdf,doc,docx,png,jpg,jpeg|max:5120',
         ]);
+
+        $attachmentPath = $notice->attachment;
+
+        // NEW FILE UPLOAD
+        if ($request->hasFile('attachment')) {
+
+            // DELETE OLD FILE
+            if ($notice->attachment && Storage::disk('public')->exists($notice->attachment)) {
+                Storage::disk('public')->delete($notice->attachment);
+            }
+
+            $attachmentPath = $request->file('attachment')
+                ->store('notices', 'public');
+        }
 
         $notice->update([
             'title'        => $validated['title'],
@@ -102,6 +140,7 @@ class NoticeController extends Controller
             'category'     => $validated['category'] ?? null,
             'priority'     => $validated['priority'],
             'expire_at'    => $validated['expire_at'] ?? null,
+            'attachment'   => $attachmentPath,
 
             'is_published' => $request->has('is_published'),
             'is_scrolling' => $request->has('is_scrolling'),
@@ -111,12 +150,18 @@ class NoticeController extends Controller
             ->route('notices.index')
             ->with('success', 'Notice updated successfully!');
     }
+
     /**
      * Remove the specified resource from storage.
      */
     public function destroy($id)
     {
         $notice = Notice::findOrFail($id);
+
+        // DELETE FILE
+        if ($notice->attachment && Storage::disk('public')->exists($notice->attachment)) {
+            Storage::disk('public')->delete($notice->attachment);
+        }
 
         $notice->delete();
 

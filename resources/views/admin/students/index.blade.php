@@ -54,10 +54,10 @@
                                 <!-- Photo -->
                                 <td class="py-3">
                                     @if ($student->photo)
-                                        <img src="{{ asset('storage/' . $student->photo ?? 'storage/man.png') }}"
+                                        <img src="{{ asset('storage/' . $student->photo) }}"
                                             class="w-10 h-10 rounded-lg object-cover border border-border">
                                     @else
-                                        <img src="{{ asset('storage/man.png') }}"
+                                        <img src="{{ asset('default.png') }}"
                                             class="w-10 h-10 rounded-lg object-cover border border-border">
                                     @endif
                                 </td>

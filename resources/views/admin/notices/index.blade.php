@@ -37,7 +37,7 @@
                             <th>Title</th>
                             <th>Category</th>
                             <th>Priority</th>
-                            <th>Expires In</th> {{-- NEW --}}
+                            <th>Attachment</th>
                             <th>Publish</th>
                             <th>Scrolling</th>
                             <th class="text-right">Action</th>
@@ -64,32 +64,7 @@
                                     'Low' => 'chip chip-green',
                                 ];
 
-                                // -------------------------------
-                                // EXPIRY LOGIC
-                                // -------------------------------
-                                $expiryText = 'No expiry';
 
-                                if ($notice->expire_at) {
-                                    $now = \Carbon\Carbon::now();
-                                    $expireDate = \Carbon\Carbon::parse($notice->expire_at);
-
-                                    $diffDays = (int) $now->diffInDays($expireDate, false);
-
-                                    if ($diffDays < 0) {
-                                        $expiryText = 'Expired';
-                                    } elseif ($diffDays == 0) {
-                                        $expiryText = 'Expires today';
-                                    } else {
-                                        $expiryText = $diffDays . ' days left';
-                                    }
-                                }
-
-                                $expiryClass = match (true) {
-                                    $expiryText === 'Expired' => 'chip chip-red',
-                                    $expiryText === 'Expires today' => 'chip chip-amber',
-                                    $expiryText === 'No expiry' => 'chip chip-muted',
-                                    default => 'chip chip-green',
-                                };
                             @endphp
 
                             <tr class="fade-up fade-up-d1">
@@ -114,11 +89,20 @@
                                     </span>
                                 </td>
 
-                                {{-- EXPIRY STATUS --}}
+                                {{-- ATTACHMENT --}}
                                 <td>
-                                    <span class="{{ $expiryClass }}">
-                                        {{ $expiryText }}
-                                    </span>
+                                    @if ($notice->attachment)
+                                        <a href="{{ asset('storage/' . $notice->attachment) }}" target="_blank"
+                                            class="chip chip-blue inline-flex items-center gap-1">
+
+                                            <i class="fas fa-paperclip text-[10px]"></i>
+                                            File
+                                        </a>
+                                    @else
+                                        <span class="chip chip-muted">
+                                            No File
+                                        </span>
+                                    @endif
                                 </td>
 
                                 {{-- PUBLISH --}}

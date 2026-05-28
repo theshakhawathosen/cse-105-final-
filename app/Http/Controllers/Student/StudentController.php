@@ -22,6 +22,7 @@ use App\Models\Teacher;
 use App\Models\User;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Facades\Hash;
 
 class StudentController extends Controller
 {
@@ -275,7 +276,7 @@ class StudentController extends Controller
     }
     public function results(Request $request)
     {
-        $students = User::where('role', 'student')->get();
+        $students = User::where('role', 'student')->oldest('roll')->get();
         $user = User::findOrFail($request->student_id);
         $exams = Exam::orderBy('date', 'asc')->get();
         $results = Result::all();
@@ -344,7 +345,6 @@ class StudentController extends Controller
 
         $notices = Notice::where('is_published', true)
             ->when($request->category, fn($q) => $q->where('category', $request->category))
-            ->orderByRaw("CASE priority WHEN 'urgent' THEN 1 WHEN 'high' THEN 2 WHEN 'normal' THEN 3 WHEN 'low' THEN 4 END")
             ->latest()
             ->paginate(10);
 
@@ -357,5 +357,149 @@ class StudentController extends Controller
         abort_if(!$notice->is_published, 404);
 
         return view('student.notice-show', compact('notice'));
+    }
+
+    public function profile()
+    {
+        $student = Auth::user();
+        return view('student.profile', compact('student'));
+    }
+
+    public function updateProfile(Request $request)
+    {
+        $student = Auth::user();
+
+        $request->validate([
+            'name'  => 'required|string|max:255',
+            'email' => 'required|email|unique:users,email,' . $student->id,
+            'phone' => 'nullable|string|max:20',
+            'roll'  => 'nullable|numeric',
+            'reg'   => 'nullable|string|max:255',
+            'photo' => 'nullable|image|mimes:jpg,jpeg,png,webp|max:2048',
+        ]);
+
+        // Upload Photo
+        if ($request->hasFile('photo')) {
+
+            $photo = $request->file('photo')->store('students', 'public');
+
+            $student->photo = $photo;
+        }
+
+        // Update Data
+        $student->name  = $request->name;
+        $student->email = $request->email;
+        $student->phone = $request->phone;
+        $student->roll  = $request->roll;
+        $student->reg   = $request->reg;
+
+        $student->save();
+
+        return back()->with('success', 'Profile updated successfully.');
+    }
+
+    public function changePassword()
+    {
+        return view('student.change-password');
+    }
+    public function updatePassword(Request $request)
+    {
+        $request->validate(['current_password' => 'required', 'password' => 'required|min:6|confirmed',], ['current_password.required' => 'Current password is required.', 'password.required' => 'New password is required.', 'password.min' => 'Password must be at least 6 characters.', 'password.confirmed' => 'Password confirmation does not match.',]);
+        $student = Auth::user(); // Check current password
+        if (!Hash::check($request->current_password, $student->password)) {
+            return back()->withErrors(['current_password' => 'Current password is incorrect.']);
+        } // Update password
+        $student->password = Hash::make($request->password);
+        $student->save();
+        return back()->with('success', 'Password changed successfully.');
+    }
+
+
+    // Notifications
+    public function notifications()
+    {
+        $student = Auth::user();
+
+        $notifications = $student->notifications()
+            ->latest()
+            ->paginate(12);
+
+        $unreadCount = $student->unreadNotifications->count();
+
+        return view('student.notifications', compact(
+            'notifications',
+            'unreadCount'
+        ));
+    }
+
+    public function readAndRedirect($notiId, $desinationRoute)
+    {
+        $student = Auth::user();
+        $notification = $student->notifications()
+            ->where('id', $notiId)
+            ->firstOrFail();
+        if (is_null($notification->read_at)) {
+            $notification->markAsRead();
+        }
+        return redirect()->to(base64_decode($desinationRoute));
+    }
+
+
+    /**
+     * Mark Single Notification As Read
+     */
+    public function markNotificationRead($id)
+    {
+        $student = Auth::user();
+
+        $notification = $student->notifications()
+            ->where('id', $id)
+            ->firstOrFail();
+
+        if (is_null($notification->read_at)) {
+            $notification->markAsRead();
+        }
+
+        return back()->with('success', 'Notification marked as read.');
+    }
+
+    /**
+     * Mark All Notifications As Read
+     */
+    public function markAllNotificationsRead()
+    {
+        $student = Auth::user();
+
+        $student->unreadNotifications->markAsRead();
+
+        return back()->with('success', 'All notifications marked as read.');
+    }
+
+    /**
+     * Delete Single Notification
+     */
+    public function deleteNotification($id)
+    {
+        $student = Auth::user();
+
+        $notification = $student->notifications()
+            ->where('id', $id)
+            ->firstOrFail();
+
+        $notification->delete();
+
+        return back()->with('success', 'Notification deleted successfully.');
+    }
+
+    /**
+     * Delete All Notifications
+     */
+    public function deleteAllNotifications()
+    {
+        $student = Auth::user();
+
+        $student->notifications()->delete();
+
+        return back()->with('success', 'All notifications deleted successfully.');
     }
 }

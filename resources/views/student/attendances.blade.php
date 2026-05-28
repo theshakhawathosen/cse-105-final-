@@ -68,15 +68,6 @@
 
         </div>
 
-        <a href="{{ route('attendances.create') }}"
-            class="inline-flex items-center justify-center gap-2 bg-accent hover:bg-ahover text-white text-sm font-medium px-5 py-3 rounded-2xl transition shadow-lg shadow-accent/20">
-
-            <i class="fas fa-plus"></i>
-
-            Take Attendance
-
-        </a>
-
     </div>
 
     <!-- Attendance Grid -->

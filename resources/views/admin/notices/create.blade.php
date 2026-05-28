@@ -24,7 +24,7 @@
                 </div>
             @endif
 
-            <form method="POST" action="{{ route('notices.store') }}">
+            <form method="POST" action="{{ route('notices.store') }}" enctype="multipart/form-data">
                 @csrf
 
                 <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
@@ -92,6 +92,22 @@
                             class="w-full mt-1 bg-input border border-border rounded-xl px-3 py-2 text-tp">
 
                         @error('expire_at')
+                            <p class="text-red text-xs mt-1">{{ $message }}</p>
+                        @enderror
+                    </div>
+
+                    <!-- ATTACHMENT -->
+                    <div class="md:col-span-2">
+                        <label class="text-ts text-xs">Attachment (optional)</label>
+
+                        <input type="file" name="attachment"
+                            class="w-full mt-1 bg-input border border-border rounded-xl px-3 py-2 text-tp">
+
+                        <p class="text-xs text-ts mt-1">
+                            PDF, DOC, DOCX, PNG, JPG allowed (Max: 5MB)
+                        </p>
+
+                        @error('attachment')
                             <p class="text-red text-xs mt-1">{{ $message }}</p>
                         @enderror
                     </div>
