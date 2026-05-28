@@ -33,36 +33,66 @@
 
                 @csrf
 
-                <!-- Global Exam Select -->
-                <div class="mb-5 max-w-md">
+                <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
+                    <!-- Global Exam Select -->
+                    <div class="mb-5 max-w-md">
 
-                    <label class="text-ts text-xs">
-                        Select Exam
-                    </label>
-
-                    <select id="globalExam" name="exam_id"
-                        class="w-full mt-1 bg-input border border-border rounded-xl px-3 py-2 text-tp">
-
-                        <option value="">
+                        <label class="text-ts text-xs">
                             Select Exam
-                        </option>
+                        </label>
 
-                        @foreach ($exams as $exam)
-                            <option value="{{ $exam->id }}">
+                        <select id="globalExam" name="exam_id"
+                            class="w-full mt-1 bg-input border border-border rounded-xl px-3 py-2 text-tp">
 
-                                {{ $exam->exam_name }}
-                                -
-                                {{ $exam->subject->name ?? '-' }}
-
+                            <option value="">
+                                Select Exam
                             </option>
-                        @endforeach
 
-                    </select>
+                            @foreach ($exams as $exam)
+                                <option value="{{ $exam->id }}">
 
-                    @error('exam_id')
-                        <span class="text-red text-xs">{{ $message }}</span>
-                    @enderror
+                                    {{ $exam->exam_name }}
 
+                                </option>
+                            @endforeach
+
+                        </select>
+
+                        @error('exam_id')
+                            <span class="text-red text-xs">{{ $message }}</span>
+                        @enderror
+
+                    </div>
+
+                    <!-- Global Exam Select -->
+                    <div class="mb-5 max-w-md">
+
+                        <label class="text-ts text-xs">
+                            Select Subject
+                        </label>
+
+                        <select id="globalExam" name="subject_id"
+                            class="w-full mt-1 bg-input border border-border rounded-xl px-3 py-2 text-tp">
+
+                            <option value="">
+                                Select Subject
+                            </option>
+
+                            @foreach ($subjects as $subject)
+                                <option value="{{ $subject->id }}">
+
+                                    {{ $subject->name }} - ({{ $subject->type }})
+
+                                </option>
+                            @endforeach
+
+                        </select>
+
+                        @error('subject_id')
+                            <span class="text-red text-xs">{{ $message }}</span>
+                        @enderror
+
+                    </div>
                 </div>
 
                 <!-- Table -->

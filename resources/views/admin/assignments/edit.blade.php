@@ -44,7 +44,13 @@
 
                         <input type="text" name="title"
                             value="{{ old('title', $assignment->title) }}"
-                            class="w-full mt-1 bg-input border border-border rounded-xl px-3 py-2 text-tp">
+                            class="w-full mt-1 bg-input border @error('title') border-red-500 @else border-border @enderror rounded-xl px-3 py-2 text-tp">
+
+                        @error('title')
+                            <p class="text-red text-xs mt-1">
+                                {{ $message }}
+                            </p>
+                        @enderror
 
                     </div>
 
@@ -56,7 +62,7 @@
                         </label>
 
                         <select name="subject_id"
-                            class="w-full mt-1 bg-input border border-border rounded-xl px-3 py-2 text-tp">
+                            class="w-full mt-1 bg-input border @error('subject_id') border-red-500 @else border-border @enderror rounded-xl px-3 py-2 text-tp">
 
                             @foreach ($subjects as $subject)
 
@@ -64,11 +70,18 @@
                                     {{ old('subject_id', $assignment->subject_id) == $subject->id ? 'selected' : '' }}>
 
                                     {{ $subject->name }}
+
                                 </option>
 
                             @endforeach
 
                         </select>
+
+                        @error('subject_id')
+                            <p class="text-red text-xs mt-1">
+                                {{ $message }}
+                            </p>
+                        @enderror
 
                     </div>
 
@@ -81,7 +94,13 @@
 
                         <input type="date" name="deadline"
                             value="{{ old('deadline', $assignment->deadline) }}"
-                            class="w-full mt-1 bg-input border border-border rounded-xl px-3 py-2 text-tp">
+                            class="w-full mt-1 bg-input border @error('deadline') border-red-500 @else border-border @enderror rounded-xl px-3 py-2 text-tp">
+
+                        @error('deadline')
+                            <p class="text-red text-xs mt-1">
+                                {{ $message }}
+                            </p>
+                        @enderror
 
                     </div>
 
@@ -93,7 +112,13 @@
                         </label>
 
                         <input type="file" name="file"
-                            class="w-full mt-1 bg-input border border-border rounded-xl px-3 py-2 text-tp">
+                            class="w-full mt-1 bg-input border @error('file') border-red-500 @else border-border @enderror rounded-xl px-3 py-2 text-tp">
+
+                        @error('file')
+                            <p class="text-red text-xs mt-1">
+                                {{ $message }}
+                            </p>
+                        @enderror
 
                         @if($assignment->file)
 
@@ -116,7 +141,13 @@
                         </label>
 
                         <textarea name="description" rows="5"
-                            class="w-full mt-1 bg-input border border-border rounded-xl px-3 py-2 text-tp">{{ old('description', $assignment->description) }}</textarea>
+                            class="w-full mt-1 bg-input border @error('description') border-red-500 @else border-border @enderror rounded-xl px-3 py-2 text-tp">{{ old('description', $assignment->description) }}</textarea>
+
+                        @error('description')
+                            <p class="text-red text-xs mt-1">
+                                {{ $message }}
+                            </p>
+                        @enderror
 
                     </div>
 

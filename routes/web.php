@@ -87,10 +87,8 @@ Route::prefix('/admin')->middleware(['auth', 'role:admin'])->group(function () {
     // Links
     Route::resource('links', LinkController::class);
 
-
     // Exams
     Route::resource('exams', ExamController::class);
-    Route::get('/generate/exam', [ExamController::class, 'generateAll'])->name('exam.generate-all');
 
     // Bulk Create
     Route::get('/bulk-create/results', [ResultController::class, 'bulkCreate'])
@@ -111,14 +109,10 @@ Route::prefix('/admin')->middleware(['auth', 'role:admin'])->group(function () {
 
     // Delete Full Attendance Session
     Route::delete('attendances/delete-session/{subject}/{date}', [AttendanceController::class, 'deleteSession'])->name('attendances.delete-session');
-});
-
-
-
+}); // End of Admin Routes
 
 
 // %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-
 
 
 // Student Rotues
@@ -167,6 +161,27 @@ Route::prefix('/student')->middleware(['auth', 'role:student'])->group(function 
     // Links
     Route::get('/links', [StudentController::class, 'links'])
         ->name('student.links');
+    // Result
+    Route::get('/results', [StudentController::class, 'results'])
+        ->name('student.results');
+
+    // Assignment
+    Route::get('assignments', [StudentController::class, 'assignments'])
+        ->name('student.assignment');
+
+    Route::get('assignments/{assignment}', [StudentController::class, 'assignmentshow'])
+        ->name('student.assignment.show');
+
+
+    // Lab Reports
+
+    Route::get('lab-reports', [StudentController::class, 'labReports'])->name('student.lab-report');
+    Route::get('lab-reports/{labReport}', [StudentController::class, 'labreportShow'])->name('student.lab-report.show');
+
+
+    // Notice
+    Route::get('notices', [StudentController::class, 'notices'])->name('student.notice');
+    Route::get('notices/{notice}', [StudentController::class, 'noticeshow'])->name('student.notice.show');
 }); // End of Student Routes
 
 Route::fallback(function () {

@@ -6,6 +6,7 @@ use App\Http\Controllers\Controller;
 use App\Models\LabReport;
 use App\Models\Subject;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\File;
 
 class LabReportController extends Controller
 {
@@ -51,9 +52,16 @@ class LabReportController extends Controller
 
             $file = $request->file('file');
 
+            $uploadPath = storage_path('app/public/lab-reports');
+
+            // Create folder if not exists
+            if (!File::exists($uploadPath)) {
+                File::makeDirectory($uploadPath, 0755, true);
+            }
+
             $fileName = time() . '_' . $file->getClientOriginalName();
 
-            $file->move(public_path('uploads/lab-reports'), $fileName);
+            $file->move($uploadPath, $fileName);
         }
 
         LabReport::create([
@@ -102,11 +110,23 @@ class LabReportController extends Controller
 
         if ($request->hasFile('file')) {
 
+            $uploadPath = storage_path('app/public/lab-reports');
+
+            // Create folder if not exists
+            if (!File::exists($uploadPath)) {
+                File::makeDirectory($uploadPath, 0755, true);
+            }
+
+            // Delete old file
+            if ($labReport->file && File::exists($uploadPath . '/' . $labReport->file)) {
+                File::delete($uploadPath . '/' . $labReport->file);
+            }
+
             $file = $request->file('file');
 
             $fileName = time() . '_' . $file->getClientOriginalName();
 
-            $file->move(public_path('uploads/lab-reports'), $fileName);
+            $file->move($uploadPath, $fileName);
         }
 
         $labReport->update([
@@ -129,6 +149,13 @@ class LabReportController extends Controller
     public function destroy(string $id)
     {
         $labReport = LabReport::findOrFail($id);
+
+        $filePath = storage_path('app/public/lab-reports/' . $labReport->file);
+
+        // Delete file
+        if ($labReport->file && File::exists($filePath)) {
+            File::delete($filePath);
+        }
 
         $labReport->delete();
 

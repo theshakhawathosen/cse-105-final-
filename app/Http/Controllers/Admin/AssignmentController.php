@@ -6,6 +6,7 @@ use App\Http\Controllers\Controller;
 use App\Models\Assignment;
 use App\Models\Subject;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\File;
 
 class AssignmentController extends Controller
 {
@@ -50,9 +51,16 @@ class AssignmentController extends Controller
 
             $file = $request->file('file');
 
+            $uploadPath = storage_path('app/public/assignments');
+
+            // Create folder if not exists
+            if (!File::exists($uploadPath)) {
+                File::makeDirectory($uploadPath, 0755, true);
+            }
+
             $fileName = time() . '_' . $file->getClientOriginalName();
 
-            $file->move(public_path('uploads/assignments'), $fileName);
+            $file->move($uploadPath, $fileName);
         }
 
         Assignment::create([
@@ -99,11 +107,23 @@ class AssignmentController extends Controller
 
         if ($request->hasFile('file')) {
 
+            $uploadPath = storage_path('app/public/assignments');
+
+            // Create folder if not exists
+            if (!File::exists($uploadPath)) {
+                File::makeDirectory($uploadPath, 0755, true);
+            }
+
+            // Delete old file
+            if ($assignment->file && File::exists($uploadPath . '/' . $assignment->file)) {
+                File::delete($uploadPath . '/' . $assignment->file);
+            }
+
             $file = $request->file('file');
 
             $fileName = time() . '_' . $file->getClientOriginalName();
 
-            $file->move(public_path('uploads/assignments'), $fileName);
+            $file->move($uploadPath, $fileName);
         }
 
         $assignment->update([
@@ -125,6 +145,13 @@ class AssignmentController extends Controller
     public function destroy(string $id)
     {
         $assignment = Assignment::findOrFail($id);
+
+        $filePath = storage_path('app/public/assignments/' . $assignment->file);
+
+        // Delete file
+        if ($assignment->file && File::exists($filePath)) {
+            File::delete($filePath);
+        }
 
         $assignment->delete();
 

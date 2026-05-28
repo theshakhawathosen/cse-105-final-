@@ -21,10 +21,6 @@ return new class extends Migration
             // CT 1 / CT 2 / Mid Term / Final Term
             $table->string('exam_name');
 
-            $table->foreignId('subject_id')
-                ->constrained('subjects')
-                ->onDelete('cascade');
-
             $table->date('date');
 
             $table->timestamps();

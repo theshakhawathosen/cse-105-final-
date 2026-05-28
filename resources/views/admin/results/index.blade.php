@@ -99,7 +99,7 @@
                                 </td>
 
                                 <td class="py-3 text-ts">
-                                    {{ $result->exam->subject->name ?? '-' }}
+                                    {{ $result->subject->name ?? '-' }}
                                 </td>
 
                                 <td class="py-3">
@@ -159,6 +159,10 @@
 
                 </table>
 
+            </div>
+
+            <div class="my-5">
+                {{ $results->links() }}
             </div>
 
         </div>

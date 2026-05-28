@@ -19,6 +19,11 @@ return new class extends Migration
                 ->constrained('users')
                 ->onDelete('cascade');
 
+
+            $table->foreignId('subject_id')
+                ->constrained('subjects')
+                ->onDelete('cascade');
+
             $table->foreignId('exam_id')
                 ->constrained('exams')
                 ->onDelete('cascade');
@@ -26,9 +31,6 @@ return new class extends Migration
             $table->float('marks');
 
             $table->timestamps();
-
-            // prevent duplicate result
-            $table->unique(['user_id', 'exam_id']);
 
         });
     }

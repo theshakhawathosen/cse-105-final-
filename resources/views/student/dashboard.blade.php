@@ -1,7 +1,7 @@
 @extends('layouts.student.student-layout')
 @section('title', 'Dashboard')
 @section('content')
-    <main class="pt-[152px] px-4 md:px-5 pb-8 max-w-auto mx-5" role="main">
+    <main class="pt-5 px-4 md:px-5 pb-8 max-w-auto mx-5" role="main">
         <!-- ── SECTION HEADING: Batch Overview ── -->
         <div class="flex items-center justify-between mb-4">
             <h2 class="text-[0.78rem] font-semibold uppercase tracking-widest text-sec">

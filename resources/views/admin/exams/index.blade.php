@@ -31,14 +31,6 @@
                     All Exams
                 </h2>
                 <div>
-                    @if($exams->count() < 15)
-                        <a href="{{ route('exam.generate-all') }}" class="mr-2 bg-amber text-black rounded-md text-xs px-4 py-2">
-
-                            <i class="fas fa-share mr-1"></i>
-                        Generate All
-
-                    </a>
-                    @endif
                     <a href="{{ route('exams.create') }}" class="btn-primary text-xs px-4 py-2">
 
                         <i class="fas fa-plus mr-1"></i>
@@ -61,7 +53,6 @@
                             <th class="py-3 text-left">ID</th>
                             <th class="py-3 text-left">Exam Type</th>
                             <th class="py-3 text-left">Exam Name</th>
-                            <th class="py-3 text-left">Subject</th>
                             <th class="py-3 text-left">Date</th>
                             <th class="py-3 text-right">Action</th>
 
@@ -98,9 +89,6 @@
 
                                 </td>
 
-                                <td class="py-3 font-medium">
-                                    {{ $exam->subject->name ?? '-' }}
-                                </td>
 
                                 <td class="py-3 text-ts">
                                     {{ \Carbon\Carbon::parse($exam->date)->format('d M, Y') }}

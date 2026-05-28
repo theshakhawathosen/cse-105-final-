@@ -37,6 +37,24 @@
 
                 <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
 
+                    <!-- Exam Name -->
+                    <div>
+
+                        <label class="text-ts text-xs">
+                            Exam Name
+                        </label>
+
+                        <input type="text" name="exam_name" placeholder="Example: CT 1"
+                            class="w-full mt-1 bg-input border border-border rounded-xl px-3 py-2 text-tp"
+                            value="{{ old('exam_name',$exam->exam_name) }}">
+
+                        @error('exam_name')
+                            <p class="text-red text-xs mt-1">
+                                {{ $message }}
+                            </p>
+                        @enderror
+
+                    </div>
                     <!-- Exam Type -->
                     <div>
 
@@ -72,36 +90,6 @@
 
                     </div>
 
-                    <!-- Subject -->
-                    <div>
-
-                        <label class="text-ts text-xs">
-                            Subject
-                        </label>
-
-                        <select name="subject_id"
-                            class="w-full mt-1 bg-input border border-border rounded-xl px-3 py-2 text-tp">
-
-                            @foreach($subjects as $subject)
-
-                                <option value="{{ $subject->id }}"
-                                    {{ old('subject_id', $exam->subject_id) == $subject->id ? 'selected' : '' }}>
-
-                                    {{ $subject->name }}
-
-                                </option>
-
-                            @endforeach
-
-                        </select>
-
-                        @error('subject_id')
-                            <p class="text-red text-xs mt-1">
-                                {{ $message }}
-                            </p>
-                        @enderror
-
-                    </div>
 
                     <!-- Date -->
                     <div class="md:col-span-2">

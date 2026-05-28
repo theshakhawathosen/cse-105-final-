@@ -5,17 +5,17 @@
                 class=" {{ Route::is('student.dashboard') ? 'active text-accent' : 'text-sec' }} tab-link inline-flex items-center gap-1.5 px-3.5 text-[0.78rem] font-medium  shrink-0 cursor-pointer">
                 <i class="fa-solid fa-gauge-high text-[0.8rem]"></i> Dashboard
             </a>
-            <a href="#"
-                class="tab-link inline-flex items-center gap-1.5 px-3.5 text-[0.78rem] font-medium text-sec shrink-0 cursor-pointer">
+            <a href="{{ route('student.notice') }}"
+                class="{{ Route::is('student.notice') ? 'active text-accent' : 'text-sec' }} tab-link inline-flex items-center gap-1.5 px-3.5 text-[0.78rem] font-medium  shrink-0 cursor-pointer">
                 <i class="fa-solid fa-bell text-[0.8rem]"></i> Notice
                 <span class="bg-red text-white text-[0.58rem] font-bold rounded-full px-1.5 py-px">3</span>
             </a>
-            <a href="#"
-                class="tab-link inline-flex items-center gap-1.5 px-3.5 text-[0.78rem] font-medium text-sec shrink-0 cursor-pointer">
+            <a href="{{ route('student.lab-report') }}"
+                class="{{ Route::is('student.lab-report') ? 'active text-accent' : 'text-sec' }} tab-link inline-flex items-center gap-1.5 px-3.5 text-[0.78rem] font-medium  shrink-0 cursor-pointer">
                 <i class="fa-solid fa-flask text-[0.8rem]"></i> Lab Report
             </a>
-            <a href="#"
-                class="tab-link inline-flex items-center gap-1.5 px-3.5 text-[0.78rem] font-medium text-sec shrink-0 cursor-pointer">
+            <a href="{{ route('student.assignment') }}"
+                class="{{ Route::is('student.assignment') ? 'active text-accent' : 'text-sec' }} tab-link inline-flex items-center gap-1.5 px-3.5 text-[0.78rem] font-medium  shrink-0 cursor-pointer">
                 <i class="fa-solid fa-file-pen text-[0.8rem]"></i> Assignment
                 <span class="bg-red text-white text-[0.58rem] font-bold rounded-full px-1.5 py-px">2</span>
             </a>
@@ -50,6 +50,10 @@
             <a href="{{ route('student.resources') }}"
                 class="{{ Route::is('student.resources*') ? 'active text-accent' : 'text-sec' }} tab-link inline-flex items-center gap-1.5 px-3.5 text-[0.78rem] font-medium shrink-0 cursor-pointer">
                 <i class="fa-solid fa-photo-film text-[0.8rem]"></i> Resources
+            </a>
+            <a href="{{ route('student.results') }}?student_id={{ Auth::id() }}"
+                class="{{ Route::is('student.results*') ? 'active text-accent' : 'text-sec' }} tab-link inline-flex items-center gap-1.5 px-3.5 text-[0.78rem] font-medium shrink-0 cursor-pointer">
+                <i class="fa-solid fa-graduation-cap text-[0.8rem]"></i> Result
             </a>
             <a href="{{ route('student.links') }}"
                 class="{{ Route::is('student.links') ? 'active text-accent' : 'text-sec' }}  tab-link inline-flex items-center gap-1.5 px-3.5 text-[0.78rem] font-medium shrink-0 cursor-pointer">

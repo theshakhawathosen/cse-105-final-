@@ -90,9 +90,9 @@
                                 <option value="{{ $exam->id }}"
                                     {{ old('exam_id') == $exam->id ? 'selected' : '' }}>
 
-                                    {{ $exam->exam_type }}
+                                    {{ $exam->exam_name }}
                                     -
-                                    {{ $exam->subject->name ?? '-' }}
+                                    {{ $exam->exam_type ?? '-' }}
 
                                 </option>
 
@@ -108,8 +108,45 @@
 
                     </div>
 
+
+                    <!-- Subject -->
+                    <div>
+
+                        <label class="text-ts text-xs">
+                            Subject
+                        </label>
+
+                        <select name="subject_id"
+                            class="w-full mt-1 bg-input border border-border rounded-xl px-3 py-2 text-tp">
+
+                            <option value="">
+                                Select Subject
+                            </option>
+
+                            @foreach($subjects as $subject)
+
+                                <option value="{{ $subject->id }}"
+                                    {{ old('subject_id') == $subject->id ? 'selected' : '' }}>
+
+                                    {{ $subject->name }}
+                                    -({{ $subject->type ?? '-' }})
+
+                                </option>
+
+                            @endforeach
+
+                        </select>
+
+                        @error('subject_id')
+                            <p class="text-red text-xs mt-1">
+                                {{ $message }}
+                            </p>
+                        @enderror
+
+                    </div>
+
                     <!-- Marks -->
-                    <div class="md:col-span-2">
+                    <div">
 
                         <label class="text-ts text-xs">
                             Marks

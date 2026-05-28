@@ -15,9 +15,7 @@ class ExamController extends Controller
      */
     public function index()
     {
-        $exams = Exam::with('subject')
-            ->latest()
-            ->get();
+        $exams = Exam::latest()->get();
 
         return view('admin.exams.index', compact('exams'));
     }
@@ -27,9 +25,7 @@ class ExamController extends Controller
      */
     public function create()
     {
-        $subjects = Subject::all();
-
-        return view('admin.exams.create', compact('subjects'));
+        return view('admin.exams.create');
     }
 
     /**
@@ -43,7 +39,6 @@ class ExamController extends Controller
 
             'exam_name' => 'required',
 
-            'subject_id' => 'required|exists:subjects,id',
 
             'date' => 'required|date',
 
@@ -55,7 +50,6 @@ class ExamController extends Controller
 
             'exam_name' => $request->exam_name,
 
-            'subject_id' => $request->subject_id,
 
             'date' => $request->date,
 
@@ -79,9 +73,8 @@ class ExamController extends Controller
      */
     public function edit(Exam $exam)
     {
-        $subjects = Subject::all();
 
-        return view('admin.exams.edit', compact('exam', 'subjects'));
+        return view('admin.exams.edit', compact('exam'));
     }
 
     /**
@@ -95,7 +88,6 @@ public function update(Request $request, Exam $exam)
 
             'exam_name' => 'required',
 
-            'subject_id' => 'required|exists:subjects,id',
 
             'date' => 'required|date',
 
@@ -107,7 +99,6 @@ public function update(Request $request, Exam $exam)
 
             'exam_name' => $request->exam_name,
 
-            'subject_id' => $request->subject_id,
 
             'date' => $request->date,
 
@@ -129,32 +120,5 @@ public function update(Request $request, Exam $exam)
             ->with('success', 'Exam deleted successfully');
     }
 
-    public function generateAll()
-    {
-        // সব exam delete
-        Exam::truncate();
 
-        // সব subject আনো
-        $subjects = Subject::all();
-
-        // exam types
-        $examTypes = ['CT', 'Mid', 'Final'];
-
-        foreach ($subjects as $subject) {
-
-        $i = 1;
-            foreach ($examTypes as $type) {
-
-                Exam::create([
-                    'subject_id' => $subject->id,
-                    'exam_type'  => $type,
-                    'exam_name'  => $type."-".$i,
-                    'date'       => Carbon::now()->today()->format('y-m-d'),
-                ]);
-                $i++;
-            }
-        }
-
-        return back()->with('success', 'All exams generated successfully.');
-    }
 }

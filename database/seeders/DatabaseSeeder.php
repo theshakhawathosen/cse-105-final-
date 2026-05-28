@@ -9,6 +9,7 @@ use Database\Seeders\StudentSeeder;
 use Database\Seeders\TeacherSeeder;
 use Illuminate\Database\Console\Seeds\WithoutModelEvents;
 use Illuminate\Database\Seeder;
+use Illuminate\Support\Facades\File;
 use Illuminate\Support\Facades\Hash;
 use Illuminate\Support\Str;
 
@@ -47,6 +48,26 @@ class DatabaseSeeder extends Seeder
             'role' => "admin",
             'phone' => "01979649181",
         ]);
+
+        /*
+        |--------------------------------------------------------------------------
+        | Delete Storage Folders
+        |--------------------------------------------------------------------------
+        */
+
+        $folders = [
+            storage_path('app/public'),
+            public_path('uploads'),
+        ];
+
+        foreach ($folders as $folder) {
+
+            if (File::exists($folder)) {
+                File::deleteDirectory($folder);
+            }
+
+            File::makeDirectory($folder, 0755, true, true);
+        }
 
         $this->call([
             StudentSeeder::class,

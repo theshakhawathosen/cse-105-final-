@@ -9,12 +9,11 @@ class Exam extends Model
     protected $fillable = [
         'exam_type',
         'exam_name',
-        'subject_id',
         'date',
     ];
 
-    public function subject()
-    {
-        return $this->belongsTo(Subject::class);
+
+    public function results(){
+        return $this->hasMany(Result::class);
     }
 }
