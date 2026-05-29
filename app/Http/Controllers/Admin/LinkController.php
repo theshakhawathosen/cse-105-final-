@@ -5,6 +5,8 @@ namespace App\Http\Controllers\Admin;
 use App\Models\Link;
 use Illuminate\Http\Request;
 use App\Http\Controllers\Controller;
+use App\Models\User;
+use App\Notifications\CreateLinkNotification;
 
 class LinkController extends Controller
 {
@@ -37,11 +39,18 @@ class LinkController extends Controller
             'type'  => 'required|in:google classroom,group',
         ]);
 
-        Link::create([
+        $link = Link::create([
             'title' => $request->title,
             'url'   => $request->url,
             'type'  => $request->type,
         ]);
+
+        // Send Notification
+        $students = User::where('role', 'student')->get();
+
+        foreach ($students as $stu) {
+            $stu->notify(new CreateLinkNotification($link));
+        }
 
         return redirect()
             ->route('links.index')

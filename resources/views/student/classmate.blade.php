@@ -39,78 +39,7 @@
             </div>
         </form>
     </div>
-
-    <!-- ── STATS BAR ── -->
-    <div class="grid grid-cols-2 md:grid-cols-4 gap-3 mb-6">
-
-        <!-- Total -->
-        <div class="bg-card border border-bdr rounded-2xl p-4 flex items-center gap-3">
-            <div class="w-11 h-11 rounded-xl bg-accent/15 flex items-center justify-center">
-                <i class="fa-solid fa-users text-accent"></i>
-            </div>
-
-            <div>
-                <h3 class="text-[1.1rem] font-bold text-prim">
-                    {{ $totalStudents }}
-                </h3>
-
-                <p class="text-[0.7rem] text-sec">
-                    Total Students
-                </p>
-            </div>
-        </div>
-
-        <!-- Admin -->
-        <div class="bg-card border border-bdr rounded-2xl p-4 flex items-center gap-3">
-            <div class="w-11 h-11 rounded-xl bg-grn/15 flex items-center justify-center">
-                <i class="fa-solid fa-user-shield text-grn"></i>
-            </div>
-
-            <div>
-                <h3 class="text-[1.1rem] font-bold text-prim">
-                    {{ $totalAdmins }}
-                </h3>
-
-                <p class="text-[0.7rem] text-sec">
-                    Admins
-                </p>
-            </div>
-        </div>
-
-        <!-- Students -->
-        <div class="bg-card border border-bdr rounded-2xl p-4 flex items-center gap-3">
-            <div class="w-11 h-11 rounded-xl bg-pur/15 flex items-center justify-center">
-                <i class="fa-solid fa-user-group text-pur"></i>
-            </div>
-
-            <div>
-                <h3 class="text-[1.1rem] font-bold text-prim">
-                    {{ $totalOnlyStudents }}
-                </h3>
-
-                <p class="text-[0.7rem] text-sec">
-                    Students
-                </p>
-            </div>
-        </div>
-
-        <!-- With Phone -->
-        <div class="bg-card border border-bdr rounded-2xl p-4 flex items-center gap-3">
-            <div class="w-11 h-11 rounded-xl bg-pnk/15 flex items-center justify-center">
-                <i class="fa-solid fa-phone text-pnk"></i>
-            </div>
-
-            <div>
-                <h3 class="text-[1.1rem] font-bold text-prim">
-                    {{ $withPhone }}
-                </h3>
-
-                <p class="text-[0.7rem] text-sec">
-                    Phone Added
-                </p>
-            </div>
-        </div>
-    </div>
+    
 
     <!-- ── CLASSMATES GRID ── -->
     <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-4">

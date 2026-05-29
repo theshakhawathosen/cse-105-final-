@@ -122,6 +122,9 @@
                         alert.style.display = 'none';
                     }, 400)
                 }, 2000);
+
+                let audio = new Audio("{{ asset('audio/notification.mp3') }}");
+                audio.play();
             </script>
         @endif
 
@@ -145,5 +148,9 @@
                         alert.style.display = 'none';
                     }, 400)
                 }, 2000);
+
+                let audio = new Audio("{{ asset('audio/error.mp3') }}");
+                audio.play();
             </script>
         @endif
+

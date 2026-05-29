@@ -98,7 +98,7 @@
                     <div class="w-9 h-9 rounded-xl bg-accent/10 border border-accent/20 text-accent flex items-center justify-center">
                         <i class="fas fa-align-left text-sm"></i>
                     </div>
-                    <h2 class="text-base font-semibold text-prim">Description</h2>
+                    <h2 class="text-white font-semibold text-prim">Description</h2>
                 </div>
 
                 <div class="bg-input border border-bdr rounded-2xl px-5 py-4">
@@ -123,7 +123,7 @@
                         <div class="w-9 h-9 rounded-xl bg-accent/10 border border-accent/20 text-accent flex items-center justify-center">
                             <i class="fas fa-paperclip text-sm"></i>
                         </div>
-                        <h2 class="text-base font-semibold text-prim">Attachment</h2>
+                        <h2 class="text-white font-semibold text-prim">Attachment</h2>
                     </div>
 
                     <div class="bg-input border border-bdr rounded-2xl px-5 py-4 flex items-center justify-between gap-4">
@@ -168,7 +168,7 @@
                     <div class="w-9 h-9 rounded-xl bg-accent/10 border border-accent/20 text-accent flex items-center justify-center">
                         <i class="fas fa-info-circle text-sm"></i>
                     </div>
-                    <h2 class="text-base font-semibold text-prim">Assignment Info</h2>
+                    <h2 class="text-white font-semibold text-prim">Assignment Info</h2>
                 </div>
 
                 <div class="space-y-4">
@@ -245,7 +245,7 @@
                         <div class="w-9 h-9 rounded-xl bg-yellow-500/10 border border-yellow-500/20 text-yellow-400 flex items-center justify-center">
                             <i class="fas fa-hourglass-half text-sm"></i>
                         </div>
-                        <h2 class="text-base font-semibold text-prim">Time Remaining</h2>
+                        <h2 class="text-white font-semibold text-prim">Time Remaining</h2>
                     </div>
 
                     <div class="bg-input border border-bdr rounded-2xl px-4 py-4 text-center">

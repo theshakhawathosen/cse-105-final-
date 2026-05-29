@@ -65,16 +65,7 @@
             }
         });
 
-        // Mark all read
-        markAllRead.addEventListener("click", function() {
-            document
-                .querySelectorAll(".notif-item.unread")
-                .forEach(function(item) {
-                    item.classList.remove("unread");
-                    item.style.background = "transparent";
-                });
-            notifDot.style.display = "none";
-        });
+
 
         // Single item click → mark as read
         document.querySelectorAll(".notif-item").forEach(function(item) {

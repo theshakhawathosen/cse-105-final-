@@ -7,6 +7,7 @@ use App\Models\Attendance;
 use App\Models\Subject;
 use App\Models\TakeAttendance;
 use App\Models\TakeAttendence;
+use App\Notifications\CreateAttendanceNotification;
 use App\Models\User;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
@@ -89,6 +90,13 @@ class AttendanceController extends Controller
             );
         }
 
+        // Send Notification
+        $students = User::where('role', 'student')->get();
+
+        foreach ($students as $stu) {
+            $stu->notify(new CreateAttendanceNotification($attendance));
+        }
+
         return redirect()
             ->route('attendances.index')
             ->with(
@@ -100,54 +108,54 @@ class AttendanceController extends Controller
     // /**
     //  * Show page
     //  */
-public function show(string $id)
-{
-    $mainattendance = Attendance::findOrFail($id);
+    public function show(string $id)
+    {
+        $mainattendance = Attendance::findOrFail($id);
 
-    $subjects = Subject::orderBy('name')->get();
+        $subjects = Subject::orderBy('name')->get();
 
-    $students = User::where('role', 'student')
-        ->orderBy('roll', 'asc')
-        ->get();
+        $students = User::where('role', 'student')
+            ->orderBy('roll', 'asc')
+            ->get();
 
-    $attendance = Attendance::where('subject_id', $mainattendance->subject_id)
-        ->whereDate('date', $mainattendance->date)
-        ->first();
+        $attendance = Attendance::where('subject_id', $mainattendance->subject_id)
+            ->whereDate('date', $mainattendance->date)
+            ->first();
 
-    $presentStudents = [];
+        $presentStudents = [];
 
-    if ($attendance) {
+        if ($attendance) {
 
-        $presentStudents = TakeAttendance::where('attendance_id', $attendance->id)
-            ->where('status', 'present')
-            ->pluck('user_id')
-            ->toArray();
+            $presentStudents = TakeAttendance::where('attendance_id', $attendance->id)
+                ->where('status', 'present')
+                ->pluck('user_id')
+                ->toArray();
+        }
+
+        // Present Student List
+        $presentStudentList = User::where('role', 'student')
+            ->whereIn('id', $presentStudents)
+            ->orderBy('roll', 'asc')
+            ->get();
+
+        // Absent Student List
+        $absentStudentList = User::where('role', 'student')
+            ->whereNotIn('id', $presentStudents)
+            ->orderBy('roll', 'asc')
+            ->get();
+
+        return view(
+            'admin.attendances.show',
+            compact(
+                'attendance',
+                'subjects',
+                'students',
+                'presentStudents',
+                'presentStudentList',
+                'absentStudentList'
+            )
+        );
     }
-
-    // Present Student List
-    $presentStudentList = User::where('role', 'student')
-        ->whereIn('id', $presentStudents)
-        ->orderBy('roll', 'asc')
-        ->get();
-
-    // Absent Student List
-    $absentStudentList = User::where('role', 'student')
-        ->whereNotIn('id', $presentStudents)
-        ->orderBy('roll', 'asc')
-        ->get();
-
-    return view(
-        'admin.attendances.show',
-        compact(
-            'attendance',
-            'subjects',
-            'students',
-            'presentStudents',
-            'presentStudentList',
-            'absentStudentList'
-        )
-    );
-}
 
 
     // /**

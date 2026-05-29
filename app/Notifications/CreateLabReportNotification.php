@@ -3,25 +3,23 @@
 namespace App\Notifications;
 
 use App\FormatsNotification;
-use App\Models\Notice;
+use App\Models\LabReport;
 use Illuminate\Bus\Queueable;
 use Illuminate\Contracts\Queue\ShouldQueue;
 use Illuminate\Notifications\Messages\MailMessage;
 use Illuminate\Notifications\Notification;
 
-class NoticeCreatedNotification extends Notification
+class CreateLabReportNotification extends Notification
 {
     use Queueable,FormatsNotification;
 
     /**
      * Create a new notification instance.
      */
-
-    public $notice;
-
-    public function __construct(Notice $notice)
+    public $labreport;
+    public function __construct(LabReport $labreport)
     {
-        $this->notice = $notice;
+        $this->labreport = $labreport;
     }
 
     /**
@@ -34,12 +32,14 @@ class NoticeCreatedNotification extends Notification
         return ['database'];
     }
 
+
     /**
+     * Get the array representation of the notification.
+     *
      * @return array<string, mixed>
      */
     public function toArray(object $notifiable): array
     {
-
-        return $this->formatNotification($this->notice->title,$this->notice->content,route('student.notice.show',$this->notice->id),"fa-solid fa-bullhorn");
+        return $this->formatNotification($this->labreport->title,$this->labreport->description,route('student.lab-report.show',$this->labreport->id),"fas fa-flask");
     }
 }

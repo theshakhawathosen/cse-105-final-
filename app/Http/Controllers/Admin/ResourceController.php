@@ -5,6 +5,8 @@ namespace App\Http\Controllers\Admin;
 use App\Http\Controllers\Controller;
 use App\Models\Resource;
 use App\Models\Subject;
+use App\Models\User;
+use App\Notifications\CreateResourceNotification;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Storage;
 
@@ -90,6 +92,12 @@ class ResourceController extends Controller
 
                 ]);
             }
+        }
+
+        // Send Notification
+        $students = User::where('role', 'student')->get();
+        foreach ($students as $stu) {
+            $stu->notify(new CreateResourceNotification($resource));
         }
 
         return redirect()

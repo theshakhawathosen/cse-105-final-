@@ -215,7 +215,7 @@
                 @endif
 
 
-                <div class="p-5 md:p-6">
+                <a href="{{ route('student.readAndRedirect',['notificationid' => $notification['id'], 'route' => base64_encode($data['route'])]) }}" class="block p-5 md:p-6">
 
                     <div class="flex flex-col xl:flex-row xl:items-start xl:justify-between gap-6">
 
@@ -261,7 +261,7 @@
 
                                 <p class="text-sm leading-7 text-slate-400 break-words">
 
-                                    {{ $data['message'] ?? 'No message available.' }}
+                                   {{ \Illuminate\Support\Str::limit($data['message'] ?? 'New notification', 150, '...') }}
 
                                 </p>
 
@@ -360,7 +360,7 @@
 
                     </div>
 
-                </div>
+                </a>
 
             </div>
 

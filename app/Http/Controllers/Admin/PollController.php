@@ -6,6 +6,8 @@ use App\Http\Controllers\Controller;
 use App\Models\Poll;
 use App\Models\PollOption;
 use App\Models\PollVote;
+use App\Models\User;
+use App\Notifications\CreatePollNotification;
 use Illuminate\Http\Request;
 
 class PollController extends Controller
@@ -31,31 +33,31 @@ class PollController extends Controller
     }
 
     /**
- * Show poll details and results
- */
-public function show(string $id)
-{
-    $poll = Poll::with([
-        'options.votes.student',
-        'votes.student',
-    ])->findOrFail($id);
+     * Show poll details and results
+     */
+    public function show(string $id)
+    {
+        $poll = Poll::with([
+            'options.votes.student',
+            'votes.student',
+        ])->findOrFail($id);
 
-    $totalVotes = $poll->votes->count();
+        $totalVotes = $poll->votes->count();
 
-    // Winner Option
-    $winner = $poll->options
-        ->sortByDesc(function ($option) {
+        // Winner Option
+        $winner = $poll->options
+            ->sortByDesc(function ($option) {
 
-            return $option->votes->count();
-        })
-        ->first();
+                return $option->votes->count();
+            })
+            ->first();
 
-    return view('admin.polls.show', compact(
-        'poll',
-        'totalVotes',
-        'winner'
-    ));
-}
+        return view('admin.polls.show', compact(
+            'poll',
+            'totalVotes',
+            'winner'
+        ));
+    }
 
 
     /**
@@ -85,6 +87,12 @@ public function show(string $id)
                 'poll_id' => $poll->id,
                 'option_text' => $option,
             ]);
+        }
+
+        // Send Notification
+        $students = User::where('role', 'student')->get();
+        foreach ($students as $stu) {
+            $stu->notify(new CreatePollNotification($poll));
         }
 
         return redirect()

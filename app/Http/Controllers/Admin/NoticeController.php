@@ -64,7 +64,7 @@ class NoticeController extends Controller
                 ->store('notices', 'public');
         }
 
-       $notice =  Notice::create([
+        $notice =  Notice::create([
             'title'         => $validated['title'],
             'content'       => $validated['content'],
             'category'      => $validated['category'] ?? null,
@@ -77,10 +77,12 @@ class NoticeController extends Controller
             'is_scrolling'  => $request->has('is_scrolling'),
         ]);
 
-        // Send Notification
-        $notiStu = User::where('role','student')->get();
-        foreach ($notiStu as $stu) {
-            $stu->notify(new NoticeCreatedNotification($notice));
+        if ($notice->is_published) {
+            // Send Notification
+            $notiStu = User::where('role', 'student')->get();
+            foreach ($notiStu as $stu) {
+                $stu->notify(new NoticeCreatedNotification($notice));
+            }
         }
 
         return redirect()
@@ -134,6 +136,13 @@ class NoticeController extends Controller
                 ->store('notices', 'public');
         }
 
+        if (!$notice->is_published) {
+            // Send Notification
+            $notiStu = User::where('role', 'student')->get();
+            foreach ($notiStu as $stu) {
+                $stu->notify(new NoticeCreatedNotification($notice));
+            }
+        }
         $notice->update([
             'title'        => $validated['title'],
             'content'      => $validated['content'],
@@ -145,6 +154,8 @@ class NoticeController extends Controller
             'is_published' => $request->has('is_published'),
             'is_scrolling' => $request->has('is_scrolling'),
         ]);
+
+
 
         return redirect()
             ->route('notices.index')

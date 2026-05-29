@@ -107,15 +107,21 @@
                         @endif
 
                         <!-- Scrolling -->
-                        {{-- @if($notice->is_scrolling)
+                        @if($notice->is_scrolling)
                             <span class="inline-flex items-center gap-1 bg-yellow-400/10 text-yellow-400 border border-yellow-400/20 text-[11px] px-2.5 py-0.5 rounded-full">
                                 <i class="fas fa-scroll text-[9px]"></i> Scrolling
                             </span>
-                        @endif --}}
+                        @endif
+
+                        @if($notice->attachment)
+                            <span class="inline-flex items-center gap-1 bg-green-400/10 text-green-400 border border-green-400/20 text-[11px] px-2.5 py-0.5 rounded-full">
+                                <i class="fas fa-paperclip text-[9px]"></i> File
+                            </span>
+                        @endif
 
                     </div>
 
-                    <h2 class="text-base font-semibold text-prim group-hover:text-yellow-400 transition-colors duration-200 truncate">
+                    <h2 class="text-white font-semibold text-prim group-hover:text-yellow-400 transition-colors duration-200 truncate">
                         {{ $notice->title }}
                     </h2>
 

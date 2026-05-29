@@ -104,8 +104,14 @@
                             <!-- Photo -->
                             <div class="w-16 h-16 rounded-2xl overflow-hidden mx-auto mt-4 border border-border">
 
-                                <img src="{{ asset($student->photo ?? 'default.png') }}"
+                                @if ($student->photo)
+                                <img src="{{ asset('storage/'.$student->photo ?? 'default.png') }}"
                                     class="w-full h-full object-cover">
+                                    @else
+
+                                <img src="{{ asset('default.png') }}"
+                                    class="w-full h-full object-cover">
+                                @endif
 
                             </div>
 

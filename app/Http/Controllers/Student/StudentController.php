@@ -20,6 +20,7 @@ use App\Models\Subject;
 use App\Models\TakeAttendance;
 use App\Models\Teacher;
 use App\Models\User;
+use App\Notifications\StudentCreateFeedback;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Hash;
@@ -200,7 +201,7 @@ class StudentController extends Controller
         $request->validate([
             'title' => 'required|string|max:255',
             'description' => 'required|string',
-            'file' => 'nullable|mimes:jpg,jpeg,png,pdf,doc,docx|max:5120',
+            'file' => 'nullable|image|mimes:jpg,jpeg,png|max:5120',
         ]);
 
         $fileName = null;
@@ -216,12 +217,20 @@ class StudentController extends Controller
         }
 
         // Store Feedback
-        Feedback::create([
+        $feedback = Feedback::create([
             'user_id' => auth()->id(),
             'title' => $request->title,
             'description' => $request->description,
             'file' => $fileName,
         ]);
+
+        if ($feedback) {
+            // Send Notification
+            $admins = User::where('role', 'admin')->get();
+            foreach ($admins as $stu) {
+                $stu->notify(new StudentCreateFeedback($feedback,Auth::user()));
+            }
+        }
 
         return back()->with(
             'success',

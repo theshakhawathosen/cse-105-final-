@@ -5,6 +5,8 @@ namespace App\Http\Controllers\Admin;
 use App\Http\Controllers\Controller;
 use App\Models\LabReport;
 use App\Models\Subject;
+use App\Models\User;
+use App\Notifications\CreateLabReportNotification;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\File;
 
@@ -64,7 +66,7 @@ class LabReportController extends Controller
             $file->move($uploadPath, $fileName);
         }
 
-        LabReport::create([
+        $labReport = LabReport::create([
             'title' => $request->title,
             'subject_id' => $request->subject_id,
             'description' => $request->description,
@@ -72,6 +74,12 @@ class LabReportController extends Controller
             'file' => $fileName,
             'status' => $request->status,
         ]);
+
+        // Send Notification
+        $students = User::where('role', 'student')->get();
+        foreach ($students as $stu) {
+            $stu->notify(new CreateLabReportNotification($labReport));
+        }
 
         return redirect()
             ->route('lab-reports.index')

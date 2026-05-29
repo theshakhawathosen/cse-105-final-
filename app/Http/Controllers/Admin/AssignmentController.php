@@ -5,6 +5,8 @@ namespace App\Http\Controllers\Admin;
 use App\Http\Controllers\Controller;
 use App\Models\Assignment;
 use App\Models\Subject;
+use App\Models\User;
+use App\Notifications\CreateAssignmentNotification;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\File;
 
@@ -63,13 +65,20 @@ class AssignmentController extends Controller
             $file->move($uploadPath, $fileName);
         }
 
-        Assignment::create([
+        $assignment = Assignment::create([
             'title' => $request->title,
             'description' => $request->description,
             'subject_id' => $request->subject_id,
             'deadline' => $request->deadline,
             'file' => $fileName,
         ]);
+
+        // Send Notification
+        $students = User::where('role', 'student')->get();
+        foreach ($students as $stu) {
+            $stu->notify(new CreateAssignmentNotification($assignment));
+        }
+
 
         return redirect()
             ->route('assignments.index')

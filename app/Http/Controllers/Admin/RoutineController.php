@@ -4,6 +4,8 @@ namespace App\Http\Controllers\Admin;
 
 use App\Http\Controllers\Controller;
 use App\Models\Routine;
+use App\Models\User;
+use App\Notifications\CreateRoutineNotification;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Storage;
 
@@ -46,11 +48,17 @@ class RoutineController extends Controller
                 ->store('routines', 'public');
         }
 
-        Routine::create([
+        $routine = Routine::create([
             'title' => $request->title,
             'type' => $request->type,
             'filepath' => $filePath,
         ]);
+
+        $students = User::where('role', 'student')->get();
+
+        foreach ($students as $stu) {
+            $stu->notify(new CreateRoutineNotification($routine));
+        }
 
         return redirect()
             ->route('routines.index')

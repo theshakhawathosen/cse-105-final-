@@ -38,7 +38,7 @@
                 <div class="relative">
 
                     <select name="type" onchange="this.form.submit()"
-                        class="appearance-none bg-[#151922] border border-[#262d3d] hover:border-[#3b82f6]/50 text-gray-300 rounded-xl px-4 py-2.5 pr-10 text-sm focus:outline-none focus:border-accent transition-all duration-300 min-w-[190px] shadow-lg shadow-black/10">
+                        class="appearance-none w-100 bg-[#151922] border border-[#262d3d] hover:border-[#3b82f6]/50 text-gray-300 rounded-xl px-4 py-2.5 pr-10 text-sm focus:outline-none focus:border-accent transition-all duration-300 min-w-[190px] shadow-lg shadow-black/10">
 
                         <option value="">
                             All Routines
@@ -61,12 +61,6 @@
 
                     </select>
 
-                    <div
-                        class="absolute inset-y-0 right-3 flex items-center pointer-events-none text-gray-500">
-
-                        <i class="fas fa-chevron-down text-[11px]"></i>
-
-                    </div>
 
                 </div>
 

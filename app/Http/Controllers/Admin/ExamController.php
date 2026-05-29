@@ -5,6 +5,8 @@ namespace App\Http\Controllers\Admin;
 use App\Http\Controllers\Controller;
 use App\Models\Exam;
 use App\Models\Subject;
+use App\Models\User;
+use App\Notifications\CreateExamNotification;
 use Carbon\Carbon;
 use Illuminate\Http\Request;
 
@@ -44,7 +46,7 @@ class ExamController extends Controller
 
         ]);
 
-        Exam::create([
+       $exam = Exam::create([
 
             'exam_type' => $request->exam_type,
 
@@ -54,6 +56,13 @@ class ExamController extends Controller
             'date' => $request->date,
 
         ]);
+
+        // Send Notification
+        $students = User::where('role', 'student')->get();
+
+        foreach ($students as $stu) {
+            $stu->notify(new CreateExamNotification($exam));
+        }
 
         return redirect()
             ->route('exams.index')
@@ -80,7 +89,7 @@ class ExamController extends Controller
     /**
      * Update the specified resource in storage.
      */
-public function update(Request $request, Exam $exam)
+    public function update(Request $request, Exam $exam)
     {
         $request->validate([
 
@@ -119,6 +128,4 @@ public function update(Request $request, Exam $exam)
             ->route('exams.index')
             ->with('success', 'Exam deleted successfully');
     }
-
-
 }

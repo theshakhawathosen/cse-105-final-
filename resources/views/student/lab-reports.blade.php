@@ -111,7 +111,7 @@
 
                     </div>
 
-                    <h2 class="text-base font-semibold text-prim group-hover:text-purple-400 transition-colors duration-200 truncate">
+                    <h2 class="text-white font-semibold text-prim group-hover:text-purple-400 transition-colors duration-200 truncate">
                         {{ $report->title }}
                     </h2>
 

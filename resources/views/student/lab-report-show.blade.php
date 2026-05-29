@@ -95,7 +95,7 @@
                     <div class="w-9 h-9 rounded-xl bg-purple-400/10 border border-purple-400/20 text-purple-400 flex items-center justify-center">
                         <i class="fas fa-align-left text-sm"></i>
                     </div>
-                    <h2 class="text-base font-semibold text-prim">Description</h2>
+                    <h2 class="text-white font-semibold">Description</h2>
                 </div>
 
                 <div class="bg-input border border-bdr rounded-2xl px-5 py-4">
@@ -116,7 +116,7 @@
                         <div class="w-9 h-9 rounded-xl bg-purple-400/10 border border-purple-400/20 text-purple-400 flex items-center justify-center">
                             <i class="fas fa-paperclip text-sm"></i>
                         </div>
-                        <h2 class="text-base font-semibold text-prim">Attachment</h2>
+                        <h2 class="text-white font-semibold text-prim">Attachment</h2>
                     </div>
 
                     <div class="bg-input border border-bdr rounded-2xl px-5 py-4 flex items-center justify-between gap-4">
@@ -155,7 +155,7 @@
                     <div class="w-9 h-9 rounded-xl bg-purple-400/10 border border-purple-400/20 text-purple-400 flex items-center justify-center">
                         <i class="fas fa-info-circle text-sm"></i>
                     </div>
-                    <h2 class="text-base font-semibold text-prim">Report Info</h2>
+                    <h2 class="text-white font-semibold text-prim">Report Info</h2>
                 </div>
 
                 <div class="space-y-3">
@@ -192,8 +192,8 @@
                         @endif
                     </div>
 
-                    <div class="bg-input border border-bdr rounded-2xl px-4 py-3">
-                        <p class="text-[11px] text-sec mb-1"><i class="fas fa-paperclip mr-1"></i> Attachment</p>
+                    <div class="bg-input border border-bdr text-white rounded-2xl px-4 py-3">
+                        <p class="text-[11px] text-white mb-1"><i class="fas fa-paperclip mr-1"></i> Attachment</p>
                         @if($labReport->file)
                             <p class="text-sm font-semibold text-grn"><i class="fas fa-check-circle mr-1"></i> File Available</p>
                         @else
@@ -213,7 +213,7 @@
                         <div class="w-9 h-9 rounded-xl bg-yellow-500/10 border border-yellow-500/20 text-yellow-400 flex items-center justify-center">
                             <i class="fas fa-hourglass-half text-sm"></i>
                         </div>
-                        <h2 class="text-base font-semibold text-prim">Time Remaining</h2>
+                        <h2 class="text-white font-semibold text-prim">Time Remaining</h2>
                     </div>
 
                     <div class="bg-input border border-bdr rounded-2xl px-4 py-4 text-center">

@@ -8,6 +8,7 @@ use App\Http\Controllers\Admin\FeedbackController;
 use App\Http\Controllers\Admin\LabReportController;
 use App\Http\Controllers\Admin\LinkController;
 use App\Http\Controllers\Admin\NoticeController;
+use App\Http\Controllers\Admin\NotificationController as AdminNotification;
 use App\Http\Controllers\Admin\PollController;
 use App\Http\Controllers\Admin\ResourceController;
 use App\Http\Controllers\Admin\ResourceFileController;
@@ -43,7 +44,6 @@ Route::prefix('/admin')->middleware(['auth', 'role:admin'])->group(function () {
     Route::resource('students', StudentManage::class);
     // Teachers
     Route::resource('teachers', TeacherController::class);
-
     // Notice
     Route::resource('notices', NoticeController::class);
     // toggle publish
@@ -71,10 +71,8 @@ Route::prefix('/admin')->middleware(['auth', 'role:admin'])->group(function () {
     // Assignment
     Route::resource('assignments', AssignmentController::class);
 
-
     // Lab Reports
     Route::resource('lab-reports', LabReportController::class);
-
 
     // Polls
     Route::resource('polls', PollController::class);
@@ -82,7 +80,6 @@ Route::prefix('/admin')->middleware(['auth', 'role:admin'])->group(function () {
     // Student Vote
     Route::post('polls/{poll}/vote', [PollController::class, 'vote'])
         ->name('polls.vote');
-
 
     // Links
     Route::resource('links', LinkController::class);
@@ -109,6 +106,26 @@ Route::prefix('/admin')->middleware(['auth', 'role:admin'])->group(function () {
 
     // Delete Full Attendance Session
     Route::delete('attendances/delete-session/{subject}/{date}', [AttendanceController::class, 'deleteSession'])->name('attendances.delete-session');
+
+
+    // Notifications
+    Route::get('/notifications', [AdminNotification::class, 'index'])
+        ->name('notifications.index');
+
+    Route::patch('/notifications/{id}/read', [AdminNotification::class, 'markAsRead'])
+        ->name('notifications.read');
+
+    Route::patch('/notifications/read-all', [AdminNotification::class, 'markAllAsRead'])
+        ->name('notifications.read.all');
+
+    Route::delete('/notifications/{id}', [AdminNotification::class, 'destroy'])
+    ->name('notifications.destroy');
+
+    Route::delete('/notification/delete-all', [AdminNotification::class, 'deleteAll'])
+    ->name('notifications.delete-all');
+
+    Route::get('read-and-redirect/{notificationid}/{route}', [AdminNotification::class, 'readAndRedirect'])
+        ->name('admin.readAndRedirect');
 }); // End of Admin Routes
 
 
@@ -226,5 +243,6 @@ Route::prefix('/student')->middleware(['auth', 'role:student'])->group(function 
 Route::fallback(function () {
     return view('errors.404');
 });
-use Illuminate\Support\Facades\Mail;
 
+use Illuminate\Support\Facades\Mail;
+use App\Http\Controllers\Admin\NotificationController;
