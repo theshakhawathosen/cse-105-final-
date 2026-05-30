@@ -142,6 +142,50 @@
             });
         });
     </script>
+
+{{-- <script>
+document.addEventListener('DOMContentLoaded', () => {
+
+    console.log(window.Echo);
+
+    window.Echo.channel('test-channel')
+        .listen('TestMessage', (e) => {
+
+            console.log('Received:', e);
+
+            alert(e.message);
+
+        });
+
+});
+</script> --}}
+
+
+{{-- Presence Channel er Jonno --}}
+<script>
+document.addEventListener('DOMContentLoaded', function () {
+
+    if (window.Echo) {
+
+        window.Echo.join('online-students')
+
+            .here((users) => {
+                console.log('Online Users:', users);
+            })
+
+            .joining((user) => {
+                console.log(user.name + ' joined');
+            })
+
+            .leaving((user) => {
+                console.log(user.name + ' left');
+            });
+
+    }
+
+});
+</script>
+
 </body>
 
 </html>

@@ -95,12 +95,6 @@
         setTimeout(renderBars, 200);
     });
 
-    // Re-render charts on tab switch to dashboard
-    const origSwitch = switchTab;
-    window.switchTab = function(tabId, el) {
-        origSwitch(tabId, el);
-        if (tabId === 'dashboard') setTimeout(renderBars, 200);
-    };
 
     // Handle window resize
     window.addEventListener('resize', () => {
@@ -110,9 +104,27 @@
             mobileSidebarOpen = false;
         }
     });
-
 </script>
-    @stack('js')
+@stack('js')
+
+{{-- <script>
+    document.addEventListener('DOMContentLoaded', () => {
+
+        console.log(window.Echo);
+
+        window.Echo.channel('test-channel')
+            .listen('TestMessage', (e) => {
+
+                console.log('Received:', e);
+
+                alert(e.message);
+
+            });
+
+    });
+</script> --}}
+
+
 </body>
 
 </html>

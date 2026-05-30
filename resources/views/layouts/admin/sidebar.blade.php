@@ -93,6 +93,11 @@
             </a>
 
             <div class="sidebar-section-label">System</div>
+
+            <a href="{{ route('admin.online-students') }}" class="nav-item">
+                <i class="nav-icon fas fa-users"></i>
+                <span class="nav-label">Online Students</span>
+            </a>
             <div class="nav-item">
                 <i class="nav-icon fas fa-cog"></i>
                 <span class="nav-label">Settings</span>

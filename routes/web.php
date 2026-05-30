@@ -1,5 +1,6 @@
 <?php
 
+use App\Events\TestMessage;
 use App\Http\Controllers\Admin\AdminController;
 use App\Http\Controllers\Admin\AssignmentController;
 use App\Http\Controllers\Admin\AttendanceController;
@@ -11,6 +12,7 @@ use App\Http\Controllers\Admin\LinkController;
 use App\Http\Controllers\Admin\NoticeController;
 use App\Http\Controllers\Admin\NotificationController as AdminNotification;
 use App\Http\Controllers\Admin\OnlineClassController;
+use App\Http\Controllers\Admin\OnlineUserTrackController;
 use App\Http\Controllers\Admin\PollController;
 use App\Http\Controllers\Admin\ResourceController;
 use App\Http\Controllers\Admin\ResourceFileController;
@@ -61,7 +63,8 @@ Route::prefix('/admin')->middleware(['auth', 'role:admin'])->group(function () {
     // Online Class
     Route::resource('online-classes', OnlineClassController::class);
 
-
+    // Online Students Check
+    Route::get('/online-users', [OnlineUserTrackController::class,'index'])->name('admin.online-students');
 
 
     // Routine
