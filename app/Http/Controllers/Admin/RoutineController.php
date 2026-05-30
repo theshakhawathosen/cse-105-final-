@@ -7,6 +7,7 @@ use App\Models\Routine;
 use App\Models\User;
 use App\Notifications\CreateRoutineNotification;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Storage;
 
 class RoutineController extends Controller
@@ -55,7 +56,6 @@ class RoutineController extends Controller
         ]);
 
         $students = User::where('role', 'student')->get();
-
         foreach ($students as $stu) {
             $stu->notify(new CreateRoutineNotification($routine));
         }
@@ -126,6 +126,11 @@ class RoutineController extends Controller
 
             Storage::disk('public')->delete($routine->filepath);
         }
+
+        DB::table('notifications')
+            ->where('type', CreateRoutineNotification::class)
+            ->where('data->route', route('student.attendances'))
+            ->delete();
 
         $routine->delete();
 

@@ -110,7 +110,9 @@
             mobileSidebarOpen = false;
         }
     });
+
 </script>
+    @stack('js')
 </body>
 
 </html>

@@ -36,6 +36,14 @@
                 <span class="nav-label">Notices</span>
                 <span class="badge-pill">3</span>
             </a>
+            <a href="{{ route('lessons.index') }}" class="nav-item">
+                <i class="nav-icon fas fa-bullhorn"></i>
+                <span class="nav-label">Lesson</span>
+            </a>
+            <a href="{{ route('online-classes.index') }}" class="nav-item">
+                <i class="nav-icon fas fa-laptop"></i>
+                <span class="nav-label">Online Class</span>
+            </a>
             <a href="{{ route('assignments.index') }}" class="nav-item">
                 <i class="nav-icon fas fa-tasks"></i>
                 <span class="nav-label">Assignments</span>

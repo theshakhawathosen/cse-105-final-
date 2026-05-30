@@ -23,6 +23,10 @@
                 class="{{ Route::is('student.routine') ? 'active text-accent' : 'text-sec' }} tab-link inline-flex items-center gap-1.5 px-3.5 text-[0.78rem] font-medium shrink-0 cursor-pointer">
                 <i class="fa-regular fa-calendar text-[0.8rem]"></i> Routine
             </a>
+            <a href="{{ route('student.calendar') }}"
+                class="{{ Route::is('student.calendar') ? 'active text-accent' : 'text-sec' }} tab-link inline-flex items-center gap-1.5 px-3.5 text-[0.78rem] font-medium shrink-0 cursor-pointer">
+                <i class="fa-solid fa-th text-[0.8rem]"></i> Study Calendar
+            </a>
             <a href="{{ route('student.polls') }}"
                 class="{{ Route::is('student.polls') ? 'active text-accent' : 'text-sec' }} tab-link inline-flex items-center gap-1.5 px-3.5 text-[0.78rem] font-medium shrink-0 cursor-pointer">
                 <i class="fa-solid fa-square-poll-vertical text-[0.8rem]"></i> Poll
@@ -41,7 +45,11 @@
             </a>
             <a href="{{ route('student.attendances') }}"
                 class=" {{ Route::is('student.attendances') ? 'active text-accent' : 'text-sec' }} tab-link inline-flex items-center gap-1.5 px-3.5 text-[0.78rem] font-medium  shrink-0 cursor-pointer">
-                <i class="fa-solid fa-th text-[0.8rem]"></i> Attendance
+                <i class="fa-solid fa-user-checkw text-[0.8rem]"></i> Attendance
+            </a>
+            <a href="{{ route('student.online-class.index') }}"
+                class=" {{ Route::is('student.online-class.index') ? 'active text-accent' : 'text-sec' }} tab-link inline-flex items-center gap-1.5 px-3.5 text-[0.78rem] font-medium  shrink-0 cursor-pointer">
+                <i class="fa-solid fa-globe text-[0.8rem]"></i> Online Class
             </a>
             <a href="{{ route('student.feedback') }}"
                 class="{{ Route::is('student.feedback') ? 'active text-accent' : 'text-sec' }} tab-link inline-flex items-center gap-1.5 px-3.5 text-[0.78rem] font-medium  shrink-0 cursor-pointer">

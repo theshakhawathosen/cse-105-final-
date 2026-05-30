@@ -6,9 +6,11 @@ use App\Http\Controllers\Admin\AttendanceController;
 use App\Http\Controllers\Admin\ExamController;
 use App\Http\Controllers\Admin\FeedbackController;
 use App\Http\Controllers\Admin\LabReportController;
+use App\Http\Controllers\Admin\LessonController;
 use App\Http\Controllers\Admin\LinkController;
 use App\Http\Controllers\Admin\NoticeController;
 use App\Http\Controllers\Admin\NotificationController as AdminNotification;
+use App\Http\Controllers\Admin\OnlineClassController;
 use App\Http\Controllers\Admin\PollController;
 use App\Http\Controllers\Admin\ResourceController;
 use App\Http\Controllers\Admin\ResourceFileController;
@@ -55,6 +57,12 @@ Route::prefix('/admin')->middleware(['auth', 'role:admin'])->group(function () {
 
     // Subject
     Route::resource('subjects', SubjectController::class);
+
+    // Online Class
+    Route::resource('online-classes', OnlineClassController::class);
+
+
+
 
     // Routine
     Route::resource('routines', RoutineController::class);
@@ -119,13 +127,16 @@ Route::prefix('/admin')->middleware(['auth', 'role:admin'])->group(function () {
         ->name('notifications.read.all');
 
     Route::delete('/notifications/{id}', [AdminNotification::class, 'destroy'])
-    ->name('notifications.destroy');
+        ->name('notifications.destroy');
 
     Route::delete('/notification/delete-all', [AdminNotification::class, 'deleteAll'])
-    ->name('notifications.delete-all');
+        ->name('notifications.delete-all');
 
     Route::get('read-and-redirect/{notificationid}/{route}', [AdminNotification::class, 'readAndRedirect'])
         ->name('admin.readAndRedirect');
+
+
+    Route::resource('lessons', LessonController::class);
 }); // End of Admin Routes
 
 
@@ -238,11 +249,18 @@ Route::prefix('/student')->middleware(['auth', 'role:student'])->group(function 
     // Delete all notifications
     Route::delete('notifications/delete-all', [StudentController::class, 'deleteAllNotifications'])
         ->name('student.notifications.deleteAll');
+
+
+    // Online Class
+    Route::get('/online-classes', [StudentController::class, 'onlineClasses'])
+        ->name('student.online-class.index');
+
+    Route::get('/online-classes/join/{id}', [StudentController::class, 'joinClass'])
+        ->name('student.online-class.join');
+
+    Route::get('/calendar', [StudentController::class, 'calendar'])->name('student.calendar');
 }); // End of Student Routes
 
 Route::fallback(function () {
     return view('errors.404');
 });
-
-use Illuminate\Support\Facades\Mail;
-use App\Http\Controllers\Admin\NotificationController;

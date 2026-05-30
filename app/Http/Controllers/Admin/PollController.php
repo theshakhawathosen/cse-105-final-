@@ -9,6 +9,7 @@ use App\Models\PollVote;
 use App\Models\User;
 use App\Notifications\CreatePollNotification;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\DB;
 
 class PollController extends Controller
 {
@@ -153,6 +154,11 @@ class PollController extends Controller
     public function destroy(string $id)
     {
         $poll = Poll::findOrFail($id);
+
+        DB::table('notifications')
+            ->where('type', CreatePollNotification::class)
+            ->where('data->route', route('student.polls'))
+            ->delete();
 
         $poll->delete();
 

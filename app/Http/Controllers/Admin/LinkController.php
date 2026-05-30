@@ -2,11 +2,12 @@
 
 namespace App\Http\Controllers\Admin;
 
-use App\Models\Link;
-use Illuminate\Http\Request;
 use App\Http\Controllers\Controller;
+use App\Models\Link;
 use App\Models\User;
 use App\Notifications\CreateLinkNotification;
+use Illuminate\Http\Request;
+use Illuminate\Support\Facades\DB;
 
 class LinkController extends Controller
 {
@@ -92,6 +93,11 @@ class LinkController extends Controller
      */
     public function destroy(Link $link)
     {
+        DB::table('notifications')
+            ->where('type', CreateLinkNotification::class)
+            ->where('data->route', route('student.links', $link->id))
+            ->delete();
+
         $link->delete();
 
         return redirect()

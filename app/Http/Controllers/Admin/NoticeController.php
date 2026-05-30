@@ -7,6 +7,7 @@ use App\Models\Notice;
 use App\Models\User;
 use App\Notifications\NoticeCreatedNotification;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Storage;
 
 class NoticeController extends Controller
@@ -174,7 +175,15 @@ class NoticeController extends Controller
             Storage::disk('public')->delete($notice->attachment);
         }
 
+        $notifications = DB::table('notifications')
+            ->where('type', NoticeCreatedNotification::class)
+            ->where('data->route', route('student.notice.show', $notice->id))
+            ->delete();
+
+
+
         $notice->delete();
+
 
         return redirect()
             ->route('notices.index')

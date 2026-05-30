@@ -6,9 +6,10 @@ use App\Http\Controllers\Controller;
 use App\Models\Exam;
 use App\Models\Result;
 use App\Models\Subject;
-use App\Notifications\CreateResultNotification;
 use App\Models\User;
+use App\Notifications\CreateResultNotification;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\DB;
 use Illuminate\Validation\Rule;
 
 class ResultController extends Controller
@@ -73,7 +74,6 @@ class ResultController extends Controller
 
         // Send Notification Only To This Student
         $student = User::find($request->user_id);
-
         if ($student) {
             $student->notify(new CreateResultNotification($result));
         }
@@ -192,6 +192,11 @@ class ResultController extends Controller
      */
     public function destroy(Result $result)
     {
+
+        DB::table('notifications')
+            ->where('type', CreateResultNotification::class)
+            ->where('data->route', route('student.results'))
+            ->delete();
         $result->delete();
 
         return redirect()

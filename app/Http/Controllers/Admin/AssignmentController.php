@@ -9,6 +9,7 @@ use App\Models\User;
 use App\Notifications\CreateAssignmentNotification;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\File;
+use Illuminate\Support\Facades\DB;
 
 class AssignmentController extends Controller
 {
@@ -161,6 +162,11 @@ class AssignmentController extends Controller
         if ($assignment->file && File::exists($filePath)) {
             File::delete($filePath);
         }
+
+        DB::table('notifications')
+            ->where('type', CreateAssignmentNotification::class)
+            ->where('data->route', route('student.assignment.show', $assignment->id))
+            ->delete();
 
         $assignment->delete();
 

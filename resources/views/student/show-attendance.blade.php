@@ -4,8 +4,9 @@
 <main id="main-content">
 
     <!-- Header -->
-    <div class="mt-[100px] flex flex-col sm:flex-row sm:items-center sm:justify-between gap-3 mb-6 fade-up">
+    <div class="mt-2 px-5 flex flex-col sm:flex-row sm:items-center sm:justify-between gap-3 mb-2 fade-up">
 
+        <h2 class="text-2xl text-green-500 text-bold mb-0">Student Attendence</h2>
 
     </div>
 

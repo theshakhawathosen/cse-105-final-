@@ -8,8 +8,10 @@ use App\Models\Attendance;
 use App\Models\Exam;
 use App\Models\Feedback;
 use App\Models\LabReport;
+use App\Models\Lesson;
 use App\Models\Link;
 use App\Models\Notice;
+use App\Models\OnlineClass;
 use App\Models\Poll;
 use App\Models\PollVote;
 use App\Models\Resource;
@@ -228,7 +230,7 @@ class StudentController extends Controller
             // Send Notification
             $admins = User::where('role', 'admin')->get();
             foreach ($admins as $stu) {
-                $stu->notify(new StudentCreateFeedback($feedback,Auth::user()));
+                $stu->notify(new StudentCreateFeedback($feedback, Auth::user()));
             }
         }
 
@@ -510,5 +512,45 @@ class StudentController extends Controller
         $student->notifications()->delete();
 
         return back()->with('success', 'All notifications deleted successfully.');
+    }
+
+    public function calendar()
+    {
+        $currentMonth = now();
+
+        $lessons = Lesson::with('subject')
+            ->whereMonth('date', $currentMonth->month)
+            ->whereYear('date', $currentMonth->year)
+            ->orderBy('date')
+            ->get();
+
+        return view('student.calendar',
+            compact('currentMonth', 'lessons')
+        );
+    }
+
+
+    public function onlineClasses()
+    {
+        $classes = OnlineClass::with('subject')
+            ->latest()
+            ->paginate(12);
+
+        return view('student.online-classes', compact('classes'));
+    }
+
+    // JOIN CLASS
+    public function joinClass($id)
+    {
+        $class = OnlineClass::findOrFail($id);
+
+        $dateTime = \Carbon\Carbon::parse($class->date . ' ' . $class->time);
+
+        if (!$dateTime->isToday()) {
+            return redirect()->back()->with('error', 'Class not available yet.');
+        }
+
+        // Zoom / Google Meet redirect
+        return redirect()->to($class->meeting_link);
     }
 }

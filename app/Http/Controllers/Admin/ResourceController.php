@@ -8,6 +8,7 @@ use App\Models\Subject;
 use App\Models\User;
 use App\Notifications\CreateResourceNotification;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Storage;
 
 class ResourceController extends Controller
@@ -189,6 +190,11 @@ class ResourceController extends Controller
                 Storage::disk('public')->delete($file->file);
             }
         }
+
+        DB::table('notifications')
+            ->where('type', CreateResourceNotification::class)
+            ->where('data->route', route('student.resources'))
+            ->delete();
 
         $resource->delete();
 

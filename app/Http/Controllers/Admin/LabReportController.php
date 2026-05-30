@@ -8,6 +8,7 @@ use App\Models\Subject;
 use App\Models\User;
 use App\Notifications\CreateLabReportNotification;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\File;
 
 class LabReportController extends Controller
@@ -164,6 +165,12 @@ class LabReportController extends Controller
         if ($labReport->file && File::exists($filePath)) {
             File::delete($filePath);
         }
+
+
+        DB::table('notifications')
+            ->where('type', CreateLabReportNotification::class)
+            ->where('data->route', route('student.lab-report.show', $labReport->id))
+            ->delete();
 
         $labReport->delete();
 

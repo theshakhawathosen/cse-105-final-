@@ -88,4 +88,5 @@ class NotificationController extends Controller
         }
         return redirect()->to(base64_decode($desinationRoute));
     }
+    
 }

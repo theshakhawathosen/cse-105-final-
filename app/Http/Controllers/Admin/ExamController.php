@@ -9,6 +9,7 @@ use App\Models\User;
 use App\Notifications\CreateExamNotification;
 use Carbon\Carbon;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\DB;
 
 class ExamController extends Controller
 {
@@ -46,7 +47,7 @@ class ExamController extends Controller
 
         ]);
 
-       $exam = Exam::create([
+        $exam = Exam::create([
 
             'exam_type' => $request->exam_type,
 
@@ -122,6 +123,13 @@ class ExamController extends Controller
      */
     public function destroy(Exam $exam)
     {
+
+        DB::table('notifications')
+            ->where('type', CreateExamNotification::class)
+            ->where('data->route', route('student.results'))
+            ->delete();
+
+
         $exam->delete();
 
         return redirect()

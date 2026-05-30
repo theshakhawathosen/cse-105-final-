@@ -248,6 +248,11 @@ class AttendanceController extends Controller
     {
         $attendance = Attendance::findOrFail($id);
 
+        DB::table('notifications')
+            ->where('type', CreateAttendanceNotification::class)
+            ->where('data->route', route('student.attendances'))
+            ->delete();
+
         $attendance->delete();
 
         return redirect()
