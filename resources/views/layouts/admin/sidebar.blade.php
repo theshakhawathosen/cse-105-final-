@@ -15,97 +15,149 @@
 
         <!-- Nav -->
         <div class="flex-1 overflow-y-auto py-3" style="scrollbar-width:none">
+            <!-- Main -->
             <div class="sidebar-section-label">Main</div>
-            <a href="{{ route('admin.dashboard') }}" class="nav-item active">
+
+            <a href="{{ route('admin.dashboard') }}"
+                class="nav-item {{ Route::is('admin.dashboard') ? 'active' : '' }}">
                 <i class="nav-icon fas fa-th-large"></i>
                 <span class="nav-label">Dashboard</span>
             </a>
-            <a href="{{ route('students.index') }}" class="nav-item">
-                <i class="nav-icon fas fa-user-graduate"></i>
-                <span class="nav-label">Students</span>
-                <span class="badge-pill">0</span>
+
+            <a href="{{ route('admin.online-students') }}"
+                class="nav-item {{ Route::is('admin.online-students') ? 'active' : '' }}">
+                <i class="nav-icon fas fa-users"></i>
+                <span class="nav-label">Online Students</span>
             </a>
-            <a href="{{ route('teachers.index') }}" class="nav-item">
+
+
+            <!-- Academic -->
+            <div class="sidebar-section-label">Academic</div>
+
+            <a href="{{ route('subjects.index') }}" class="nav-item {{ Route::is('subjects.*') ? 'active' : '' }}">
+                <i class="nav-icon fas fa-book"></i>
+                <span class="nav-label">Subjects</span>
+            </a>
+
+            <a href="{{ route('teachers.index') }}" class="nav-item {{ Route::is('teachers.*') ? 'active' : '' }}">
                 <i class="nav-icon fas fa-chalkboard-teacher"></i>
                 <span class="nav-label">Teachers</span>
             </a>
 
-            <div class="sidebar-section-label">Content</div>
-            <a href="{{ route('notices.index') }}" class="nav-item">
+            <a href="{{ route('students.index') }}" class="nav-item {{ Route::is('students.*') ? 'active' : '' }}">
+                <i class="nav-icon fas fa-user-graduate"></i>
+                <span class="nav-label">Students</span>
+                <span class="badge-pill">0</span>
+            </a>
+
+            <a href="{{ route('routines.index') }}" class="nav-item {{ Route::is('routines.*') ? 'active' : '' }}">
+                <i class="nav-icon fas fa-calendar-alt"></i>
+                <span class="nav-label">Routines</span>
+            </a>
+
+            <a href="{{ route('attendances.index') }}"
+                class="nav-item {{ Route::is('attendances.*') ? 'active' : '' }}">
+                <i class="nav-icon fas fa-chart-bar"></i>
+                <span class="nav-label">Attendance</span>
+            </a>
+
+
+            <!-- Learning -->
+            <div class="sidebar-section-label">Learning</div>
+
+            <a href="{{ route('lessons.index') }}" class="nav-item {{ Route::is('lessons.*') ? 'active' : '' }}">
+                <i class="nav-icon fas fa-book-open"></i>
+                <span class="nav-label">Daily Lesson</span>
+            </a>
+
+            <a href="{{ route('online-classes.index') }}"
+                class="nav-item {{ Route::is('online-classes.*') ? 'active' : '' }}">
+                <i class="nav-icon fas fa-laptop"></i>
+                <span class="nav-label">Online Class</span>
+            </a>
+
+            <a href="{{ route('assignments.index') }}"
+                class="nav-item {{ Route::is('assignments.*') ? 'active' : '' }}">
+                <i class="nav-icon fas fa-tasks"></i>
+                <span class="nav-label">Assignments</span>
+            </a>
+
+            <a href="{{ route('lab-reports.index') }}"
+                class="nav-item {{ Route::is('lab-reports.*') ? 'active' : '' }}">
+                <i class="nav-icon fas fa-flask"></i>
+                <span class="nav-label">Lab Reports</span>
+            </a>
+
+            <a href="{{ route('resources.index') }}" class="nav-item {{ Route::is('resources.*') ? 'active' : '' }}">
+                <i class="nav-icon fas fa-cloud-upload-alt"></i>
+                <span class="nav-label">Resources</span>
+            </a>
+
+            <a href="{{ route('links.index') }}" class="nav-item {{ Route::is('links.*') ? 'active' : '' }}">
+                <i class="nav-icon fas fa-link"></i>
+                <span class="nav-label">Links</span>
+            </a>
+
+
+            <!-- Examination -->
+            <div class="sidebar-section-label">Examination</div>
+
+            <a href="{{ route('exams.index') }}" class="nav-item {{ Route::is('exams.*') ? 'active' : '' }}">
+                <i class="nav-icon fas fa-pen"></i>
+                <span class="nav-label">Exams</span>
+            </a>
+
+            <a href="{{ route('results.index') }}" class="nav-item {{ Route::is('results.*') ? 'active' : '' }}">
+                <i class="nav-icon fas fa-graduation-cap"></i>
+                <span class="nav-label">Results</span>
+            </a>
+
+
+            <!-- Communication -->
+            <div class="sidebar-section-label">Communication</div>
+
+            <a href="{{ route('notices.index') }}" class="nav-item {{ Route::is('notices.*') ? 'active' : '' }}">
                 <i class="nav-icon fas fa-bullhorn"></i>
                 <span class="nav-label">Notices</span>
                 <span class="badge-pill">3</span>
             </a>
-            <a href="{{ route('lessons.index') }}" class="nav-item">
-                <i class="nav-icon fas fa-bullhorn"></i>
-                <span class="nav-label">Lesson</span>
-            </a>
-            <a href="{{ route('online-classes.index') }}" class="nav-item">
-                <i class="nav-icon fas fa-laptop"></i>
-                <span class="nav-label">Online Class</span>
-            </a>
-            <a href="{{ route('assignments.index') }}" class="nav-item">
-                <i class="nav-icon fas fa-tasks"></i>
-                <span class="nav-label">Assignments</span>
-            </a>
-            <a href="{{ route('lab-reports.index') }}" class="nav-item">
-                <i class="nav-icon fas fa-flask"></i>
-                <span class="nav-label">Lab Reports</span>
-            </a>
-            <a href="{{ route('routines.index') }}" class="nav-item">
-                <i class="nav-icon fas fa-calendar-alt"></i>
-                <span class="nav-label">Routines</span>
-            </a>
-            <a href="{{ route('polls.index') }}" class="nav-item">
+
+            <a href="{{ route('polls.index') }}" class="nav-item {{ Route::is('polls.*') ? 'active' : '' }}">
                 <i class="nav-icon fas fa-poll"></i>
                 <span class="nav-label">Polls</span>
             </a>
-            <a href="{{ route('subjects.index') }}" class="nav-item">
-                <i class="nav-icon fas fa-book"></i>
-                <span class="nav-label">Subjects</span>
-            </a>
-            <a href="{{ route('resources.index') }}" class="nav-item">
-                <i class="nav-icon fas fa-cloud-upload-alt"></i>
-                <span class="nav-label">Resources</span>
-            </a>
-            <a href="{{ route('links.index') }}" class="nav-item">
-                <i class="nav-icon fas fa-link"></i>
-                <span class="nav-label">Links</span>
-            </a>
-            <a href="{{ route('exams.index') }}" class="nav-item">
-                <i class="nav-icon fas fa-pen"></i>
-                <span class="nav-label">Exams</span>
-            </a>
-            <a href="{{ route('results.index') }}" class="nav-item">
-                <i class="nav-icon fas fa-graduation-cap"></i>
-                <span class="nav-label">Result</span>
-            </a>
 
-            <div class="sidebar-section-label">Reports</div>
-            <a href="{{ route('feedbacks.index') }}" class="nav-item">
+            <a href="{{ route('feedbacks.index') }}" class="nav-item {{ Route::is('feedbacks.*') ? 'active' : '' }}">
                 <i class="nav-icon fas fa-comments"></i>
                 <span class="nav-label">Feedback</span>
                 <span class="badge-pill" style="background:var(--purple)">7</span>
             </a>
-            <a href="{{ route('attendances.index') }}" class="nav-item">
-                <i class="nav-icon fas fa-chart-bar"></i>
-                <span class="nav-label">Attendence</span>
-            </a>
 
+
+            <!-- System -->
             <div class="sidebar-section-label">System</div>
 
-            <a href="{{ route('admin.online-students') }}" class="nav-item">
-                <i class="nav-icon fas fa-users"></i>
-                <span class="nav-label">Online Students</span>
+            <a href="{{ route('admin.mail-settings') }}"
+                class="nav-item {{ Route::is('admin.mail-settings') ? 'active' : '' }}">
+                <i class="nav-icon fas fa-envelope"></i>
+                <span class="nav-label">Mail Settings</span>
             </a>
-            <div class="nav-item">
+
+            <a href="{{ route('admin.queue.pending') }}"
+                class="nav-item {{ Route::is('admin.queue.*') ? 'active' : '' }}">
+                <i class="nav-icon fas fa-clock"></i>
+                <span class="nav-label">Queue Monitor</span>
+            </a>
+
+            <div class="nav-item {{ Route::is('admin.settings*') ? 'active' : '' }}">
                 <i class="nav-icon fas fa-cog"></i>
                 <span class="nav-label">Settings</span>
             </div>
-            <div class="nav-item" style="color:var(--red)">
+
+            <a href="{{ route('admin.logout') }}" class="nav-item" style="color:var(--red)">
                 <i class="nav-icon fas fa-sign-out-alt"></i>
                 <span class="nav-label">Logout</span>
-            </div>
+            </a>
         </div>
 
         <!-- Footer -->

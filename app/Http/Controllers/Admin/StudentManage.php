@@ -15,7 +15,7 @@ class StudentManage extends Controller
      */
     public function index()
     {
-        $students = User::where('role', 'student')->latest()->paginate(20);
+        $students = User::where('role', 'student')->paginate(20);
         return view('admin.students.index', compact('students'));
     }
 

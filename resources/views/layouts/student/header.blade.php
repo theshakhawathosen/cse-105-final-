@@ -283,6 +283,57 @@
 ═══════════════════════════════════════════════════ -->
     <div id="mobOverlay" class="mob-overlay fixed inset-0 bg-black/55 z-[1050] hidden" onclick="closeMobMenu()"></div>
 
+
+
+@php
+    use App\Models\OnlineClass;
+    use App\Models\Assignment;
+    use App\Models\LabReport;
+    use App\Models\Notice;
+    use App\Models\Poll;
+    use Carbon\Carbon;
+
+    // Online Classes
+    $now = Carbon::now();
+
+    $upcomingOnlineClassCount = OnlineClass::get()
+        ->filter(function ($class) use ($now) {
+            return Carbon::parse($class->date . ' ' . $class->time)
+                ->greaterThanOrEqualTo($now);
+        })
+        ->count();
+
+    // Assignments
+    $upcomingAssignmentCount = Assignment::whereDate(
+        'deadline',
+        '>=',
+        Carbon::today()
+    )->count();
+
+    // Lab Reports
+    $activeLabReportCount = LabReport::where('status', 'active')
+        ->whereNotNull('deadline')
+        ->where('deadline', '>=', Carbon::now())
+        ->count();
+
+    // Notices
+    $activeNoticeCount = Notice::where('is_published', true)
+        ->where(function ($query) {
+            $query->whereNull('expire_at')
+                  ->orWhere('expire_at', '>=', now());
+        })
+        ->count();
+
+    // Polls
+    $activePollCount = Poll::where('is_published', true)
+        ->where('status', 'active')
+        ->where(function ($query) {
+            $query->whereNull('expire_at')
+                  ->orWhere('expire_at', '>=', now());
+        })
+        ->count();
+@endphp
+
     <!-- ═══════════════════════════════════════════════════
      MOBILE SIDEBAR DRAWER
 ═══════════════════════════════════════════════════ -->

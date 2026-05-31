@@ -629,8 +629,8 @@
                     onclick="toggleMobile()">About</a>
                 <a href="#contact" class="nav-link text-sm py-2" onclick="toggleMobile()">Contact</a>
                 <div class="flex gap-2 pt-2">
-                    <button class="btn-ghost flex-1">Login</button>
-                    <button class="btn-primary flex-1">Get Started</button>
+                    <a href="{{ route('login') }}" class="btn-ghost flex-1">Login</a>
+                    <a href="{{ route('login') }}" class="btn-primary flex-1">Get Started</a>
                 </div>
             </div>
         </div>
@@ -1561,7 +1561,7 @@
             <div class="divider-glow mb-6"></div>
 
             <div class="flex flex-col md:flex-row items-center justify-between gap-3 text-textSecondary text-xs">
-                <span>© 2026 CSE-105 Batch Solution Hub. All rights reserved.</span>
+                <span>© {{ now()->format('Y') }} CSE-105 Batch Solution Hub. All rights reserved.</span>
                 <div class="flex items-center gap-4">
                     <a href="#" class="hover:text-accent transition-colors">Privacy Policy</a>
                     <a href="#" class="hover:text-accent transition-colors">Terms of Use</a>

@@ -20,7 +20,7 @@
 
     <!-- Dropdown -->
     <div id="notifDropdown"
-        class="hidden absolute top-[calc(100%+10px)] right-0 w-[320px] bg-card border border-bdr rounded-xl shadow-[0_12px_40px_rgba(0,0,0,.45)] z-[9999] overflow-hidden">
+        class="hidden absolute top-[calc(100%+10px)] right-[-50px] w-[320px] bg-card border border-bdr rounded-xl shadow-[0_12px_40px_rgba(0,0,0,.45)] z-[9999] overflow-hidden">
 
         <!-- Header -->
         <div class="flex items-center justify-between px-4 py-3 border-b border-bdr">

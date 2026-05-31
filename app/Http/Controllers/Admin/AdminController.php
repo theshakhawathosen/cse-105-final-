@@ -5,6 +5,7 @@ namespace App\Http\Controllers\Admin;
 use App\Http\Controllers\Controller;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Hash;
 use Illuminate\Support\Facades\Storage;
 
@@ -85,4 +86,13 @@ class AdminController extends Controller
 
         return back()->with('success', 'Password updated successfully!');
     }
+
+    public function pendingJobs()
+{
+    $jobs = DB::table('jobs')
+        ->latest('id')
+        ->paginate(20);
+
+    return view('admin.queue.pending-jobs', compact('jobs'));
+}
 }

@@ -903,8 +903,8 @@
                     onclick="toggleDropdown('profile-dd')">
                     @if (Auth::user()->photo)
                         <div
-                            class="w-6 h-6 rounded-lg bg-accent flex items-center justify-center text-white text-[10px] font-bold">
-                            <img src="{{ asset('storage/man.png') }}" alt="logo">
+                            class="w-6 h-6 rounded-full bg-accent flex items-center justify-center text-white text-[10px] font-bold">
+                            <img src="{{ asset('storage/'. Auth::user()->photo) }}" alt="logo">
                         </div>
                     @else
                         <div

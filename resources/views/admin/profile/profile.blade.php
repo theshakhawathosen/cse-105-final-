@@ -26,7 +26,7 @@
                     <img src="{{ asset('storage/' . $admin->photo) }}"
                         class="w-28 h-28 rounded-2xl object-cover border border-border">
                         @else
-                    <img src="{{ asset('storage/man.png') }}"
+                    <img src="{{ asset('default.png') }}"
                         class="w-28 h-28 rounded-2xl object-cover border border-border">
                     @endif
                 </div>

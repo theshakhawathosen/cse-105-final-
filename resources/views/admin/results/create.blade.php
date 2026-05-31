@@ -55,7 +55,7 @@
                                 <option value="{{ $user->id }}"
                                     {{ old('user_id') == $user->id ? 'selected' : '' }}>
 
-                                    {{ $user->name }}
+                                    {{ $user->name }} - {{ $user->roll }}
 
                                 </option>
 

@@ -97,10 +97,10 @@
 
                     <input type="checkbox"
                         name="is_published"
-                        value="1"
+                        value="1" id="is_published"
                         {{ old('is_published', $poll->is_published) ? 'checked' : '' }}>
 
-                    <label class="text-ts text-sm">
+                    <label for="is_published" class="text-ts text-sm">
                         Publish Poll
                     </label>
 

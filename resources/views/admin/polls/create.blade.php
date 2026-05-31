@@ -92,9 +92,9 @@
 
                     <input type="checkbox"
                         name="is_published"
-                        value="1">
+                        value="1" id="is_published">
 
-                    <label class="text-ts text-sm">
+                    <label for="is_published" class="text-ts text-sm">
                         Publish Now
                     </label>
 

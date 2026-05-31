@@ -31,7 +31,7 @@ class ResultController extends Controller
      */
     public function create()
     {
-        $users = User::latest()->get();
+        $users = User::where('role','student')->get();
         $exams = Exam::latest()->get();
         $subjects = Subject::latest("name")->get();
 

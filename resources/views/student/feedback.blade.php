@@ -132,38 +132,6 @@
 
             </div>
 
-            <!-- File Upload -->
-            <div>
-
-                <label class="block text-sm font-medium text-prim mb-2">
-                    Attachment (Optional)
-                </label>
-
-                <div
-                    class="bg-input border border-dashed border-bdr rounded-2xl p-6 text-center hover:border-accent transition">
-
-                    <input
-                        type="file"
-                        name="file"
-                        class="block w-full text-sm text-sec
-                        file:mr-4
-                        file:py-2
-                        file:px-4
-                        file:rounded-xl
-                        file:border-0
-                        file:text-sm
-                        file:font-medium
-                        file:bg-accent
-                        file:text-white
-                        hover:file:bg-ahover">
-
-                    <p class="text-xs text-sec mt-3">
-                        Supported: JPG, PNG, PDF, DOC, DOCX (Max: 5MB)
-                    </p>
-
-                </div>
-
-            </div>
 
             <!-- Submit -->
             <div class="flex justify-end">

@@ -122,7 +122,7 @@
                                     Student Academic Information
                                 </p>
 
-                                <h4 class="bg-card">Roll: {{ $user->roll }}</h4>
+                                <h4 class="">Roll: {{ $user->roll }}</h4>
                                 <h4>Registration: {{ $user->reg }}</h4>
 
                             </div>

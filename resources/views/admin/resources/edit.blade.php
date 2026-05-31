@@ -189,7 +189,6 @@
                         @endif
 
                     </div>
-                    {{ $errors }}
                     <!-- Link -->
                     <div class="md:col-span-2">
 

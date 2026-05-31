@@ -106,7 +106,7 @@
                                                 <img src="{{ asset('storage/' . $student->photo) }}"
                                                     class="w-12 h-12 rounded-lg border border-border">
                                             @else
-                                                <img src="{{ asset('storage/man.png') }}"
+                                                <img src="{{ asset('/default.png') }}"
                                                     class="w-12 h-12 rounded-lg border border-border">
                                             @endif
 
@@ -159,6 +159,9 @@
 
                     </tbody>
                 </table>
+            </div>
+            <div class="p-3 mt-4">
+                {{ $students->links() }}
             </div>
 
         </div>

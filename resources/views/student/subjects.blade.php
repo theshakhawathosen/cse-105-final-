@@ -2,13 +2,9 @@
 @section('title', 'Subjects')
 @section('content')
 
-<!-- ═══════════════════════════════════════════════
-     SUBJECTS TABLE VIEW
-═══════════════════════════════════════════════ -->
-
 <main class="pt-5 px-4 md:px-5 pb-8 mx-5" role="main">
 
-    <!-- ── PAGE HEADER ── -->
+    <!-- Header -->
     <div class="flex flex-col md:flex-row md:items-center md:justify-between gap-3 mb-6">
 
         <div>
@@ -22,205 +18,303 @@
             </p>
         </div>
 
-
-
     </div>
 
-    <!-- ── TABLE ── -->
-    <div class="bg-card border border-bdr rounded-2xl overflow-hidden">
+    <!-- Desktop Table -->
+    <div class="hidden md:block bg-card border border-bdr rounded-2xl overflow-hidden">
 
-        <div class="overflow-x-auto">
+        <table class="w-full">
 
-            <table class="w-full min-w-[850px]">
+            <thead class="bg-input border-b border-bdr">
 
-                <!-- Head -->
-                <thead class="bg-input border-b border-bdr">
+                <tr>
 
-                    <tr>
+                    <th class="text-left px-5 py-4 text-[0.72rem] font-semibold text-sec uppercase">
+                        #
+                    </th>
 
-                        <th class="text-left px-5 py-4 text-[0.72rem] font-semibold text-sec uppercase">
-                            #
-                        </th>
+                    <th class="text-left px-5 py-4 text-[0.72rem] font-semibold text-sec uppercase">
+                        Subject
+                    </th>
 
-                        <th class="text-left px-5 py-4 text-[0.72rem] font-semibold text-sec uppercase">
-                            Subject
-                        </th>
+                    <th class="text-left px-5 py-4 text-[0.72rem] font-semibold text-sec uppercase">
+                        Code
+                    </th>
 
-                        <th class="text-left px-5 py-4 text-[0.72rem] font-semibold text-sec uppercase">
-                            Code
-                        </th>
+                    <th class="text-left px-5 py-4 text-[0.72rem] font-semibold text-sec uppercase">
+                        Credit
+                    </th>
 
-                        <th class="text-left px-5 py-4 text-[0.72rem] font-semibold text-sec uppercase">
-                            Credit
-                        </th>
+                    <th class="text-left px-5 py-4 text-[0.72rem] font-semibold text-sec uppercase">
+                        Type
+                    </th>
 
-                        <th class="text-left px-5 py-4 text-[0.72rem] font-semibold text-sec uppercase">
-                            Type
-                        </th>
+                    <th class="text-left px-5 py-4 text-[0.72rem] font-semibold text-sec uppercase">
+                        Teacher
+                    </th>
 
-                        <th class="text-left px-5 py-4 text-[0.72rem] font-semibold text-sec uppercase">
-                            Teacher
-                        </th>
+                </tr>
 
-                    </tr>
+            </thead>
 
-                </thead>
+            <tbody>
 
-                <!-- Body -->
-                <tbody>
+                @forelse ($subjects as $subject)
 
-                    @forelse ($subjects as $subject)
+                    <tr class="border-b border-bdr hover:bg-white/[0.02] transition-all">
 
-                        <tr class="border-b border-bdr hover:bg-white/[0.02] transition-all">
+                        <td class="px-5 py-4 text-[0.78rem] text-sec">
+                            {{ $loop->iteration }}
+                        </td>
 
-                            <!-- SL -->
-                            <td class="px-5 py-4 text-[0.78rem] text-sec">
-                                {{ $loop->iteration }}
-                            </td>
+                        <td class="px-5 py-4">
 
-                            <!-- Subject -->
-                            <td class="px-5 py-4">
+                            <h3 class="text-[0.82rem] font-semibold text-prim">
+                                {{ $subject->name }}
+                            </h3>
 
-                                <div>
+                        </td>
 
-                                    <h3 class="text-[0.82rem] font-semibold text-prim">
-                                        {{ $subject->name }}
-                                    </h3>
+                        <td class="px-5 py-4 text-[0.78rem] text-sec">
+                            {{ $subject->code ?? 'N/A' }}
+                        </td>
 
-                                </div>
+                        <td class="px-5 py-4">
 
-                            </td>
+                            <span
+                                class="px-2 py-1 rounded-lg text-[10px] font-medium bg-green-500/10 text-green-500 border border-green-500/20">
 
-                            <!-- Code -->
-                            <td class="px-5 py-4 text-[0.78rem] text-sec">
-                                {{ $subject->code ?? 'N/A' }}
-                            </td>
+                                {{ $subject->credit ?? '0.0' }}
 
+                            </span>
 
-                            <!-- Credit -->
-                            <td class="px-5 py-4">
+                        </td>
+
+                        <td class="px-5 py-4">
+
+                            @if ($subject->type == 'theory')
 
                                 <span
-                                    class="px-2 py-1 rounded-lg text-[10px] font-medium bg-green-500/10 text-green-500 border border-green-500/20">
-
-                                    {{ $subject->credit ?? '0.0' }}
-
+                                    class="px-2 py-1 rounded-lg text-[10px] font-medium bg-blue-500/10 text-blue-500 border border-blue-500/20">
+                                    Theory
                                 </span>
 
-                            </td>
+                            @elseif($subject->type == 'lab')
 
-                            <!-- Type -->
-                            <td class="px-5 py-4">
+                                <span
+                                    class="px-2 py-1 rounded-lg text-[10px] font-medium bg-purple-500/10 text-purple-500 border border-purple-500/20">
+                                    Lab
+                                </span>
 
-                                @if ($subject->type == 'theory')
+                            @endif
 
-                                    <span
-                                        class="px-2 py-1 rounded-lg text-[10px] font-medium bg-blue-500/10 text-blue-500 border border-blue-500/20">
+                        </td>
 
-                                        Theory
+                        <td class="px-5 py-4">
 
-                                    </span>
+                            @if ($subject->teacher)
 
-                                @elseif($subject->type == 'lab')
+                                <div class="flex items-center gap-3">
 
-                                    <span
-                                        class="px-2 py-1 rounded-lg text-[10px] font-medium bg-purple-500/10 text-purple-500 border border-purple-500/20">
+                                    @if ($subject->teacher->photo)
 
-                                        Lab
+                                        <img
+                                            src="{{ asset('storage/' . $subject->teacher->photo) }}"
+                                            alt="{{ $subject->teacher->name }}"
+                                            class="w-10 h-10 rounded-xl object-cover border border-bdr">
 
-                                    </span>
+                                    @else
 
-                                @endif
+                                        <div
+                                            class="w-10 h-10 rounded-xl bg-accent/10 flex items-center justify-center border border-bdr">
 
-                            </td>
-
-
-                            <!-- Teacher -->
-                            <td class="px-5 py-4">
-
-                                @if ($subject->teacher)
-
-                                    <div class="flex items-center gap-3">
-
-                                        <!-- Photo -->
-                                        @if ($subject->teacher->photo)
-
-                                            <img
-                                                src="{{ asset('storage/' . $subject->teacher->photo) }}"
-                                                alt="{{ $subject->teacher->name }}"
-                                                class="w-10 h-10 rounded-xl object-cover border border-bdr">
-
-                                        @else
-
-                                            <div
-                                                class="w-10 h-10 rounded-xl bg-accent/10 flex items-center justify-center border border-bdr">
-
-                                                <i class="fa-solid fa-user text-accent text-xs"></i>
-
-                                            </div>
-
-                                        @endif
-
-                                        <!-- Info -->
-                                        <div>
-
-                                            <h4 class="text-[0.78rem] font-medium text-prim">
-                                                {{ $subject->teacher->name }}
-                                            </h4>
-
-                                            @if ($subject->teacher->designation)
-                                                <p class="text-[0.65rem] text-sec mt-[2px]">
-                                                    {{ $subject->teacher->designation }}
-                                                </p>
-                                            @endif
+                                            <i class="fa-solid fa-user text-accent text-xs"></i>
 
                                         </div>
 
+                                    @endif
+
+                                    <div>
+
+                                        <h4 class="text-[0.78rem] font-medium text-prim">
+                                            {{ $subject->teacher->name }}
+                                        </h4>
+
+                                        @if ($subject->teacher->designation)
+
+                                            <p class="text-[0.65rem] text-sec mt-[2px]">
+                                                {{ $subject->teacher->designation }}
+                                            </p>
+
+                                        @endif
+
                                     </div>
 
-                                @else
+                                </div>
 
-                                    <span class="text-[0.75rem] text-red-400">
-                                        No Teacher
-                                    </span>
+                            @else
 
-                                @endif
+                                <span class="text-[0.75rem] text-red-400">
+                                    No Teacher
+                                </span>
 
-                            </td>
+                            @endif
 
+                        </td>
 
-                        </tr>
+                    </tr>
 
-                    @empty
+                @empty
 
-                        <tr>
+                    <tr>
 
-                            <td colspan="7" class="px-5 py-16 text-center">
+                        <td colspan="6" class="px-5 py-16 text-center">
 
-                                <i class="fa-solid fa-book-open text-4xl text-hint mb-4"></i>
+                            <i class="fa-solid fa-book-open text-4xl text-hint mb-4"></i>
 
-                                <h3 class="text-lg font-semibold text-prim mb-2">
-                                    No Subjects Found
-                                </h3>
+                            <h3 class="text-lg font-semibold text-prim mb-2">
+                                No Subjects Found
+                            </h3>
 
-                                <p class="text-sec text-sm">
-                                    No subject available right now.
-                                </p>
+                            <p class="text-sec text-sm">
+                                No subject available right now.
+                            </p>
 
-                            </td>
+                        </td>
 
-                        </tr>
+                    </tr>
 
-                    @endforelse
+                @endforelse
 
-                </tbody>
+            </tbody>
 
-            </table>
-
-        </div>
+        </table>
 
     </div>
 
+    <!-- Mobile Cards -->
+    <div class="md:hidden space-y-4">
+
+        @forelse ($subjects as $subject)
+
+            <div class="bg-card border border-bdr rounded-2xl p-4">
+
+                <div class="flex items-start justify-between gap-3">
+
+                    <div>
+
+                        <h3 class="text-sm font-semibold text-prim">
+                           #{{ $loop->iteration }} {{ $subject->name }}
+                        </h3>
+
+                        <p class="text-xs text-sec mt-1">
+                            {{ $subject->code ?? 'N/A' }}
+                        </p>
+
+                    </div>
+
+                    <span
+                        class="px-2 py-1 min-w-[70px] text-center rounded-lg text-[10px] font-medium bg-green-500/10 text-green-500 border border-green-500/20">
+
+                        {{ $subject->credit ?? '0.0' }} Credit
+
+                    </span>
+
+                </div>
+
+                <div class="mt-3">
+
+                    @if ($subject->type == 'theory')
+
+                        <span
+                            class="px-2 py-1 rounded-lg text-[10px] font-medium bg-blue-500/10 text-blue-500 border border-blue-500/20">
+                            Theory
+                        </span>
+
+                    @elseif($subject->type == 'lab')
+
+                        <span
+                            class="px-2 py-1 rounded-lg text-[10px] font-medium bg-purple-500/10 text-purple-500 border border-purple-500/20">
+                            Lab
+                        </span>
+
+                    @endif
+
+                </div>
+
+                <div class="mt-4 pt-4 border-t border-bdr">
+
+                    @if ($subject->teacher)
+
+                        <div class="flex items-center gap-3">
+
+                            @if ($subject->teacher->photo)
+
+                                <img
+                                    src="{{ asset('storage/' . $subject->teacher->photo) }}"
+                                    alt="{{ $subject->teacher->name }}"
+                                    class="w-11 h-11 rounded-xl object-cover border border-bdr">
+
+                            @else
+
+                                <div
+                                    class="w-11 h-11 rounded-xl bg-accent/10 flex items-center justify-center border border-bdr">
+
+                                    <i class="fa-solid fa-user text-accent text-sm"></i>
+
+                                </div>
+
+                            @endif
+
+                            <div>
+
+                                <h4 class="text-sm font-medium text-prim">
+                                    {{ $subject->teacher->name }}
+                                </h4>
+
+                                @if ($subject->teacher->designation)
+
+                                    <p class="text-xs text-sec mt-1">
+                                        {{ $subject->teacher->designation }}
+                                    </p>
+
+                                @endif
+
+                            </div>
+
+                        </div>
+
+                    @else
+
+                        <span class="text-xs text-red-400">
+                            No Teacher Assigned
+                        </span>
+
+                    @endif
+
+                </div>
+
+            </div>
+
+        @empty
+
+            <div class="bg-card border border-bdr rounded-2xl py-16 text-center">
+
+                <i class="fa-solid fa-book-open text-4xl text-hint mb-4"></i>
+
+                <h3 class="text-lg font-semibold text-prim mb-2">
+                    No Subjects Found
+                </h3>
+
+                <p class="text-sec text-sm">
+                    No subject available right now.
+                </p>
+
+            </div>
+
+        @endforelse
+
+    </div>
 
 </main>
 

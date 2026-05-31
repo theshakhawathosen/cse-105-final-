@@ -14,76 +14,76 @@ class SubjectSeeder extends Seeder
     {
         $subjects = [
             [
-                'name' => 'Introduction to Programming',
-                'code' => 'CSE-101',
+                'name' => 'Artificial Intelligence',
+                'code' => '0613-401',
                 'teacher_id' => 1,
                 'credit' => 3.0,
                 'type' => 'theory',
             ],
             [
-                'name' => 'Programming Lab',
-                'code' => 'CSE-102',
+                'name' => 'Artificial Intelligence Lab',
+                'code' => '0613-402',
                 'teacher_id' => 2,
-                'credit' => 1.5,
+                'credit' => 1.0,
                 'type' => 'lab',
             ],
             [
-                'name' => 'Data Structure',
-                'code' => 'CSE-201',
+                'name' => 'Computer Graphics and Multimedia',
+                'code' => '0613-403',
                 'teacher_id' => 3,
                 'credit' => 3.0,
                 'type' => 'theory',
             ],
             [
-                'name' => 'Data Structure Lab',
-                'code' => 'CSE-202',
+                'name' => 'Computer Graphics and Multimedia Lab',
+                'code' => '0613-404',
                 'teacher_id' => 4,
-                'credit' => 1.5,
+                'credit' => 1.0,
                 'type' => 'lab',
             ],
             [
-                'name' => 'Database Management System',
-                'code' => 'CSE-301',
+                'name' => 'Software Testing and Quality Assurance',
+                'code' => '0613-405',
                 'teacher_id' => 5,
-                'credit' => 3.0,
+                'credit' => 1.5,
                 'type' => 'theory',
             ],
             [
-                'name' => 'Database Lab',
-                'code' => 'CSE-302',
+                'name' => 'Software Testing and Quality Assurance Lab',
+                'code' => '0613-406',
                 'teacher_id' => 6,
-                'credit' => 1.5,
+                'credit' => 0.5,
                 'type' => 'lab',
             ],
             [
-                'name' => 'Computer Networks',
-                'code' => 'CSE-303',
+                'name' => 'Mobile Application and Development',
+                'code' => '0613-409',
                 'teacher_id' => 7,
                 'credit' => 3.0,
                 'type' => 'theory',
             ],
             [
-                'name' => 'Networking Lab',
-                'code' => 'CSE-304',
+                'name' => 'Mobile Application and Development Lab',
+                'code' => '0613-410',
                 'teacher_id' => 8,
-                'credit' => 1.5,
+                'credit' => 1.0,
                 'type' => 'lab',
             ],
             [
-                'name' => 'Operating System',
-                'code' => 'CSE-401',
+                'name' => 'Software Integration and Maintenance',
+                'code' => '0613-412',
                 'teacher_id' => 9,
                 'credit' => 3.0,
                 'type' => 'theory',
             ],
             [
-                'name' => 'Web Engineering',
-                'code' => 'CSE-402',
+                'name' => 'Capstone Project Design',
+                'code' => '0688-400',
                 'teacher_id' => 10,
                 'credit' => 3.0,
                 'type' => 'theory',
             ],
-        ];
+        ];  
 
         $totalSubjects = count($subjects);
 
@@ -99,5 +99,3 @@ class SubjectSeeder extends Seeder
         $this->command->getOutput()->progressFinish();
     }
 }
-
-

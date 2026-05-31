@@ -45,7 +45,7 @@ class StudentController extends Controller
                 $query->where('name', 'like', "%{$search}%");
             })
 
-            ->latest()
+        ->where('role','student')
             ->paginate(40);
 
         $totalStudents = User::count();
@@ -524,16 +524,14 @@ class StudentController extends Controller
             ->orderBy('date')
             ->get();
 
-        return view('student.calendar',
-            compact('currentMonth', 'lessons')
-        );
+        return view('student.calendar',compact('currentMonth', 'lessons'));
     }
 
 
     public function onlineClasses()
     {
         $classes = OnlineClass::with('subject')
-            ->latest()
+            ->latest('date')->latest('time')
             ->paginate(12);
 
         return view('student.online-classes', compact('classes'));
